@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main", "Main.csproj", "{058128B3-EC3C-4062-B64E-EED8FEAE7B7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main.web", "Main.web.csproj", "{058128B3-EC3C-4062-B64E-EED8FEAE7B7A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Application", "Application", "{BCCF8956-15D4-4DA5-8BE8-003A36F468D0}"
 EndProject
@@ -15,13 +15,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IoC", "IoC", "{75A03663-755
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{920D520D-866B-49DC-A7FD-5DECB84FF0BD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main.Application", "..\Main.Application\Main.Application.csproj", "{CC5FBF22-42F6-458A-AFC0-83D3659B8289}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main.Application", "..\Main.Application\Main.Application.csproj", "{CC5FBF22-42F6-458A-AFC0-83D3659B8289}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main.Data", "..\Main.Data\Main.Data.csproj", "{4FA95DE3-E77F-42A8-9CA5-3A26C028A04F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main.Data", "..\Main.Data\Main.Data.csproj", "{4FA95DE3-E77F-42A8-9CA5-3A26C028A04F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main.Domain", "..\Main.Domain\Main.Domain.csproj", "{EB86857E-2745-40E6-AA02-0276BC76E722}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main.Domain", "..\Main.Domain\Main.Domain.csproj", "{EB86857E-2745-40E6-AA02-0276BC76E722}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Main.IoC", "..\Main.IoC\Main.IoC.csproj", "{6C087D1F-0DB1-4B36-AC9A-BA633FA2C972}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main.IoC", "..\Main.IoC\Main.IoC.csproj", "{6C087D1F-0DB1-4B36-AC9A-BA633FA2C972}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
