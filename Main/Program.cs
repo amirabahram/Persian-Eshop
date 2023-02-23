@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 //below part added by me!
 
 builder.Services.AddDbContext<EshopContext>(options =>
-options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),b =>b.MigrationsAssembly("Main.web")));  
+options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
+,b =>b.MigrationsAssembly("Main.web")));  
 
 
 

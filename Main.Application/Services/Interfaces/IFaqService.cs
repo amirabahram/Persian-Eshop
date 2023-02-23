@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Main.Domain.Models.Faq;
+using Main.Domain.ViewModel;
 
-namespace Main.Domain.Interfaces
+namespace Main.Application.Services.Interfaces
 {
-    public interface IFaqRepository
+    public interface IFaqService
     {
         List<Faq> GetAllQuestions();
         Faq GetQuestionById(int id);
-        bool Create(Faq aq);
-        void Update(Faq aq);
-
-        void SaveChanges();
-
+        bool CreateFaq(CreateFaqViewModel aq);
+        bool DeleteFaq(Faq aq);
+        void UpdateFaq(UpdateFaqViewModel aq);
     }
 }
