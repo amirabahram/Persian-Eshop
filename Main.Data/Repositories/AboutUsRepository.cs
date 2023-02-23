@@ -48,9 +48,9 @@ namespace Main.Data.Repositories
             _dbContext.Update(aboutUs); 
         }
 
-        public AboutUsModel GetAboutUs(int Id)
+        public AboutUsModel GetAboutUs(int id)
         {
-            throw new NotImplementedException();
+            return _dbContext.AboutUs.FirstOrDefault(a => a.Id == id);
         }
 
         public void save()
