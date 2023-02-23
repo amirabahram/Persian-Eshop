@@ -18,7 +18,7 @@ namespace Main.Domain.Interfaces
 
         void EditAboutUs(AboutUsModel aboutUs); 
         
-        void DetetAboutUs(AboutUsModel aboutUs);    
+        //void DetetAboutUs(AboutUsModel aboutUs);    
 
         
 

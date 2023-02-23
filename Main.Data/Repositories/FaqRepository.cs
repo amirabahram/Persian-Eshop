@@ -12,6 +12,7 @@ namespace Main.Domain.Repositories
 {
     public class FaqRepository : IFaqRepository
     {
+
         private readonly EshopContext db; 
         public FaqRepository(EshopContext context)
         {
@@ -26,7 +27,7 @@ namespace Main.Domain.Repositories
 
         public List<Faq> GetAllQuestions()
         {
-            return db.Faqs.Where(q=>!q.IsDelete).ToList();
+            return db.Faqs.Where(q =>  !q.IsDelete).ToList();
         }
 
         public Faq GetQuestionById(int id)
