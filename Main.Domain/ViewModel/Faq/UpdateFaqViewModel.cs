@@ -13,4 +13,10 @@ namespace Main.Domain.ViewModel
         public string Answer { get; set; }
          
     }
+    public enum UpdateFaqResult
+    {
+        Success,
+        FaqNotFound,
+        DuplicatedQuestion
+    }
 }

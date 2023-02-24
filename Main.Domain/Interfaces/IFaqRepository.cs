@@ -13,7 +13,7 @@ namespace Main.Domain.Interfaces
         Faq GetQuestionById(int id);
         bool Create(Faq aq);
         void Update(Faq aq);
-
+        bool DuplicatedQuestion(string question);
         void SaveChanges();
 
     }

@@ -25,6 +25,11 @@ namespace Main.Domain.Repositories
             return true;
         }
 
+        public bool DuplicatedQuestion(string question)
+        {
+            return db.Faqs.Any(q => q.Question == question);
+        }
+
         public List<Faq> GetAllQuestions()
         {
             return db.Faqs.Where(q =>  !q.IsDelete).ToList();
