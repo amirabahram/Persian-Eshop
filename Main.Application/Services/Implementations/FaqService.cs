@@ -3,6 +3,7 @@ using Main.Domain.Interfaces;
 using Main.Domain.Models.Faq;
 using Main.Domain.Repositories;
 using Main.Domain.ViewModel;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace Main.Application.Services.Implementations
 
         public bool CreateFaq(CreateFaqViewModel aq)
         {
+            IFormFile
             if (aq == null)
             {
                 return false;

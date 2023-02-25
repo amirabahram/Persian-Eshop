@@ -24,10 +24,7 @@ namespace Main.Data.Repositories
                 this._dbContext = dbcontext;
            
         }
-
         #endregion
-
-
 
         #region Impleminet_Interface
 
