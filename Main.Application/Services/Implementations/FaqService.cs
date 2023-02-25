@@ -13,10 +13,9 @@ namespace Main.Application.Services.Implementations
 {
     public class FaqService : IFaqService
     {
-
         private IFaqRepository _faqRepo;
 
-        public FaqService(IFaqRepository faqRepo)
+        public FaqService(IFaqRepository faqRepo)//this is relatet to IoC
         {
             _faqRepo = faqRepo;
         }

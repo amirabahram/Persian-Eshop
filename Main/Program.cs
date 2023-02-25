@@ -1,4 +1,5 @@
 using Main.Data.Context;
+using Main.IoC;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,9 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<EshopContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")
-,b =>b.MigrationsAssembly("Main.web")));  
+,b =>b.MigrationsAssembly("Main.web")));
 
-
+DependencyContainers.RegisterServices(builder.Services);
 
 
 // Add services to the container.
