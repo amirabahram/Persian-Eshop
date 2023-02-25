@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Main.Domain.Models.Faq;
+using Main.Domain.Models.AboutUs;
+
 
 namespace Main.Data.Context
 {
@@ -15,6 +17,7 @@ namespace Main.Data.Context
 
         }
         public DbSet<Faq> Faqs { get; set; }
+        public DbSet<AboutUsModel> AboutUs { get; set; }
 
     }
 }
