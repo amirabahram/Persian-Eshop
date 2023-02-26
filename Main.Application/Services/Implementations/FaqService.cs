@@ -24,7 +24,7 @@ namespace Main.Application.Services.Implementations
 
         public bool CreateFaq(CreateFaqViewModel aq)
         {
-            IFormFile
+            
             if (aq == null)
             {
                 return false;

@@ -10,7 +10,8 @@ namespace Main.Domain.Interfaces
     public interface IAboutUsInterface
     {
         // list as AboutUsModel
-        // List<AboutUsModel> GetAll();
+       
+        List<AboutUsModel> GetAll();
 
         //aboutus id as model 
         AboutUsModel GetAboutUs(int Id);

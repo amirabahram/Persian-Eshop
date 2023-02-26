@@ -50,6 +50,12 @@ namespace Main.Data.Repositories
             return _dbContext.AboutUs.FirstOrDefault(a => a.Id == id);
         }
 
+        public List<AboutUsModel> GetAll()
+        {
+            //list aboutus 
+            return _dbContext.AboutUs.Where(a=>!a.IsDelete).ToList();
+        }
+
         public void save()
         {
             _dbContext.SaveChanges();
