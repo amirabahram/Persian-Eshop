@@ -19,5 +19,17 @@ namespace Main.Data.Context
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<AboutUsModel> AboutUs { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Faq>().HasData(new Faq()
+            {
+                Id =1,
+                Question = "سوال اول",
+                Answer = "پاسخ سوال اول"
+            }
+            );
+            base.OnModelCreating(modelBuilder);
+        }
+
     }
 }

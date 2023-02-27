@@ -1,0 +1,35 @@
+﻿@model List<Main.Domain.Models.Faq.Faq>
+
+
+
+
+@{
+    ViewData["title"] = "فرم پرسش و پاسخ ادمین";
+}
+<a class="btn btn-default purple" asp-controller="Faq" asp-action="CreatFaq"><i class="fa fa-plus"></i> اضافه کردن</a>
+<table class="table table-striped">
+    <thead class="thead dark">
+        <tr>
+            <th>پرسش</th>
+            <th>پاسخ</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in Model)
+        {
+        <tr>
+            <td>@item.Question</td>
+            <td>@item.Answer</td>
+            <td>
+                <a asp-controller="Faq" asp-action="EditFaq" > ویرایش </a>
+            </td>
+            <td>
+                <a> حذف </a>
+            </td>
+        </tr>
+            
+            }
+    </tbody>
+</table>
