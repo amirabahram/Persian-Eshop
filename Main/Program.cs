@@ -1,8 +1,5 @@
-using Main.Application.Services.Implementations;
-using Main.Application.Services.Interfaces;
 using Main.Data.Context;
 using Main.IoC;
-using Main.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 

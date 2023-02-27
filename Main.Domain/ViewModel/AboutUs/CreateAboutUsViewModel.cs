@@ -8,7 +8,7 @@ namespace Main.Domain.ViewModel.AboutUs
 
         public string Description { get; set; }
 
-        public IFormFile ImagAbouts { get; set; }
+       // public IFormFile ImagAbouts { get; set; }
 
 
     }
