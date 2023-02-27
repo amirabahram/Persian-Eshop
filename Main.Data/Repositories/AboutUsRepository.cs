@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Main.Data.Repositories
 { 
     
-    public class AboutUsRepository : IAboutUsInterface
+    public class AboutUsRepository : IAboutUsRepository
     {
 
         //!CreateDataBase 

@@ -100,7 +100,7 @@ namespace Academy.Application.Security
                 //-------------------------------------------
                 try
                 {
-                    using (var bitmap = new Bitmap(postedFile.OpenReadStream())) { }
+                   // using (var bitmap = new Bitmap(postedFile.OpenReadStream())) { }
                 }
                 catch (Exception)
                 {

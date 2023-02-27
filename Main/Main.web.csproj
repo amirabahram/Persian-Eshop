@@ -31,6 +31,7 @@
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="wwwroot\css\" />
     <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\CssAboutus\" />
   </ItemGroup>
 
   <ItemGroup>
