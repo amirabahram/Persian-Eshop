@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Main.Data.Migrations
 {
     [DbContext(typeof(EshopContext))]
-    [Migration("20230223094110_AddAboutUsDb")]
-    partial class AddAboutUsDb
+    [Migration("20230226112958_secondOne")]
+    partial class secondOne
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

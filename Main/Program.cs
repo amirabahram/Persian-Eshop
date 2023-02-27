@@ -1,6 +1,7 @@
 using Main.Application.Services.Implementations;
 using Main.Application.Services.Interfaces;
 using Main.Data.Context;
+using Main.IoC;
 using Main.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
@@ -11,7 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<EshopContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<IAboutUsServices, AboutUsServices>();
+DependencyContainers.RegisterServices(builder.Services);//related to IoC
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
