@@ -23,10 +23,10 @@
             <td>@item.Question</td>
             <td>@item.Answer</td>
             <td>
-                <a asp-controller="Faq" asp-action="EditFaq" > ویرایش </a>
+                <a asp-controller="Faq" asp-action="EditFaq" asp-route-id="@item.Id"> ویرایش </a>
             </td>
             <td>
-                <a> حذف </a>
+                <a asp-controller="Faq" asp-action="DeleteFaq" asp-route-id="@item.Id"> حذف </a>
             </td>
         </tr>
             

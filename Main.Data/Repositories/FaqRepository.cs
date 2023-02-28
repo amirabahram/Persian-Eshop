@@ -35,6 +35,11 @@ namespace Main.Domain.Repositories
             return db.Faqs.Where(q =>  !q.IsDelete).ToList();
         }
 
+        public Faq GetFaqById(int id)
+        {
+           return db.Faqs.FirstOrDefault(q => q.Id == id);
+        }
+
         public Faq GetQuestionById(int id)
         {
           return  db.Faqs.FirstOrDefault(q=>q.Id ==id);

@@ -18,7 +18,7 @@ namespace Main.web.Areas.Admin.Controllers
         {
             var AllQuests = _IFaqService.GetAllQuestions();
             return View(AllQuests);
-            
+
         }
 
         [HttpGet]
@@ -29,7 +29,7 @@ namespace Main.web.Areas.Admin.Controllers
 
         [HttpPost]
         public IActionResult CreatFaq(CreateFaqViewModel crt)
-         {
+        {
             var Cr = _IFaqService.CreateFaq(crt);
             if (Cr)
             {
@@ -40,18 +40,43 @@ namespace Main.web.Areas.Admin.Controllers
                 return View(crt);
             }
         }
-        //[HttpGet]
-        //public IActionResult EditFaq()
-        //{
-        //    return View();
-        //}
-        //[HttpPost]
-        //public IActionResult EditFaq(UpdateFaqViewModel Upd)
-        //{
-        //    var Edt = _IFaqService.UpdateFaq(Upd);
-        //    return RedirectToAction("FaqAdmin");
+        [HttpGet]
+        public IActionResult EditFaq(int id)
+        {
+            var showForEdit = _IFaqService.ShowFaqForEditById(id);
 
-        //}
+            return View(showForEdit);
+        }
+        [HttpPost]
+        public IActionResult EditFaq(UpdateFaqViewModel Upd)
+        {
+            if (!ModelState.IsValid) return View(Upd);
+            var result = _IFaqService.UpdateFaq(Upd);
+            //var Edt = _IFaqService.GetQuestionForEdit(Upd.Id);
+            switch (result)
+            {
+                case UpdateFaqResult.FaqNotFound:
+                    {
+                        return NotFound();
+                    }
+                    break;
+
+                case UpdateFaqResult.Success:
+                    {
+                        return RedirectToAction("FaqAdmin");
+                    }
+                    break;
+
+                
+            }
+            return View(Upd);
+        }
+
+        public IActionResult DeleteFaq(int id)
+        {
+            var result = _IFaqService.DeleteFaq(id);
+            return RedirectToAction("FaqAdmin");
+        }
 
 
     }

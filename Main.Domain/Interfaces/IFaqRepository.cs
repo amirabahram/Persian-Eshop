@@ -10,6 +10,7 @@ namespace Main.Domain.Interfaces
     public interface IFaqRepository
     {
         List<Faq> GetAllQuestions();
+        Faq GetFaqById(int id);
         Faq GetQuestionById(int id);
         bool Create(Faq aq);
         void Update(Faq aq);

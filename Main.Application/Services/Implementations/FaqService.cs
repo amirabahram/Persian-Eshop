@@ -57,6 +57,7 @@ namespace Main.Application.Services.Implementations
 
         public UpdateFaqViewModel GetQuestionForEdit(int id)
         {
+            
             var faq = _faqRepo.GetQuestionById(id);
             return  new UpdateFaqViewModel
             {
@@ -66,12 +67,29 @@ namespace Main.Application.Services.Implementations
             };
         }
 
+        public UpdateFaqViewModel ShowFaqForEditById(int id)
+        {
+            var faq = _faqRepo.GetFaqById(id);
+            if(faq == null)
+            {
+                return null;
+            }
+            else
+            {
+                var UpdNew = new UpdateFaqViewModel();
+                UpdNew.Id = faq.Id;
+                UpdNew.Question = faq.Question;
+                UpdNew.Answer = faq.Answer;
+                return UpdNew;
+            }
+        }
+
         public UpdateFaqResult UpdateFaq(UpdateFaqViewModel aq)
         {
             var faq = _faqRepo.GetQuestionById(aq.Id);
             if (faq == null) return UpdateFaqResult.FaqNotFound;
-            if (_faqRepo.DuplicatedQuestion(faq.Question))
-                return UpdateFaqResult.DuplicatedQuestion;
+            //if (_faqRepo.DuplicatedQuestion(faq.Question))
+            //    return UpdateFaqResult.DuplicatedQuestion;
             faq.Answer = aq.Answer;
             faq.Question = aq.Question;
             _faqRepo.Update(faq);

@@ -11,6 +11,8 @@ namespace Main.Application.Services.Interfaces
     public interface IFaqService
     {
         List<Faq> GetAllQuestions();
+        UpdateFaqViewModel ShowFaqForEditById(int id);
+
         UpdateFaqViewModel GetQuestionForEdit(int id);
         bool CreateFaq(CreateFaqViewModel aq);
         bool DeleteFaq(int id);
