@@ -1,13 +1,9 @@
-﻿using Main.Domain.Interfaces;
+﻿using Main.Application.Services.Implementations;
+using Main.Application.Services.Interfaces;
+using Main.Data.Repositories;
+using Main.Domain.Interfaces;
 using Main.Domain.Repositories;
 using Microsoft.Extensions.DependencyInjection;
-using Main.Application.Services.Implementations;
-using Main.Application.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Main.IoC
 {
@@ -17,6 +13,8 @@ namespace Main.IoC
         {
             services.AddScoped<IFaqRepository, FaqRepository>();
             services.AddScoped<IFaqService, FaqService>();
+            services.AddScoped<IAboutUsServices, AboutUsServices>();
+            services.AddScoped<IAboutUsRepository, AboutUsRepository>();
         }
     }
 }

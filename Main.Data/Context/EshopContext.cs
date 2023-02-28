@@ -21,6 +21,12 @@ namespace Main.Data.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+
             modelBuilder.Entity<Faq>().HasData(new Faq()
             {
                 Id =1,
@@ -31,5 +37,6 @@ namespace Main.Data.Context
             base.OnModelCreating(modelBuilder);
         }
 
+      
     }
 }

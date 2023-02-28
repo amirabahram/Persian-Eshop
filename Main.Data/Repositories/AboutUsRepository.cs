@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Main.Data.Repositories
 { 
     
-    public class AboutUsRepository : IAboutUsInterface
+    public class AboutUsRepository : IAboutUsRepository
     {
 
         //!CreateDataBase 
@@ -24,10 +24,7 @@ namespace Main.Data.Repositories
                 this._dbContext = dbcontext;
            
         }
-
         #endregion
-
-
 
         #region Impleminet_Interface
 
@@ -51,6 +48,12 @@ namespace Main.Data.Repositories
         public AboutUsModel GetAboutUs(int id)
         {
             return _dbContext.AboutUs.FirstOrDefault(a => a.Id == id);
+        }
+
+        public List<AboutUsModel> GetAll()
+        {
+            //list aboutus 
+            return _dbContext.AboutUs.Where(a=>!a.IsDelete).ToList();
         }
 
         public void save()
