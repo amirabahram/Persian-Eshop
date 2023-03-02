@@ -16,7 +16,7 @@ namespace Main.Application.Services.Interfaces
         //  void EditAboutUs(EditAboutUsViewModel aboutUs,IFormFile img);
         EditAboutUsResualt EditAboutUs(EditAboutUsViewModel aboutUs, IFormFile img);
 
-        bool DeleAboutUS(int id);
+        bool DeleteAboutUS(int id);
 
 
     }

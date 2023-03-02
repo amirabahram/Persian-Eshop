@@ -1,0 +1,83 @@
+﻿@using Main.Domain.Models.AboutUs
+@model List<AboutUsModel>
+<div class="col-xs-12 col-md-12">
+    <div class="widget">
+        <div class="widget-header ">
+            <span class="widget-caption">Editable DataTable</span>
+            <div class="widget-buttons">
+                <a href="#" data-toggle="maximize">
+                    <i class="fa fa-expand"></i>
+                </a>
+                <a href="#" data-toggle="collapse">
+                    <i class="fa fa-minus"></i>
+                </a>
+                <a href="#" data-toggle="dispose">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+        <div class="widget-body">
+            <div class="table-toolbar">
+                <a id="editabledatatable_new" href="javascript:void(0);" class="btn btn-default">
+                    Add New User
+                </a>
+           
+            </div>
+            <div id="editabledatatable_wrapper" class="dataTables_wrapper form-inline no-footer">
+                <div class="DTTT btn-group"><a class="btn btn-default DTTT_button_print" id="ToolTables_editabledatatable_1" title="View print view" tabindex="0" aria-controls="editabledatatable"><span>Print</span></a><a class="btn btn-default DTTT_button_collection" id="ToolTables_editabledatatable_2" tabindex="0" aria-controls="editabledatatable"><span>Save <i class="fa fa-angle-down"></i></span></a></div><div id="editabledatatable_filter" class="dataTables_filter"><label><input type="search" class="form-control input-sm" placeholder="" aria-controls="editabledatatable"></label></div><div class="dataTables_length" id="editabledatatable_length"><label><select name="editabledatatable_length" aria-controls="editabledatatable" class="form-control input-sm"><option value="5">5</option><option value="15">15</option><option value="20">20</option><option value="100">100</option><option value="-1">All</option></select></label></div><table class="table table-striped table-hover table-bordered dataTable no-footer" id="editabledatatable" role="grid" aria-describedby="editabledatatable_info">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-sort="ascending" aria-label="
+                                                    موضوع
+                                                : activate to sort column descending" style="width: 189.4px;">
+                                موضوع
+                            </th>
+                            <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
+                                                   متن
+                                                : activate to sort column ascending" style="width: 289.4px;">
+                                متن 
+                            </th>
+                          
+                            <th class="sorting" tabindex="0" aria-controls="editabledatatable" rowspan="1" colspan="1" aria-label="
+                                                    عکس
+                                                : activate to sort column ascending" style="width: 201.4px;">
+                                عکس
+                            </th>
+                            <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="
+
+                                                " style="width: 336.4px;">
+
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var about in Model)
+                        {
+                            <tr role="row" class="odd">
+                                <td class="sorting_1">
+                                    @about.TitleAboutUs
+                                </td>
+                                <td>
+                                    @about.DiscriptionAboutUs
+                                
+                                </td>
+                                <td>
+                                    <img  src="/ImagAbout/@about.ImagAboutUs"/>
+                                </td>
+                                <td class="center ">
+                                   
+                                </td>
+                                <td>
+
+                                    <a asp-action="EditAboutUs" asp-controller="About" asp-route-id="@about.Id" class="btn btn-info btn-xs edit"><i class="fa fa-edit"></i> Edit</a>
+                                    <a asp-action="CreateAboutUs" asp-controller="About" asp-route-id="@about.Id" class="btn btn-danger btn-xs delete"><i class="fa fa-trash-o"></i> Delete</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table><div class="row DTTTFooter"><div class="col-sm-6"><div class="dataTables_info" id="editabledatatable_info" role="status" aria-live="polite">Showing 1 to 5 of 6 entries</div></div><div class="col-sm-6"><div class="dataTables_paginate paging_bootstrap" id="editabledatatable_paginate"><ul class="pagination"><li class="prev disabled"><a href="#">Prev</a></li><li class="active"><a href="#">1</a></li><li><a href="#">2</a></li><li class="next"><a href="#">Next</a></li></ul></div></div></div>
+            </div>
+        </div>
+    </div>
+</div>

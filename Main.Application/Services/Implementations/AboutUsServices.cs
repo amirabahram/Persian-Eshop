@@ -22,13 +22,7 @@ namespace Main.Application.Services.Implementations
         {
             if (newaboutUs == null)
                 return false;
-            string name = "";
-            if (ImageAbout != null)
-            {
-                string path = Path.Combine(Directory.GetCurrentDirectory(),
-                              Path.GetFileName(ImageAbout.FileName));
-                name = Guid.NewGuid().ToString() + Path.GetExtension(ImageAbout.FileName);
-            }
+            
 
             var aboutUs = new AboutUsModel
             {
@@ -37,10 +31,22 @@ namespace Main.Application.Services.Implementations
                 DiscriptionAboutUs = newaboutUs.Description,
                 TitleAboutUs = newaboutUs.Title,
                 //create Img |if 
-
-                ImagAboutUs = name
+                
 
             };
+
+           
+
+            string savePath = Path.Combine(Directory.GetCurrentDirectory(),
+                "wwwroot/ImagAbout", ImageAbout.FileName);
+
+            using (var fileStream = new FileStream(savePath, FileMode.Create))
+            {
+                ImageAbout.CopyTo(fileStream);
+            }
+            aboutUs.ImagAboutUs = ImageAbout.FileName;
+
+
             _aboutUsRepository.AddAboutUs(aboutUs);
             _aboutUsRepository.save();
             return true;
@@ -48,7 +54,7 @@ namespace Main.Application.Services.Implementations
 
 
 
-        public bool DeleAboutUS(int id)
+        public bool DeleteAboutUS(int id)
         {
             var aboutus = _aboutUsRepository.GetAboutUs(id);
 
@@ -64,7 +70,7 @@ namespace Main.Application.Services.Implementations
         }
 
         //public void EditAboutUs(EditAboutUsViewModel aboutUs,IFormFile imageAbout)
-        public EditAboutUsResualt EditAboutUs(EditAboutUsViewModel newaboutUs, IFormFile imageAbout)
+        public EditAboutUsResualt EditAboutUs(EditAboutUsViewModel newaboutUs, IFormFile ImageAbout)
 
         {
             if (newaboutUs == null)
@@ -79,17 +85,28 @@ namespace Main.Application.Services.Implementations
             oldAboutUs.DiscriptionAboutUs = newaboutUs.Description;
 
             //imag
-            if (imageAbout != null)
+            if (ImageAbout != null)
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(),
-                          Path.GetFileName(imageAbout.FileName));
-                string name = Guid.NewGuid().ToString() + Path.GetExtension(imageAbout.FileName);
-                oldAboutUs.ImagAboutUs = name;
+                var GetImag = Guid.NewGuid().ToString() +
+                          Path.GetExtension(ImageAbout.FileName);
+
+                string savePath = Path.Combine(Directory.GetCurrentDirectory(),
+                    "wwwroot/ImagAbout", ImageAbout.FileName);
+
+                using (var fileStream = new FileStream(savePath, FileMode.Create))
+                {
+                    ImageAbout.CopyTo(fileStream);
+                }
+                oldAboutUs.ImagAboutUs = GetImag;
+
+
             }
+            _aboutUsRepository.EditAboutUs(oldAboutUs);
             //bool res = false;
             //imageAbout.IsImage(res);
             //if (res)
             //{ }
+            _aboutUsRepository.save();
             return EditAboutUsResualt.Suscess;
 
         }
@@ -112,8 +129,7 @@ namespace Main.Application.Services.Implementations
                 Title = aboutUs.TitleAboutUs,
                 Id = aboutUs.Id,
             };
-            _aboutUsRepository.EditAboutUs(aboutUs);
-            _aboutUsRepository.save();
+        
 
             //retrun aboutUs
 
