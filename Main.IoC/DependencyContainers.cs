@@ -17,6 +17,7 @@ namespace Main.IoC
             services.AddScoped<IAboutUsRepository, AboutUsRepository>();
             services.AddScoped<IRegisterRepository, RegisterRepository>();
             services.AddScoped<IUserRegisterService, UserRegisterService>();
+            services.AddScoped<IEmailSender, EmailSender>();
             
         }
     }

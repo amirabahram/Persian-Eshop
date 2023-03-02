@@ -10,7 +10,9 @@ namespace Main.Domain.Interfaces
     public interface IRegisterRepository
     {
         void Insert(UserEntity user);
-        public bool IsDuplicated(string email);
+        bool IsDuplicated(string email);
+        UserEntity GetUserByActivationCode(string activationCode);
+        void UpdateUser(UserEntity user);
         void SaveChanges();
     }
 }

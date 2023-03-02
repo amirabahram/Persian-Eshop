@@ -10,7 +10,7 @@ namespace Main.Domain.Models.User
 {
     public class UserEntity:BaseEntity
     {
-        //[Required]
+     
         [MaxLength(250)]
 
         public string? Name { get; set; }
@@ -35,7 +35,6 @@ namespace Main.Domain.Models.User
         [MaxLength(250)]
         public bool?   IsAdmin { get; set; }
         
-        [MaxLength(250)]
         public string? ActivitationCode { get; set; }
         public bool?   IsActive { get; set; }
 

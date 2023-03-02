@@ -16,6 +16,7 @@ namespace Main.Application.Services.Interfaces
         UpdateFaqViewModel GetQuestionForEdit(int id);
         bool CreateFaq(CreateFaqViewModel aq);
         bool DeleteFaq(int id);
+       
         UpdateFaqResult UpdateFaq(UpdateFaqViewModel aq);
     }
 }

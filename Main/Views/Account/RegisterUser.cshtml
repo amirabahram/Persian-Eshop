@@ -15,13 +15,17 @@
             <form  asp-controller="Account" asp-action="RegisterUser"  class="auth-form">
                 <!-- start of form-element -->
                 <div class="form-element-row mb-5">
-                    <input  asp-for="Email"    type="text" class="form-control" placeholder=" ایمیل">
+                    <input asp-for="Email" type="text" class="form-control" placeholder=" ایمیل">
+                    <span asp-validation-for="Email"></span>@*asp-validation is for ModelState*@
+
                 </div>
                 <div class="form-element-row mb-5">
                     <input  asp-for="Password"   type="text" class="form-control" placeholder="کلمه عبور">
+                    <span asp-validation-for="Password"></span>
                 </div>
                 <div class="form-element-row mb-5">
                     <input  asp-for="RePassword"    type="text" class="form-control" placeholder="تکرار کلمه عبور">
+                    <span asp-validation-for="RePassword"></span>
                 </div>
                 <!-- end of form-element -->
                 <!-- start of form-element -->

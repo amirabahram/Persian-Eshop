@@ -17,6 +17,11 @@ namespace Main.Data.Repositories
             db = context;
         }
 
+        public UserEntity GetUserByActivationCode(string activationCode)
+        {
+            return db.Users.FirstOrDefault(q =>q.ActivitationCode == activationCode);
+        }
+
         public void Insert(UserEntity user)
         {
             db.Users.Add(user);
@@ -30,6 +35,11 @@ namespace Main.Data.Repositories
         public void SaveChanges()
         {
             db.SaveChanges();
+        }
+
+        public void UpdateUser(UserEntity user)
+        {
+            db.Users.Update(user);
         }
     }
 }

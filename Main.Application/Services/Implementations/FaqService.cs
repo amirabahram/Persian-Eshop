@@ -21,6 +21,8 @@ namespace Main.Application.Services.Implementations
             _faqRepo = faqRepo;
         }
 
+
+
         public bool CreateFaq(CreateFaqViewModel aq)
         {
             
