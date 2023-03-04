@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Main.Domain.Models.Faq;
 using Main.Domain.Models.AboutUs;
-
+using Main.Domain.Models.User;
 
 namespace Main.Data.Context
 {
@@ -18,7 +18,7 @@ namespace Main.Data.Context
         }
         public DbSet<Faq> Faqs { get; set; }
         public DbSet<AboutUsModel> AboutUs { get; set; }
-
+        public DbSet<UserEntity> Users { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))

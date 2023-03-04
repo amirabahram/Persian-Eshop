@@ -1,0 +1,15 @@
+﻿@model Main.Domain.ViewModel.UpdateFaqViewModel
+
+
+
+<form asp-action="EditFaq" asp-controller="Faq" asp-area="Admin">
+    @*خود اینها  متد ای اس پی را روی پست می گذارند*@
+    <label>سوال:</label>
+    <input asp-for="Question" />
+    
+    <label>پاسخ:</label>
+    <textarea asp-for="Answer" rows="4" cols="50">
+    
+    </textarea>
+    <button type="submit" class="btn btn-success">به روزرسانی <i class="fa fa-check right"></i></button>
+</form>
