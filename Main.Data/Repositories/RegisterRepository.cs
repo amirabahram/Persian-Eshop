@@ -22,6 +22,16 @@ namespace Main.Data.Repositories
             return db.Users.FirstOrDefault(q =>q.ActivitationCode == activationCode);
         }
 
+        #region Login 
+
+        
+        public UserEntity GetUserForLogin(string email, string password)
+        {
+            return db.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
+        }
+       
+        #endregion
+
         public void Insert(UserEntity user)
         {
             db.Users.Add(user);

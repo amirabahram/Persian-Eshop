@@ -68,5 +68,17 @@ namespace Main.Application.Services.Implementations
         {
             throw new NotImplementedException();
         }
+
+
+        #region Login
+
+        public UserEntity GetuserViewModel(string email, string password)
+        {
+             return _regRepo.GetUserForLogin(email, password.ToLower());
+          
+            
+        }
+        #endregion
+
     }
 }
