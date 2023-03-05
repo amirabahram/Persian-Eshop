@@ -64,21 +64,39 @@ namespace Main.web.Controllers
         {
             return View("LoginUserViewModel");
         }
+
+
         [Route("Login")]
         [HttpPost]
-        public IActionResult Login(LoginModel  login)
+        public IActionResult Login(LoginViewModel  login)
         {
-            if(ModelState.IsValid)
+            if(!ModelState.IsValid)
+                return View(login);
+
+           
+            if(!_regService.IsExistUser(login.Email,login.Password))
             {
-                return View(login); 
-            }
-            var user=_regService.GetuserViewModel(login.Email.ToLower(), login.Password);
-           if (user == null)    
-            {
-                ModelState.AddModelError("Email", "ایمیل شما به درستی ثبت نشده است ");
+                ModelState.AddModelError("email", " user not found");
                 return View(login);
             }
-            return View();
+          
+            return Redirect("/");
+
+
+
+
+
+           // if(ModelState.IsValid)
+           // {
+           //     return View(login); 
+           // }
+           // var user=_regService.GetuserViewModel(login.Email.ToLower(), login.Password);
+           //if (user == null)    
+           // {
+           //     ModelState.AddModelError("Email", "ایمیل شما به درستی ثبت نشده است ");
+           //     return View(login);
+           // }
+           // return View();
         }
         #endregion
 

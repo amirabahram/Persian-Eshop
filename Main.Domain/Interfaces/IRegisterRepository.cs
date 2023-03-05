@@ -14,7 +14,9 @@ namespace Main.Domain.Interfaces
         UserEntity GetUserByActivationCode(string activationCode);
         void UpdateUser(UserEntity user);
 
-        UserEntity GetUserForLogin(string Email, string Password);
+        bool IsExistUser(string email,string password);
+
+       // UserEntity GetUserForLogin(string Email, string Password);
         void SaveChanges();
     }
 }

@@ -24,12 +24,15 @@ namespace Main.Data.Repositories
 
         #region Login 
 
-        
-        public UserEntity GetUserForLogin(string email, string password)
+
+        //public UserEntity GetUserForLogin(string email, string password)
+        //{
+        //    return db.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
+        //}
+        public bool IsExistUser(string email, string password)
         {
-            return db.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
+            return db.Users.Any(u => u.Email == email && u.Password == password);
         }
-       
         #endregion
 
         public void Insert(UserEntity user)
@@ -41,6 +44,8 @@ namespace Main.Data.Repositories
         {
             return  db.Users.Any(u => u.Email == email);
         }
+
+       
 
         public void SaveChanges()
         {

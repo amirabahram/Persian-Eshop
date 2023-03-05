@@ -17,7 +17,7 @@ namespace Main.Domain.Models.User
         public string Password { get; set; }
 
 
-        public string RemmberMe { get; set; }
+        public bool RemmberMe { get; set; }
 
     }
 }

@@ -14,10 +14,11 @@ namespace Main.Application.Services.Interfaces
         bool ActiveUser(string activationCode);
         public RegisterUserResult Register(UserRegisterViewModel regModel);
         public bool PasswordCheck();
-       
-     
+
+
         #region LoginViewModel
-        UserEntity GetuserViewModel(string email, string password);
+        //UserEntity GetuserViewModel(string email, string password);
+        bool IsExistUser(string email, string password);
         #endregion
 
     }
