@@ -12,7 +12,7 @@ namespace Main.Domain.ViewModel.AboutUs
         public string Title { get; set; }
         public string Description { get; set; }
 
-        public string ImagAbouts { get; set; }
+        public string? ImagAbouts { get; set; }
     }
     public enum EditAboutUsResualt
     {

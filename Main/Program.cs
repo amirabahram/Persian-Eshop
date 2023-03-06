@@ -1,13 +1,15 @@
 using Main.Data.Context;
 using Main.IoC;
 using Microsoft.EntityFrameworkCore;
-var builder = WebApplication.CreateBuilder(args);
+using System.Net;
 
+var builder = WebApplication.CreateBuilder(args);
 
 //below part added by me!
 
 builder.Services.AddDbContext<EshopContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
 
 DependencyContainers.RegisterServices(builder.Services);//related to IoC
 
@@ -24,6 +26,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

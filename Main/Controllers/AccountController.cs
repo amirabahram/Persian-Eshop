@@ -56,5 +56,55 @@ namespace Main.web.Controllers
             _regService.ActiveUser(activationCode);
             return View();
         }
+
+
+        #region Login
+        [Route("Login")]
+        public IActionResult Login()
+        {
+            return View("LoginUserViewModel");
+        }
+
+
+        [Route("Login")]
+        [HttpPost]
+        public IActionResult Login(LoginViewModel  login)
+        {
+            if(!ModelState.IsValid)
+                return View(login);
+
+           
+            if(!_regService.IsExistUser(login.Email,login.Password))
+            {
+                ModelState.AddModelError("email", " user not found");
+                return View(login);
+            }
+          
+            return Redirect("/");
+
+
+
+
+
+           // if(ModelState.IsValid)
+           // {
+           //     return View(login); 
+           // }
+           // var user=_regService.GetuserViewModel(login.Email.ToLower(), login.Password);
+           //if (user == null)    
+           // {
+           //     ModelState.AddModelError("Email", "ایمیل شما به درستی ثبت نشده است ");
+           //     return View(login);
+           // }
+           // return View();
+        }
+        #endregion
+
+
+
+
+
+
+
     }
 }

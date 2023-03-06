@@ -7,7 +7,7 @@ using Main.Application.Services.Interfaces;
 using Main.Domain.Interfaces;
 using Main.Domain.ViewModel.User;
 using Main.Domain.Models.User;
-
+using Main.Application.Security;
 
 namespace Main.Application.Services.Implementations
 {
@@ -68,5 +68,22 @@ namespace Main.Application.Services.Implementations
         {
             throw new NotImplementedException();
         }
+
+
+        #region Login
+
+        //public UserEntity GetuserViewModel(string email, string password)
+        //{
+        //     return _regRepo.GetUserForLogin(email, password.ToLower());
+          
+            
+        //}
+
+        public bool IsExistUser(string email, string password)
+        {
+            return _regRepo.IsExistUser(email.Trim().ToLower(),Hash.EncodePasswordMd5(password));
+        }
+        #endregion
+
     }
 }

@@ -13,6 +13,10 @@ namespace Main.Domain.Interfaces
         bool IsDuplicated(string email);
         UserEntity GetUserByActivationCode(string activationCode);
         void UpdateUser(UserEntity user);
+
+        bool IsExistUser(string email,string password);
+
+       // UserEntity GetUserForLogin(string Email, string Password);
         void SaveChanges();
     }
 }
