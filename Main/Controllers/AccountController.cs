@@ -54,7 +54,7 @@ namespace Main.web.Controllers
         public IActionResult SubmittDone(string activationCode)
         {
             _regService.ActiveUser(activationCode);
-            return View("RegisterUser");
+            return View();
         }
     }
 }

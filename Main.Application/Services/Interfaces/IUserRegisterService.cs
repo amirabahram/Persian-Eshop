@@ -11,7 +11,7 @@ namespace Main.Application.Services.Interfaces
     public interface IUserRegisterService
     {
         bool ActiveUser(string activationCode);
-        public RegisterUserResult Register(UserRegisterViewModel regModel);
-        public bool PasswordCheck();
+         RegisterUserResult Register(UserRegisterViewModel regModel);
+         bool PasswordCheck();
     }
 }
