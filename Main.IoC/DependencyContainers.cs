@@ -18,6 +18,8 @@ namespace Main.IoC
             services.AddScoped<IRegisterRepository, RegisterRepository>();
             services.AddScoped<IUserRegisterService, UserRegisterService>();
             services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IAdminEditRepository, AdminEditRepository>();
+            services.AddScoped<IAdminEditService, AdminEditService>();
             
         }
     }

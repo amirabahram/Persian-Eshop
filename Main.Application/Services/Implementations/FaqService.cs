@@ -92,8 +92,7 @@ namespace Main.Application.Services.Implementations
         {
             var faq = _faqRepo.GetQuestionById(aq.Id);
             if (faq == null) return UpdateFaqResult.FaqNotFound;
-            //if (_faqRepo.DuplicatedQuestion(faq.Question))
-            //    return UpdateFaqResult.DuplicatedQuestion;
+
             faq.Answer = aq.Answer;
             faq.Question = aq.Question;
             _faqRepo.Update(faq);
