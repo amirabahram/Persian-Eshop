@@ -21,5 +21,20 @@ namespace Main.Application.Services.Interfaces
         bool IsExistUser(string email, string password);
         #endregion
 
+        #region forgatpassword
+
+        public bool checkEmail(string email);
+        public bool forgatPassword (string email);
+
+      //  public bool checkActive(string active);
+
+       
+       
+
+        
+        #endregion
+
+
+
     }
 }

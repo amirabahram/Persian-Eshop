@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Main.Domain.ViewModel.AboutUs
+﻿namespace Main.Domain.ViewModel.AboutUs
 {
     public class EditAboutUsViewModel
     {
@@ -17,11 +11,7 @@ namespace Main.Domain.ViewModel.AboutUs
     public enum EditAboutUsResualt
     {
         Suscess,
-        DataNotFound ,
+        DataNotFound,
         DataViewNotFound
     }
-
-
-
-
 }

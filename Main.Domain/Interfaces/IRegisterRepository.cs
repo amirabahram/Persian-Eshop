@@ -1,22 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Main.Domain.Models.User;
+﻿using Main.Domain.Models.User;
 
 namespace Main.Domain.Interfaces
 {
     public interface IRegisterRepository
     {
         void Insert(UserEntity user);
+
         bool IsDuplicated(string email);
+
         UserEntity GetUserByActivationCode(string activationCode);
+
         void UpdateUser(UserEntity user);
 
-        bool IsExistUser(string email,string password);
+        #region login
 
-       // UserEntity GetUserForLogin(string Email, string Password);
+        bool IsUserExistByEmail(string email);
+
+        bool IsExistUser(string email, string password);
+
+        #endregion
+
+
+        #region forgatpassword
+
+        UserEntity GetUserBayEmail (string email);
+
+        #endregion
+
         void SaveChanges();
     }
 }

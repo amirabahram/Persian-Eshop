@@ -19,20 +19,19 @@ namespace Main.Data.Repositories
 
         public UserEntity GetUserByActivationCode(string activationCode)
         {
-            return db.Users.FirstOrDefault(q =>q.ActivitationCode == activationCode);
+            return db.Users.FirstOrDefault(q => q.ActivitationCode == activationCode);
         }
 
         #region Login 
 
 
-        //public UserEntity GetUserForLogin(string email, string password)
-        //{
-        //    return db.Users.SingleOrDefault(u => u.Email == email && u.Password == password);
-        //}
+
         public bool IsExistUser(string email, string password)
         {
             return db.Users.Any(u => u.Email == email && u.Password == password);
         }
+
+     
         #endregion
 
         public void Insert(UserEntity user)
@@ -42,10 +41,10 @@ namespace Main.Data.Repositories
 
         public bool IsDuplicated(string email)
         {
-            return  db.Users.Any(u => u.Email == email);
+            return db.Users.Any(u => u.Email == email);
         }
 
-       
+
 
         public void SaveChanges()
         {
@@ -56,5 +55,41 @@ namespace Main.Data.Repositories
         {
             db.Users.Update(user);
         }
+
+        #region ForgatPassword
+        public bool checkeUser(string email)
+        {
+            return db.Users.Any(u => u.Email == email);
+
+        }
+
+        public bool IsUserExistByEmail(string email)
+        {
+            return db.Users.Any(u => u.Email == email);
+        }
+
+        public UserEntity GetUserBayEmail(string email)
+        {
+             return db.Users.FirstOrDefault(u => u.Email == email);
+        }
+
+        //public bool GetActiveCode(string email)
+        //{
+        //    var n=  db.Users.FirstOrDefault(u => u.Email == email).ActivitationCode;
+        //    return 
+
+        //}
+
+
+
+
+
+
+        //public bool checkAvtiveUser(string active)
+        //{
+        //    return db.Users.FirstOrDefault
+        //}
+        #endregion
+
     }
 }

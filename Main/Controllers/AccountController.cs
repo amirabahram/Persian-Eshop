@@ -2,6 +2,11 @@
 using Main.Domain.ViewModel.User;
 using Main.Application.Services.Interfaces;
 using Main.Domain.Models.User;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
+
 namespace Main.web.Controllers
 
 {
@@ -59,49 +64,71 @@ namespace Main.web.Controllers
 
 
         #region Login
-        [Route("Login")]
+       
+        [HttpGet("Login")]
         public IActionResult Login()
         {
-            return View("LoginUserViewModel");
+            return View();
         }
 
-
-        [Route("Login")]
-        [HttpPost]
+        [HttpPost("Login")]
         public IActionResult Login(LoginViewModel  login)
         {
             if(!ModelState.IsValid)
-                return View(login);
+                return View("login");
 
+            var user = _regService.IsExistUser(login.Email, login.Password);
            
-            if(!_regService.IsExistUser(login.Email,login.Password))
+            if (user = false)
             {
                 ModelState.AddModelError("email", " user not found");
-                return View(login);
+                return View( login);
             }
           
-            return Redirect("/");
+            //cooki
 
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Email, login.Email),
+                new Claim(ClaimTypes.NameIdentifier,login.Email)
+            };
 
-
-
-
-           // if(ModelState.IsValid)
-           // {
-           //     return View(login); 
-           // }
-           // var user=_regService.GetuserViewModel(login.Email.ToLower(), login.Password);
-           //if (user == null)    
-           // {
-           //     ModelState.AddModelError("Email", "ایمیل شما به درستی ثبت نشده است ");
-           //     return View(login);
-           // }
-           // return View();
+            var identoty =new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal=new ClaimsPrincipal(identoty);
+            var propertties = new AuthenticationProperties()
+            {
+                IsPersistent = login.RememberMe
+            };
+            HttpContext.SignInAsync(principal, propertties);
+            
+            return Redirect("/"); 
         }
         #endregion
 
 
+        #region ForgatPassword
 
+        public IActionResult ForagtPassword()
+        {
+            return View();
+        }
+       public IActionResult ForagtPassword( ForgatPassword  forgatpass )
+        {
+            if(ModelState.IsValid)
+            {
+
+            
+                 var forgatpassword = _regService.forgatPassword(forgatpass.Email );
+                if (forgatpassword = false)
+                {
+                   
+                    return View();
+                }
+              
+            }
+            return View();
+        }
+        #endregion
 
 
 

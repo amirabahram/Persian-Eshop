@@ -1,38 +1,33 @@
 ﻿using Main.Data.Context;
 using Main.Domain.Interfaces;
 using Main.Domain.Models.AboutUs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Main.Data.Repositories
-{ 
-    
+{
+
     public class AboutUsRepository : IAboutUsRepository
     {
-
         //!CreateDataBase 
-        #region CreateDataBase
+        #region Constructor
+
         private readonly EshopContext _dbContext;
 
         public AboutUsRepository(EshopContext dbcontext)
         {
-            
-                this._dbContext = dbcontext;
-           
+
+            this._dbContext = dbcontext;
+
         }
+
         #endregion
 
         #region Impleminet_Interface
 
         public void AddAboutUs(AboutUsModel aboutUs)
         {
-         
+
             _dbContext.AboutUs.Add(aboutUs);
-           
+
         }
 
         //public void DetetAboutUs(AboutUsModel aboutUs)
@@ -42,7 +37,7 @@ namespace Main.Data.Repositories
 
         public void EditAboutUs(AboutUsModel aboutUs)
         {
-            _dbContext.Update(aboutUs); 
+            _dbContext.AboutUs.Update(aboutUs);
         }
 
         public AboutUsModel GetAboutUs(int id)
@@ -53,7 +48,7 @@ namespace Main.Data.Repositories
         public List<AboutUsModel> GetAll()
         {
             //list aboutus 
-            return _dbContext.AboutUs.Where(a=>!a.IsDelete).ToList();
+            return _dbContext.AboutUs.Where(a => !a.IsDelete).ToList();
         }
 
         public void save()
@@ -61,8 +56,6 @@ namespace Main.Data.Repositories
             _dbContext.SaveChanges();
         }
         #endregion
-
-
 
     }
 }

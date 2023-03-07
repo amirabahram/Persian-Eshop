@@ -1,5 +1,4 @@
 ﻿using Main.Application.Services.Interfaces;
-using Main.Data.Repositories;
 using Main.Domain.Interfaces;
 using Main.Domain.Models.AboutUs;
 using Main.Domain.ViewModel.AboutUs;
@@ -22,7 +21,7 @@ namespace Main.Application.Services.Implementations
         {
             if (newaboutUs == null)
                 return false;
-            
+
 
             var aboutUs = new AboutUsModel
             {
@@ -31,11 +30,11 @@ namespace Main.Application.Services.Implementations
                 DiscriptionAboutUs = newaboutUs.Description,
                 TitleAboutUs = newaboutUs.Title,
                 //create Img |if 
-                
+
 
             };
 
-           
+
 
             string savePath = Path.Combine(Directory.GetCurrentDirectory(),
                 "wwwroot/ImagAbout", ImageAbout.FileName);
@@ -68,6 +67,7 @@ namespace Main.Application.Services.Implementations
             return true;
 
         }
+
 
         //public void EditAboutUs(EditAboutUsViewModel aboutUs,IFormFile imageAbout)
         public EditAboutUsResualt EditAboutUs(EditAboutUsViewModel newaboutUs, IFormFile ImageAbout)
@@ -129,7 +129,7 @@ namespace Main.Application.Services.Implementations
                 Title = aboutUs.TitleAboutUs,
                 Id = aboutUs.Id,
             };
-        
+
 
             //retrun aboutUs
 

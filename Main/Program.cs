@@ -1,6 +1,9 @@
 using Main.Data.Context;
 using Main.IoC;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +13,24 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<EshopContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+#region login
+
+builder.Services.AddAuthentication(Options =>
+{
+    Options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    Options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    Options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+
+
+
+}).AddCookie(Options =>
+{
+    Options.LoginPath = "/Login";
+    Options.LogoutPath = "/logout";
+    Options.ExpireTimeSpan = TimeSpan.FromMinutes(43200);
+});
+
+#endregion
 
 DependencyContainers.RegisterServices(builder.Services);//related to IoC
 

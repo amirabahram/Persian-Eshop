@@ -8,6 +8,9 @@ using Main.Domain.Interfaces;
 using Main.Domain.ViewModel.User;
 using Main.Domain.Models.User;
 using Main.Application.Security;
+using Microsoft.SqlServer.Server;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using static System.Net.WebRequestMethods;
 
 namespace Main.Application.Services.Implementations
 {
@@ -83,7 +86,72 @@ namespace Main.Application.Services.Implementations
         {
             return _regRepo.IsExistUser(email.Trim().ToLower(),Hash.EncodePasswordMd5(password));
         }
+
+
         #endregion
 
+        #region ForgatPassword
+
+        public bool checkEmail(string email)
+        {
+            var checkemail=_regRepo.IsUserExistByEmail(email);
+            if(checkemail == false)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool checkActive(string active)
+        {
+            var user = _regRepo.GetUserByActivationCode;
+            if (user != null)
+            {
+
+                return true;
+            }
+          
+            return false;
+        }
+
+        //public bool forgatpassword(ForgatPassword user)
+        //{
+        //    if (user.Newpassword==null)
+        //    {
+        //        var n = new UserEntity();
+                
+        //        n.Password = user.Newpassword;
+                
+        //        return n;
+             
+        //    }
+        //    return false;
+          
+
+        //}
+
+
+        public bool forgatPassword(string email)
+        {
+            var user = _regRepo.GetUserBayEmail(email);
+
+
+            if (user != null)
+            {
+                var activeCode = user.ActivitationCode;
+
+
+
+                var sendEmail = _emailSender.EmailSending(email, "forgatpassword", $"<a href='https://localhost:7049/SubmittDone/{activeCode}'> لطفا روی این لینک کلیک کنید</a>");
+                return true;
+               
+            }
+            return false;
+            
+
+        }
+
+
+        #endregion
     }
 }

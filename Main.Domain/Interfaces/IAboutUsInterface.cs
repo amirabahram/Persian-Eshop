@@ -10,6 +10,7 @@ namespace Main.Domain.Interfaces
 
         //aboutus id as model 
         AboutUsModel GetAboutUs(int Id);
+
         void AddAboutUs(AboutUsModel aboutUs);
 
         void EditAboutUs(AboutUsModel aboutUs);
