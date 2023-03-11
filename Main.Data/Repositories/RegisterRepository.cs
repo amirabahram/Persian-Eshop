@@ -29,9 +29,10 @@ namespace Main.Data.Repositories
         public bool IsExistUser(string email, string password)
         {
             return db.Users.Any(u => u.Email == email && u.Password == password);
+
         }
 
-     
+
         #endregion
 
         public void Insert(UserEntity user)
@@ -73,22 +74,20 @@ namespace Main.Data.Repositories
              return db.Users.FirstOrDefault(u => u.Email == email);
         }
 
-        //public bool GetActiveCode(string email)
-        //{
-        //    var n=  db.Users.FirstOrDefault(u => u.Email == email).ActivitationCode;
-        //    return 
+        #region activation
 
-        //}
+       
+        public bool ActivactionCod(string activationCode)
+        {
+            return db.Users.Any(u=>u.ActivitationCode==activationCode);
+
+        }
+        #endregion
 
 
 
 
 
-
-        //public bool checkAvtiveUser(string active)
-        //{
-        //    return db.Users.FirstOrDefault
-        //}
         #endregion
 
     }

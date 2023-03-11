@@ -112,9 +112,7 @@
                             </td>
                             <td>
                                 <a asp-controller="EditUsers" asp-action="UpdateUser" asp-route-id="@item.Id" class="btn btn-default btn-xs purple"><i class="fa fa-edit"></i> ویرایش</a>
-                                <a onclick="DeleteAjax(@item.Id)" class="btn btn-default btn-xs black"><i class="fa fa-trash-o"></i> حذف</a>
-
-
+                                <a onclick="DeleteAjax(@item.Id)" class="btn btn-default btn-xs black"><i class="fa fa-trash-o"></i> حذف</a
                             </td>
                         </tr>
 
@@ -135,7 +133,6 @@
 @section scripts{
     <script type="text/javascript">
         function DeleteAjax(id) {
-
             swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",

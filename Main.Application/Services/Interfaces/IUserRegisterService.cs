@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Main.Domain.Models.User;
 using Main.Domain.ViewModel.User;
-
+using static Main.Domain.ViewModel.User.ForgotPasswordViewModel;
 
 namespace Main.Application.Services.Interfaces
 {
@@ -17,20 +17,19 @@ namespace Main.Application.Services.Interfaces
 
 
         #region LoginViewModel
-        //UserEntity GetuserViewModel(string email, string password);
-        bool IsExistUser(string email, string password);
+        //UserEntity GetUserForLogin(string email, string password);
+         bool IsExistUser(string email, string password);
+
         #endregion
 
-        #region forgatpassword
+        #region forgotpassword
 
-        public bool checkEmail(string email);
-        public bool forgatPassword (string email);
+        public bool ForgotPassword (string email);
 
-      //  public bool checkActive(string active);
+      
+        public bool ResetPassword( string newpassword);
 
-       
-       
-
+        public bool ActivactionCod(string activationCode);
         
         #endregion
 

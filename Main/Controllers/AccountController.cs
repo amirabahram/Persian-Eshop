@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Main.Application.Services.Interfaces;
 using Main.Domain.ViewModel.User;
-using Main.Application.Services.Interfaces;
-using Main.Domain.Models.User;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.CodeAnalysis.Emit;
+using NuGet.Protocol.Plugins;
+using System.Security.Claims;
 
 namespace Main.web.Controllers
 
@@ -25,6 +26,7 @@ namespace Main.web.Controllers
         {
             return View();
         }
+
         [Route("register")]
         [HttpPost]
         public IActionResult RegisterUser(UserRegisterViewModel Vmodel)
@@ -38,7 +40,6 @@ namespace Main.web.Controllers
                         return View("RegisterSuccess");
                     case RegisterUserResult.EmailDuplicated:
                         ModelState.AddModelError("Email", "ایمیل شما تکراری می باشد.");
-
                         return View(Vmodel);
                     case RegisterUserResult.PasswrordAndRepasswordDoesNotMatch:
                         ModelState.AddModelError("Password", "پسوورد و تکرار پسوورد مطابقت ندارد");
@@ -48,7 +49,7 @@ namespace Main.web.Controllers
                 }
 
                 return View();
-                
+
 
             }
             return View(Vmodel);
@@ -64,7 +65,7 @@ namespace Main.web.Controllers
 
 
         #region Login
-       
+
         [HttpGet("Login")]
         public IActionResult Login()
         {
@@ -72,65 +73,84 @@ namespace Main.web.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login(LoginViewModel  login)
+        public IActionResult Login(LoginViewModel login)
         {
-            if(!ModelState.IsValid)
-                return View("login");
+            if (!ModelState.IsValid)
+                return View(login);
 
-            var user = _regService.IsExistUser(login.Email, login.Password);
-           
-            if (user = false)
+        if  ( ! _regService.IsExistUser(login.Email, login.Password))
+            
             {
-                ModelState.AddModelError("email", " user not found");
-                return View( login);
+                ModelState.AddModelError("Email", "اطلاعات صحیح نیست");
+                return View(login);
             }
-          
-            //cooki
+
+
+            //var id = User.FindFirst("NameIdentifier").Value;
+            
 
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Email, login.Email),
+
+              
                 new Claim(ClaimTypes.NameIdentifier,login.Email)
             };
 
-            var identoty =new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal=new ClaimsPrincipal(identoty);
+            var identoty = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identoty);
             var propertties = new AuthenticationProperties()
             {
                 IsPersistent = login.RememberMe
             };
             HttpContext.SignInAsync(principal, propertties);
-            
-            return Redirect("/"); 
+
+            return Redirect("/");
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("");
         }
         #endregion
 
 
         #region ForgatPassword
 
-        public IActionResult ForagtPassword()
-        {
-            return View();
-        }
-       public IActionResult ForagtPassword( ForgatPassword  forgatpass )
-        {
-            if(ModelState.IsValid)
-            {
 
+        [HttpGet("ResetPassword/{activationCode}")]
+            public IActionResult ResetPassword(string activationCode)
+        {
+
+            var x =_regService.ActivactionCod(activationCode);
+            if(x==null)
+                return NotFound("یوزری پیدا نشد ");
+
+
+            return View(new ForgotPasswordViewModel { ActivationCode = activationCode });
+        }
+
+        [HttpPost("ResetPassword/{activationCode}")]
+        public IActionResult ResetPassword(ForgotPasswordViewModel newpass)
+        {
+            if (newpass == null)
+                return NotFound("موردی پیدا نشد");
+           
+            if (!ModelState.IsValid)
+                return View(newpass);
             
-                 var forgatpassword = _regService.forgatPassword(forgatpass.Email );
-                if (forgatpassword = false)
-                {
-                   
-                    return View();
-                }
-              
-            }
+
+
+         
+          
             return View();
+     
         }
+
+       
+
+
         #endregion
-
-
 
 
     }

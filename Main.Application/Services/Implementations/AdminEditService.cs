@@ -85,6 +85,7 @@ namespace Main.Application.Services.Implementations
             user.IsAdmin = upd.IsAdmin;
             user.Password = upd.Password;
             user.PhoneNumber = upd.PhoneNumber;
+
             bool res = _adminRepo.Update(user);
             await _adminRepo.Save();
             if (res)

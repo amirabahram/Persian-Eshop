@@ -2,9 +2,10 @@
 
 namespace Main.Domain.ViewModel.User
 {
-    public class ForgatPassword
+    public class ForgotPasswordViewModel
     {
-
+        public string ActivationCode { get; set; }
+      
         [Required(ErrorMessage = "فیلد پسورد اجباری می باشد ")]
         public string Newpassword { get; set; }
 
@@ -17,6 +18,15 @@ namespace Main.Domain.ViewModel.User
 
         [Required(ErrorMessage = "فیلد ایمیل تکراری می باشد ")]
         public string Email { get; set; }
+
+        public enum ResualtForgatPassword
+        {
+            Success,
+            Empty,
+            PasswrordAndRepasswordDoesNotMatch
+
+
+        }
 
     }
 
