@@ -1,9 +1,13 @@
 ﻿using Main.Application.Services.Implementations;
 using Main.Application.Services.Interfaces;
+using Main.Data.Context;
 using Main.Data.Repositories;
 using Main.Domain.Interfaces;
 using Main.Domain.Repositories;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace Main.IoC
 {
@@ -15,12 +19,10 @@ namespace Main.IoC
             services.AddScoped<IFaqService, FaqService>();
             services.AddScoped<IAboutUsServices, AboutUsServices>();
             services.AddScoped<IAboutUsRepository, AboutUsRepository>();
-            services.AddScoped<IRegisterRepository, RegisterRepository>();
-            services.AddScoped<IUserRegisterService, UserRegisterService>();
             services.AddScoped<IEmailSender, EmailSender>();
-            services.AddScoped<IAdminEditRepository, AdminEditRepository>();
-            services.AddScoped<IAdminEditService, AdminEditService>();
-            
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+
         }
     }
 }

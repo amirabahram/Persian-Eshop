@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Main.Domain.Models.User;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Main.Domain.ViewModel.User
         [DataType(DataType.Password)]
         public string Password {  get; set; }
 
-       
+        [Display(Name ="مرا به خاطر بسپار")]
         public bool RememberMe { get; set; }
     }
 }

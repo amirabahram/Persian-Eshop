@@ -1,6 +1,7 @@
 using Main.Data.Context;
 using Main.IoC;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -35,6 +36,7 @@ DependencyContainers.RegisterServices(builder.Services);//related to IoC
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -51,7 +53,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+//by me!----> these are middlewares!
+app.UseAuthentication();
 app.UseAuthorization();
 
 //Area_Admin_ScaffoldingReadMe

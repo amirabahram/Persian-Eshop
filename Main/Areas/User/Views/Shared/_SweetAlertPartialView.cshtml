@@ -1,0 +1,33 @@
+﻿@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        Swal.fire(
+            'انجام شد!',
+            ' @TempData["SuccessMessage"]',
+            'success'
+        )
+    </script>
+}
+
+@if (TempData["Failed"] != null)
+{
+    <script>
+        Swal.fire(
+            'خطا در ثبت',
+            ' @TempData["Failed"]',
+            'error'
+        )
+
+    </script>
+}
+
+@if (TempData["UserNotFound"] != null)
+{
+    <script>
+        Swal.fire(
+           'خطا در ثبت',
+            ' @TempData["Error"]',
+            'error'
+        )
+    </script>
+}

@@ -1,4 +1,6 @@
 ﻿
+using Main.Domain.ViewModel.User;
+using Main.web.IdentityManager;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -15,6 +17,7 @@ namespace Main.Controllers
 
         public IActionResult Index()
         {
+            
             return View();
         }
 

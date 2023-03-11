@@ -13,11 +13,11 @@ namespace Main.web.Controllers
 {
     public class AccountController : Controller
     {
-        private IUserRegisterService _regService;
+        private IUserService _userService;
 
-        public AccountController(IUserRegisterService regService)
+        public AccountController(IUserService regService)
         {
-            _regService = regService;
+            _userService = regService;
         }
 
         [Route("register")]
@@ -33,7 +33,7 @@ namespace Main.web.Controllers
         {
             if (ModelState.IsValid)
             {
-                var insertresult = _regService.Register(Vmodel);
+                var insertresult = _userService.Register(Vmodel);
                 switch (insertresult)
                 {
                     case RegisterUserResult.Success:
@@ -59,7 +59,7 @@ namespace Main.web.Controllers
         [Route("SubmittDone/{activationCode}")]
         public IActionResult SubmittDone(string activationCode)
         {
-            _regService.ActiveUser(activationCode);
+            _userService.ActiveUser(activationCode);
             return View();
         }
 
@@ -75,11 +75,11 @@ namespace Main.web.Controllers
         [HttpPost("Login")]
         public IActionResult Login(LoginViewModel login)
         {
-            if (!ModelState.IsValid)
-                return View(login);
+            if(!ModelState.IsValid) return View("login");
 
-        if  ( ! _regService.IsExistUser(login.Email, login.Password))
-            
+            var user = _userService.IsExistUser(login.Email, login.Password);
+           
+            if (user == null)
             {
                 ModelState.AddModelError("Email", "اطلاعات صحیح نیست");
                 return View(login);
@@ -92,9 +92,7 @@ namespace Main.web.Controllers
             var claims = new List<Claim>()
             {
                 new Claim(ClaimTypes.Email, login.Email),
-
-              
-                new Claim(ClaimTypes.NameIdentifier,login.Email)
+                new Claim(ClaimTypes.NameIdentifier,user.Id.ToString())
             };
 
             var identoty = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -104,7 +102,7 @@ namespace Main.web.Controllers
                 IsPersistent = login.RememberMe
             };
             HttpContext.SignInAsync(principal, propertties);
-
+            
             return Redirect("/");
         }
         public IActionResult Logout()
@@ -141,13 +139,18 @@ namespace Main.web.Controllers
             
 
 
-         
-          
+            
+                 var forgatpassword = _userService.forgatPassword(forgatpass.Email );
+                if (forgatpassword = false)
+                {
+                   
+                    return View();
+                }
+              
+            }
             return View();
-     
         }
-
-       
+        #endregion
 
 
         #endregion

@@ -1,0 +1,48 @@
+﻿@model Main.Domain.Models.User.UserEntity
+
+
+<div class="col-md-12">
+    <div class="user-options">
+        <div class="user-option user-option--account">
+            <a href="profile.html" class="user-option-btn user-option-btn--account">
+                <i class="ri-user-fill icon"></i>
+                <i class="ri-arrow-down-s-fill icon fs-7 text-muted"></i>
+            </a>
+            <div class="user-option--dropdown user-option--dropdown-right">
+                <div class="profile-user-info ui-box">
+                    <div class="profile-detail">
+                        <div class="d-flex align-items-center">
+                            <div class="profile-avatar me-3">
+                                <img src="./theme-assets/images/avatar/default.png" alt="avatar">
+                            </div>
+                            <div class="profile-info">
+                                <a href="#" class="text-decoration-none text-dark fw-bold mb-2">
+                                    @Model.Name
+                                </a>
+                                <div class="text-muted fs-7 fw-bold">@Model.Email</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <ul class="nav nav-items-with-icon flex-column">
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index" asp-area="User">
+                                <i class="nav-link-icon ri-logout-box-r-line"></i>
+                                ورود به پنل کاربر
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Logout">
+                                <i class="nav-link-icon ri-logout-box-r-line"></i>
+                                خروج
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

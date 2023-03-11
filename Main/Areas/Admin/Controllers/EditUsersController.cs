@@ -6,17 +6,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace Main.web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+   
     public class EditUsersController : Controller
     {
-        private IAdminEditService _serv;
+        private IUserService _userService;
 
-        public EditUsersController(IAdminEditService serv)
+        public EditUsersController(IUserService serv)
         {
-            this._serv = serv;
+            this._userService = serv;
         }
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _serv.GetAllUsers());
+            return View(await _userService.GetAllUsers());
         }
         [HttpGet]
         public IActionResult CreateUser()
@@ -26,7 +28,7 @@ namespace Main.web.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateUser(CreateAdminViewModel model)
         {
-            bool Crt = await _serv.Insert(model);
+            bool Crt = await _userService.Insert(model);
             if(Crt)
             {
                 return RedirectToAction("Index");
@@ -40,7 +42,7 @@ namespace Main.web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> UpdateUser(int id)
         {
-            return View(await _serv.ShowUserForEdit(id));
+            return View(await _userService.ShowUserForEdit(id));
         }
         [HttpPost]
         public async Task<IActionResult> UpdateUser(UpdateAdminViewModel model)
@@ -52,7 +54,7 @@ namespace Main.web.Areas.Admin.Controllers
             }
             else
             {
-                UpdateUserResult result = await _serv.Update(model);
+                UpdateUserResult result = await _userService.Update(model);
                 switch (result)
                 {
                     case UpdateUserResult.Success:
@@ -75,19 +77,13 @@ namespace Main.web.Areas.Admin.Controllers
            
             return View(model);
         }
-        //[HttpGet]
-        //public IActionResult DeleteUser()
-        //{
-        //    TempData["Delete"] = "hhg";
-        //    return RedirectToAction("Index");
-        //}
+
         [HttpPost]
         public async Task<IActionResult> DeleteUser(int id)
         { 
-            await _serv.Delete(id);
+            await _userService.Delete(id);
             return JsonResponseStatus.Success();
-            ////refresh Command????
-            //return RedirectToAction("Index");
+
         }
     }
     

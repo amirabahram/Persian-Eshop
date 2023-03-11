@@ -1,11 +1,12 @@
 ﻿using Main.Domain.Models.AboutUs;
 using Main.Domain.Models.Faq;
 using Main.Domain.Models.User;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Main.Data.Context
 {
-    public class EshopContext : DbContext
+    public class EshopContext : DbContext 
     {
         public EshopContext(DbContextOptions<EshopContext> options) : base(options)
         {
