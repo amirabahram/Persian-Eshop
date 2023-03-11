@@ -32,7 +32,7 @@ namespace Main.Domain.Repositories
 
         public List<Faq> GetAllQuestions()
         {
-            return db.Faqs.Where(q =>  !q.IsDelete).ToList();
+            return db.Faqs.Where(q => !q.IsDelete).ToList();
         }
 
         public Faq GetFaqById(int id)

@@ -1,0 +1,26 @@
+﻿
+<!DOCTYPE html>
+<html lang="fa">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#2962ff">
+    <meta name="msapplication-navbutton-color" content="#2962ff">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#2962ff">
+    <title>@ViewData["Title"]</title>
+  <partial name="_HeaderRefrencePartialView" />
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <partial name="_HeaderPartialView" />
+         @RenderBody()
+        <partial name="_FooterPartialView" />
+    </div>
+
+    <partial name="_FooterRefrencePartialView" />
+    @RenderSection("scripts", required: false)
+</body>
+</html>

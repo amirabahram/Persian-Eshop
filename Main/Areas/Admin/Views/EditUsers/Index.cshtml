@@ -14,7 +14,7 @@
         <div class="header bordered-pink">
 
             <div class="col-md-6 col-sm-6 col-xs-6">
-                <a class="btn btn-default purple" asp-controller="EditUsers" asp-action="CreateUser"><i class="fa fa-plus"></i> افزودن کاربر جدید</a>
+                <a class="btn btn-default purple" asp-controller="EditUsers" asp-action="CreateUser" asp-area="Admin"><i class="fa fa-plus"></i> افزودن کاربر جدید</a>
             </div>
             <div class="col-md-offset-6">
                 لیست کاربران
@@ -111,7 +111,7 @@
                                 @item.CreateDate
                             </td>
                             <td>
-                                <a asp-controller="EditUsers" asp-action="UpdateUser" asp-route-id="@item.Id" class="btn btn-default btn-xs purple"><i class="fa fa-edit"></i> ویرایش</a>
+                                <a asp-controller="Users" asp-action="UpdateUser" asp-route-id="@item.Id" class="btn btn-default btn-xs purple"><i class="fa fa-edit"></i> ویرایش</a>
                                 <a onclick="DeleteAjax(@item.Id)" class="btn btn-default btn-xs black"><i class="fa fa-trash-o"></i> حذف</a>
 
 
@@ -144,39 +144,49 @@
                 confirmButtonText: 'Yes, delete it!',
                 cancelButtonText: 'No, cancel!',
                 reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: 'POST',
-
-                        url: "/Admin/EditUsers/DeleteUser",
-                        data: { id: id },
-                        success: function (data) {   /*-->this data is for ActionMethod return value!*/
-                            if (data.status == "Success") {
-                                swal.fire(
+                }).then((result) =>
+                {
+                    if (result.isConfirmed)
+                    {
+                        $.ajax({
+                             type: 'POST',
+                             url: "/Admin/EditUsers/DeleteUser",
+                             data: { id: id },
+                            success: function (data)
+                            {   /*-->this data is for ActionMethod return value!*/
+                                if (data.status == "Success")
+                                {
+                                    setTimeout(function () {
+                                        window.location.reload();
+                                    }, 4000)
+                                    swal.fire
+                                    (
                                     'Deleted!',
                                     'Your file has been deleted.',
                                     'success'
-                                )
-                            }
-                        },
-                        error: function () {
+                                    )
+                                }
+                            },
+                            error: function ()
+                            {
                             swal.fire(
                                 'Cancelled',
                                 'Your imaginary file is safe :)',
                                 'error'
-                            )
-                        }
-                    });
-                }
-                else if (result.dismiss === Swal.DismissReason.cancel) {
-                    swal.fire(
+                                     )
+                            }
+                        });
+                    }
+                    else if (result.dismiss === Swal.DismissReason.cancel)
+                    {
+                        swal.fire
+                        (
                         'Cancelled',
                         'Your imaginary file is safe :)',
                         'error'
-                    );
-                }
-            });
+                        )
+                    }
+            })
         }
     </script>
 }
