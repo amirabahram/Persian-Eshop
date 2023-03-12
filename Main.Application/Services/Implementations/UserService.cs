@@ -93,14 +93,14 @@ namespace Main.Application.Services.Implementations
             await _userRepository.Save();
             if (res)
             {
-                
+
                 return UpdateUserResult.Success;
             }
             else
             {
                 return UpdateUserResult.Failed;
             }
-            
+
         }
 
 
@@ -146,10 +146,11 @@ namespace Main.Application.Services.Implementations
         public bool checkEmail(string email)
         {
             var checkemail = _userRepository.IsUserExistByEmail(email);
-            if (checkemail == false)
+            if (checkemail == null)
             {
                 return false;
             }
+
             return true;
         }
 
@@ -164,6 +165,7 @@ namespace Main.Application.Services.Implementations
 
             return false;
         }
+
 
         //public bool forgatpassword(ForgatPassword user)
         //{
@@ -231,11 +233,11 @@ namespace Main.Application.Services.Implementations
 
         public async Task<string> GetPasswordById(int id)
         {
-            UserEntity user= await _userRepository.GetUserForEditById(id);
+            UserEntity user = await _userRepository.GetUserForEditById(id);
             return user.Password;
         }
 
-        public async Task<bool> UpdatePassword(string newPassword,int id)
+        public async Task<bool> UpdatePassword(string newPassword, int id)
         {
             UserEntity user = await _userRepository.GetUserForEditById(id);
             if (user == null) return false;
@@ -245,10 +247,96 @@ namespace Main.Application.Services.Implementations
         }
 
 
+
+
+
         #endregion
+        #region forgatpassword
 
 
+        public ForgotPasswordViewModel GetUserByActivationCode(string activationCode)
+        {
+            if (activationCode != null)
+            {
+                var res = _userRepository.ActivectionCode(activationCode);
+                if (res == true)
+                {
+                    var user = _userRepository.GetUserByActivationCode(activationCode);
+                    if (user != null)
+                    {
+                        var userViewModel = new ForgotPasswordViewModel
+                        {
+                            UserId = user.Id,
+                            //Email=user.Email,
+                            //PhoneNumber=user.PhoneNumber,
+                            //AvatarName=user.AvatarName,
+                            //ActivitationCode=user.ActivitationCode,
+                            //IsActive=user.IsActive,
+                            //IsAdmin=user.IsAdmin,
+                            //Name=user.Name,
+                            //Family=user.Family,
+                            //IsDelete=user.IsDelete
 
+                        };
+                        return userViewModel;
+                    }
+                }
+
+            }
+            return null;
+        }
+
+        public async Task<bool> ForgotPasswordGetBayEmail(string email)
+        {
+            var user = _userRepository.GetUserBayEmail(email);
+
+
+            if (user != null)
+            {
+                var activeCode = user.ActivitationCode;
+
+                var sendEmail = await _emailSender.EmailSending(email, "forgatpassword", $"<a href='https://localhost:7049/Account/ResetPassword{activeCode}'> لطفا روی این لینک کلیک کنید</a>");
+                return true;
+
+            }
+            return false;
+        }
+
+        
+
+        public async Task<UserEntity> GetUserById(int id)
+        {
+            return await _userRepository.GetUserForEditById(id);
+        }
+
+       
+
+        public async Task<bool> UpdatePassword(UserEntity entity)
+        {
+            if (entity != null)
+            {
+                //var user = new UserEntity
+                //{
+                //    Id = entity.id,
+                //    Password = entity.Newpassword.EncodePasswordMd5(),
+                //    Email = entity.Email,
+                //    PhoneNumber = entity.PhoneNumber,
+                //    ActivitationCode = entity.ActivitationCode,
+                //    AvatarName = entity.AvatarName,
+                //    Family = entity.Family,
+                //    IsActive = entity.IsActive,
+                //    IsAdmin = entity.IsAdmin,
+                //    Name = entity.Name,
+                //    IsDelete = (bool)entity.IsDelete
+                //};
+                _userRepository.UpdateUser(entity);
+                await _userRepository.Save();
+                return  true;
+            }
+            return false;
+        }
+
+        #endregion
 
 
     }

@@ -368,3 +368,4 @@ FodyWeavers.xsd
 /Main.Data/Migrations/20230228113050_initUsers.Designer.cs
 /Main.Data/Migrations/20230305091432_addSomeField.cs
 /Main.Data/Migrations/20230305091432_addSomeField.Designer.cs
+/Main.Data/Migrations/20230310132623_init.cs

@@ -10,7 +10,7 @@ namespace Main.Application.Security
     public  static class Hash
     {
         //Encrypt using MD5   
-        public static string EncodePasswordMd5(string pass)
+        public static string EncodePasswordMd5(this string pass)
         {
             Byte[] originalBytes;
             Byte[] encodedBytes;
