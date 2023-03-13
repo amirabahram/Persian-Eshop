@@ -295,7 +295,7 @@ namespace Main.Application.Services.Implementations
             {
                 var activeCode = user.ActivitationCode;
 
-                var sendEmail = await _emailSender.EmailSending(email, "forgatpassword", $"<a href='https://localhost:7049/Account/ResetPassword{activeCode}'> لطفا روی این لینک کلیک کنید</a>");
+                var sendEmail = await _emailSender.EmailSending(email, "forgatpassword", $"<a href='https://localhost:7049/ResetPassword/{activeCode}'> لطفا روی این لینک کلیک کنید</a>");
                 return true;
 
             }

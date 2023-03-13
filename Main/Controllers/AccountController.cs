@@ -116,16 +116,17 @@ namespace Main.web.Controllers
 
         #region ForgatPassword
 
-        [HttpGet("ResetEmail")]
-        public IActionResult GetEmailViewModel()
+        [HttpGet("GetEmail")]
+        //public IActionResult GetEmailViewModel()
+        public IActionResult GetEmail()
         {
             return View();
 
         }
 
-        [HttpPost("ResetEmail")]
+        [HttpPost("GetEmail")]
 
-        public async Task<IActionResult> GetEmailForgotPassword(GetEmailViewModel getEmail)
+        public async Task<IActionResult> GetEmail(GetEmailViewModel getEmail)
         {
             if (ModelState.IsValid)
             {
@@ -153,7 +154,7 @@ namespace Main.web.Controllers
 
 
 
-        [HttpGet]
+        [HttpGet("ResetPassword/{activationCode}")]
         public IActionResult ResetPassword(string activationCode)
         {
 
@@ -166,7 +167,7 @@ namespace Main.web.Controllers
             return Redirect("/");
         }
 
-        [HttpPost]
+        [HttpPost("ResetPassword/{activationCode}")]
         public async Task<IActionResult> ResetPassword(ForgotPasswordViewModel foget)
         {
             if (ModelState.IsValid)
@@ -174,8 +175,10 @@ namespace Main.web.Controllers
                 var user = await _userService.GetUserById(foget.UserId);
                 user.Id = foget.UserId;
                 user.Password = foget.Newpassword.EncodePasswordMd5();
-               
-                await _userService.UpdatePassword(user);
+
+                var resualt = await _userService.UpdatePassword(user);
+
+
                 return RedirectToAction("Login");
             }
 
@@ -183,7 +186,25 @@ namespace Main.web.Controllers
         }
         #endregion
 
+        #region EditProfile
 
+
+        [HttpGet]
+        public IActionResult EditProfile()
+        {
+            return View();
+        }
+
+
+
+        [HttpPost]
+        public IActionResult EditProfile(int id )
+        {
+            return View();
+        }
+
+
+        #endregion
 
 
 
