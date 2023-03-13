@@ -21,9 +21,6 @@ builder.Services.AddAuthentication(Options =>
     Options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     Options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     Options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-
-
-
 }).AddCookie(Options =>
 {
     Options.LoginPath = "/Login";

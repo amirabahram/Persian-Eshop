@@ -87,11 +87,7 @@ namespace Main.Data.Repositories
         }
 
         #region ForgatPassword
-        public bool checkeUser(string email)
-        {
-            return db.Users.Any(u => u.Email == email);
-
-        }
+      
 
         public bool IsUserExistByEmail(string email)
         {
@@ -102,24 +98,23 @@ namespace Main.Data.Repositories
         {
             return db.Users.FirstOrDefault(u => u.Email == email);
         }
-
-        //public bool GetActiveCode(string email)
-        //{
-        //    var n=  db.Users.FirstOrDefault(u => u.Email == email).ActivitationCode;
-        //    return 
-
-        //}
-
-
-
-
-
-
-        //public bool checkAvtiveUser(string active)
-        //{
-        //    return db.Users.FirstOrDefault
-        //}
         #endregion
+
+        #region activationforgotpassword
+
+
+
+        public bool ActivectionCode(string activationCode)
+        {
+            return db.Users.Any(u => u.ActivitationCode == activationCode);
+        }
+
+
+        #endregion
+
+
+
+
 
 
     }

@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Main.Application.Services.Interfaces;
+using Microsoft.Extensions.Configuration;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
-using Main.Application.Services.Interfaces;
 
 namespace Main.Application.Services.Implementations
 {
     public class EmailSender : IEmailSender
     {
+        private readonly IConfiguration _configuration;
+
+        public EmailSender(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public async Task<bool> EmailSending(string email, string subject, string body)
         {
             string fromEmail = "amiralaei70@gmail.com";
-            string password = "qmlbuzippyhbfhyi";
-
+            string password = "qmlbuzippyhbfhyi"; 
             try
             {
                 var mail = new MailMessage();
@@ -39,7 +41,7 @@ namespace Main.Application.Services.Implementations
                 smtpServer.EnableSsl = true;
 
                 smtpServer.Send(mail);
-                return  true;
+                return true;
             }
             catch (Exception)
             {
@@ -49,5 +51,5 @@ namespace Main.Application.Services.Implementations
         }
     }
 }
-        
-        
+
+

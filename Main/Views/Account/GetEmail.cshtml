@@ -1,0 +1,44 @@
+﻿@using Main.Domain.ViewModel.User
+@model GetEmailViewModel
+@{
+    ViewData["Title"] = "صفحه ثبت نام";
+    Layout = "_LayoutAccount";
+}
+
+        <div class="page-wrapper">
+      
+        <main class="page-content page-auth">
+            <!-- start of auth-container -->
+            <div class="auth-container">
+                <div class="auth-title mb-3">فراموشی رمز  </div>
+                <!-- start of auth-box -->
+                <div class="auth-box ui-box">
+                    <!-- start of auth-form -->
+                <form href="/ResetEmail" method="post" class="auth-form">
+                        <!-- start of form-element -->
+                        <div class="loginbox-textbox">
+                            <input asp-for="Email" type="email" class="form-control" placeholder="Email" />
+                            <span asp-validation-for="Email"></span>
+
+                        </div>
+
+                        <div class="form-element-row mb-3">
+                            @*<button class="btn btn-primary">ادامه</button>*@
+                            <input type="submit"class="btn btn-primary" />
+                        </div>
+                  
+                    
+                        <!-- end of form-element -->
+                    </form>
+                    <!-- end of auth-form -->
+                </div>
+                <!-- end of auth-box -->
+            </div>
+            <!-- start of auth-container -->
+        </main>
+   
+    </div>
+
+    <partial name="LinkPartialScriptEmail" />
+
+

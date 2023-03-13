@@ -36,6 +36,8 @@ namespace Main.Domain.Interfaces
         #region forgatpassword
 
         UserEntity GetUserBayEmail(string email);
+        bool ActivectionCode(string activationCode);
+ 
 
         #endregion
 

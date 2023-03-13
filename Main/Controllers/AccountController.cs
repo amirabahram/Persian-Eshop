@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Main.Domain.ViewModel.User;
+﻿using Main.Application.Security;
 using Main.Application.Services.Interfaces;
-using Main.Domain.Models.User;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Main.Domain.ViewModel.User;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.CodeAnalysis.Emit;
+using NuGet.Protocol.Plugins;
+using System.Security.Claims;
 
 namespace Main.web.Controllers
 
@@ -25,6 +27,7 @@ namespace Main.web.Controllers
         {
             return View();
         }
+
         [Route("register")]
         [HttpPost]
         public IActionResult RegisterUser(UserRegisterViewModel Vmodel)
@@ -38,7 +41,6 @@ namespace Main.web.Controllers
                         return View("RegisterSuccess");
                     case RegisterUserResult.EmailDuplicated:
                         ModelState.AddModelError("Email", "ایمیل شما تکراری می باشد.");
-
                         return View(Vmodel);
                     case RegisterUserResult.PasswrordAndRepasswordDoesNotMatch:
                         ModelState.AddModelError("Password", "پسوورد و تکرار پسوورد مطابقت ندارد");
@@ -48,7 +50,7 @@ namespace Main.web.Controllers
                 }
 
                 return View();
-                
+
 
             }
             return View(Vmodel);
@@ -64,7 +66,7 @@ namespace Main.web.Controllers
 
 
         #region Login
-       
+
         [HttpGet("Login")]
         public IActionResult Login()
         {
@@ -72,19 +74,21 @@ namespace Main.web.Controllers
         }
 
         [HttpPost("Login")]
-        public IActionResult Login(LoginViewModel  login)
+        public IActionResult Login(LoginViewModel login)
         {
-            if(!ModelState.IsValid) return View("login");
+            if (!ModelState.IsValid) return View("login");
 
             var user = _userService.IsExistUser(login.Email, login.Password);
-           
+
             if (user == null)
             {
-                ModelState.AddModelError("email", " user not found");
-                return View( login);
+                ModelState.AddModelError("Email", "اطلاعات صحیح نیست");
+                return View(login);
             }
-          
-            //cooki
+
+
+            //var id = User.FindFirst("NameIdentifier").Value;
+
 
             var claims = new List<Claim>()
             {
@@ -92,43 +96,115 @@ namespace Main.web.Controllers
                 new Claim(ClaimTypes.NameIdentifier,user.Id.ToString())
             };
 
-            var identoty =new ClaimsIdentity(claims,CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal=new ClaimsPrincipal(identoty);
+            var identoty = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identoty);
             var propertties = new AuthenticationProperties()
             {
                 IsPersistent = login.RememberMe
             };
             HttpContext.SignInAsync(principal, propertties);
-            
+
             return Redirect("/");
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("");
         }
         #endregion
 
 
         #region ForgatPassword
 
-        public IActionResult ForagtPassword()
+        [HttpGet("GetEmail")]
+        //public IActionResult GetEmailViewModel()
+        public IActionResult GetEmail()
         {
             return View();
-        }
-       public IActionResult ForagtPassword( ForgatPassword  forgatpass )
-        {
-            if(ModelState.IsValid)
-            {
 
-            
-                 var forgatpassword = _userService.forgatPassword(forgatpass.Email );
-                if (forgatpassword = false)
+        }
+
+        [HttpPost("GetEmail")]
+
+        public async Task<IActionResult> GetEmail(GetEmailViewModel getEmail)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = _userService.checkEmail(getEmail.Email);
+                if (user == true)
                 {
-                   
-                    return View();
+                    var res = await _userService.ForgotPasswordGetBayEmail(getEmail.Email);
+                    if (res == true)
+                    {
+                        ViewBag.text = "لینک باز یابی با موفقیت ارسال شد ";
+                    }
+
                 }
-              
+                else
+                    ViewBag.text = "خطا در ارسال ";
+                return PartialView("SendEmailResult");
+
             }
+
+            return Redirect("/");
+
+
+
+        }
+
+
+
+        [HttpGet("ResetPassword/{activationCode}")]
+        public IActionResult ResetPassword(string activationCode)
+        {
+
+            ForgotPasswordViewModel x = _userService.GetUserByActivationCode(activationCode);
+
+            if (x != null)
+                return View( new ForgotPasswordViewModel() { UserId=x.UserId});
+
+
+            return Redirect("/");
+        }
+
+        [HttpPost("ResetPassword/{activationCode}")]
+        public async Task<IActionResult> ResetPassword(ForgotPasswordViewModel foget)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userService.GetUserById(foget.UserId);
+                user.Id = foget.UserId;
+                user.Password = foget.Newpassword.EncodePasswordMd5();
+
+                var resualt = await _userService.UpdatePassword(user);
+
+
+                return RedirectToAction("Login");
+            }
+
             return View();
         }
         #endregion
 
+        #region EditProfile
+
+
+        [HttpGet]
+        public IActionResult EditProfile()
+        {
+            return View();
+        }
+
+
+
+        [HttpPost]
+        public IActionResult EditProfile(int id )
+        {
+            return View();
+        }
+
+
+        #endregion
 
 
 

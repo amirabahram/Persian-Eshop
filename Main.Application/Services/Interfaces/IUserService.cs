@@ -36,17 +36,20 @@ namespace Main.Application.Services.Interfaces
         #region ChangePassword
         Task<string> GetPasswordById(int id);
         Task<bool> UpdatePassword(string newPassword,int id);
+        
         #endregion
 
         #region forgatpassword
 
         public bool checkEmail(string email);
-        public bool forgatPassword(string email);
+        public Task<bool> ForgotPasswordGetBayEmail(string email);
 
+        public ForgotPasswordViewModel GetUserByActivationCode(string activationCode);
         //  public bool checkActive(string active);
 
 
-
+        Task<UserEntity> GetUserById(int id);
+        Task<bool> UpdatePassword(UserEntity entity);
 
 
         #endregion
