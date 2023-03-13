@@ -2,34 +2,44 @@
 
 
 
-
 @{
-    ViewData["title"] = "فرم پرسش و پاسخ ادمین";
+    ViewData["Title"] = "صفحه سوالات متداول سمت ادمین";
+
+    Layout = "_AdminLayout";
 }
-<a class="btn btn-default purple" asp-controller="Faq" asp-action="CreatFaq"><i class="fa fa-plus"></i> اضافه کردن</a>
-<table class="table table-striped">
-    <thead class="thead dark">
-        <tr>
-            <th>پرسش</th>
-            <th>پاسخ</th>
-            <th></th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach(var item in Model)
-        {
-        <tr>
-            <td>@item.Question</td>
-            <td>@item.Answer</td>
-            <td>
-                <a asp-controller="Faq" asp-action="EditFaq" asp-route-id="@item.Id"> ویرایش </a>
-            </td>
-            <td>
-                <a asp-controller="Faq" asp-action="DeleteFaq" asp-route-id="@item.Id"> حذف </a>
-            </td>
-        </tr>
-            
-            }
-    </tbody>
-</table>
+<div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+        <div class="page-content">
+            <div class="col-xs-12 col-md-12 col-sm-12">
+                <a class="btn btn-default purple" asp-controller="Faq" asp-action="CreatFaq"><i class="fa fa-plus"></i> اضافه کردن</a>
+                <table class="table table-striped">
+                    <thead class="thead dark">
+                        <tr>
+                            <th>پرسش</th>
+                            <th>پاسخ</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Question</td>
+                                <td>@item.Answer</td>
+                                <td>
+                                    <a asp-controller="Faq" asp-action="EditFaq" asp-route-id="@item.Id"> ویرایش </a>
+                                </td>
+                                <td>
+                                    <a asp-controller="Faq" asp-action="DeleteFaq" asp-route-id="@item.Id"> حذف </a>
+                                </td>
+                            </tr>
+
+                        }
+                    </tbody>
+                </table>
+                </div>
+                </div>
+                </div>
+                </div>

@@ -1,162 +1,189 @@
-﻿
+﻿@model Main.Domain.ViewModel.User.UserAvatarViewModel
 
-@{ 
+@{
     ViewData["Title"] = "پنل کاربر";
-    
+
 }
 
 
 <main class="page-content">
+
     <div class="container">
-            <div class="row mb-5">
-                <div class="col-xl-3 col-lg-4 col-md-5 mb-md-0 mb-4">
-                    <div class="ui-sticky ui-sticky-top">
-                        <div class="profile-user-info py-3 ui-box bg-white">
-                            <div class="profile-detail">
-                                <div class="d-flex align-items-center">
-                                    <div class="profile-avatar me-3">
+        <div class="row mb-5">
 
-                                        <img src="/theme-assets/images/avatar/default.png" alt="avatar">
-                                    </div>
-                                    <div class="profile-info">
-                                        <a href="#" class="text-decoration-none text-dark fw-bold mb-2">
-                                            جلال بهرامی
-                                            راد
-                                        </a>
-                                        <div class="text-muted fs-7 fw-bold">۰۹xxxxxxxxx</div>
-                                    </div>
+            <div class="col-xl-3 col-lg-4 col-md-5 mb-md-0 mb-4">
+                <div class="ui-sticky ui-sticky-top">
+                    <div class="profile-user-info py-3 ui-box bg-white">
+                        <div class="profile-detail">
+                            <div class="d-flex align-items-center">
+                                <div class="profile-avatar me-3">
+                                    
+                                    <img id="img" src="/Images/@Model.AvatarName" alt="avatar">
                                 </div>
-                                <div class="user-options">
-                                    <ul>
-                                        <li>
-                                            <span class="label">کیف پول</span>
-                                            <span class="detail">
-                                                <span class="d-block">۰ <span class="currency fs-7 fw-bold">تومان</span></span>
-                                                <a href="#" class="link border-bottom-0 text-info fs-7 fw-bold">
-                                                    افزایش
-                                                    موجودی <i class="ri-arrow-left-s-line"></i>
-                                                </a>
-                                            </span>
-                                        </li>
-                                        <li>
-                                            <span class="label">باشگاه مشتریان</span>
-                                            <span class="detail">
-                                                <span class="d-block">۰ <span class="score text-muted fs-7">امتیاز</span></span>
-                                            </span>
-                                        </li>
-                                    </ul>
+                                <div class="profile-info">
+                                    <a href="#" class="text-decoration-none text-dark fw-bold mb-2">
+                                        جلال بهرامی
+                                        راد
+                                    </a>
+                                    <div class="text-muted fs-7 fw-bold">۰۹xxxxxxxxx</div>
                                 </div>
                             </div>
-                            <ul class="nav nav-items-with-icon flex-column">
-
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-controller="ChangePassword" asp-action="UserPasswordChange" asp-area="User">
-                                        <i class="nav-link-icon ri-user-line"></i>
-                                        تغییر رمز عبور
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <i class="nav-link-icon ri-user-line"></i> اطلاعات
-                                        حساب
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#">
-                                        <i class="nav-link-icon ri-logout-box-r-line"></i>
-                                        خروج
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-9 col-lg-8 col-md-7">
-
-                    <div class="ui-box bg-white mb-5">
-                        <div class="ui-box-title">اطلاعات شخصی</div>
-                        <div class="ui-box-content">
-                            <div class="row">
-                                <div class="col-lg-6 mb-3">
-                                    <div class="border-bottom py-2">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="fs-7 fw-bold text-dark">نام و نام خانوادگی</div>
-                                            <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-fullname-modal"><i class="ri-ball-pen-fill"></i></button>
-                                        </div>
-                                        <div class="fs-6 fw-bold text-muted">جلال بهرامی راد</div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="border-bottom py-2">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="fs-7 fw-bold text-dark">کد ملی</div>
-                                            <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-national-id-modal"><i class="ri-ball-pen-fill"></i></button>
-                                        </div>
-                                        <div class="fs-6 fw-bold text-muted">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="border-bottom py-2">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="fs-7 fw-bold text-dark">شماره تلفن همراه</div>
-                                            <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-phone-number-modal"><i class="ri-ball-pen-fill"></i></button>
-                                        </div>
-                                        <div class="fs-6 fw-bold text-muted">09xxxxxxxxx</div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="border-bottom py-2">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="fs-7 fw-bold text-dark">پست الکترونیک</div>
-                                            <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-email-modal"><i class="ri-ball-pen-fill"></i></button>
-                                        </div>
-                                        <div class="fs-6 fw-bold text-muted">example@example.com</div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="border-bottom py-2">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="fs-7 fw-bold text-dark">تاریخ تولد</div>
-                                            <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-birth-modal"><i class="ri-ball-pen-fill"></i></button>
-                                        </div>
-                                        <div class="fs-6 fw-bold text-muted">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="border-bottom py-2">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="fs-7 fw-bold text-dark">روش بازگرداندن وجه</div>
-                                            <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-returned-modal"><i class="ri-ball-pen-fill"></i></button>
-                                        </div>
-                                        <div class="fs-6 fw-bold text-muted">-</div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 mb-3">
-                                    <div class="border-bottom py-2">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div class="fs-7 fw-bold text-dark">رمز عبور</div>
-                                            <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-change-password-modal"><i class="ri-ball-pen-fill"></i></button>
-                                        </div>
-                                        <div class="fs-6 fw-bold text-muted">-</div>
-                                    </div>
-                                </div>
+                            <div class="user-options">
+                                <ul>
+                                    <li>
+                                        <span class="label">کیف پول</span>
+                                        <span class="detail">
+                                            <span class="d-block">۰ <span class="currency fs-7 fw-bold">تومان</span></span>
+                                            <a href="#" class="link border-bottom-0 text-info fs-7 fw-bold">
+                                                افزایش
+                                                موجودی <i class="ri-arrow-left-s-line"></i>
+                                            </a>
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <span class="label">باشگاه مشتریان</span>
+                                        <span class="detail">
+                                            <span class="d-block">۰ <span class="score text-muted fs-7">امتیاز</span></span>
+                                        </span>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
+                        <ul class="nav nav-items-with-icon flex-column">
+
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="ChangePassword" asp-action="UserPasswordChange" asp-area="User">
+                                    <i class="nav-link-icon ri-user-line"></i>
+                                    تغییر رمز عبور
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="nav-link-icon ri-user-line"></i> اطلاعات
+                                    حساب
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">
+                                    <i class="nav-link-icon ri-logout-box-r-line"></i>
+                                    خروج
+                                </a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-
-
-
-                
-
-
-
             </div>
+
+            <div class="col-xl-9 col-lg-8 col-md-7">
+
+                <div class="ui-box bg-white mb-5">
+                    <div class="ui-box-title">اطلاعات شخصی</div>
+                    <div class="ui-box-content">
+                        <div class="row">
+                            <div class="col-lg-6 mb-3">
+                                <div class="border-bottom py-2">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="fs-7 fw-bold text-dark">نام و نام خانوادگی</div>
+                                        <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-fullname-modal"><i class="ri-ball-pen-fill"></i></button>
+                                    </div>
+                                    <div class="fs-6 fw-bold text-muted">جلال بهرامی راد</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                                <div class="border-bottom py-2">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="fs-7 fw-bold text-dark">کد ملی</div>
+                                        <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-national-id-modal"><i class="ri-ball-pen-fill"></i></button>
+                                    </div>
+                                    <div class="fs-6 fw-bold text-muted">-</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                                <div class="border-bottom py-2">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="fs-7 fw-bold text-dark">شماره تلفن همراه</div>
+                                        <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-phone-number-modal"><i class="ri-ball-pen-fill"></i></button>
+                                    </div>
+                                    <div class="fs-6 fw-bold text-muted">09xxxxxxxxx</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                                <div class="border-bottom py-2">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="fs-7 fw-bold text-dark">پست الکترونیک</div>
+                                        <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-email-modal"><i class="ri-ball-pen-fill"></i></button>
+                                    </div>
+                                    <div class="fs-6 fw-bold text-muted">example@example.com</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                                <div class="border-bottom py-2">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="fs-7 fw-bold text-dark">تاریخ تولد</div>
+                                        <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-birth-modal"><i class="ri-ball-pen-fill"></i></button>
+                                    </div>
+                                    <div class="fs-6 fw-bold text-muted">-</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                                <div class="border-bottom py-2">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="fs-7 fw-bold text-dark">روش بازگرداندن وجه</div>
+                                        <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-returned-modal"><i class="ri-ball-pen-fill"></i></button>
+                                    </div>
+                                    <div class="fs-6 fw-bold text-muted">-</div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                                <div class="border-bottom py-2">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="fs-7 fw-bold text-dark">رمز عبور</div>
+                                        <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-change-password-modal"><i class="ri-ball-pen-fill"></i></button>
+                                    </div>
+                                    <div class="fs-6 fw-bold text-muted">-</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
 
 
         </div>
 
+
+    </div>
+
     <!-- start of remove-from-favorite-modal -->
     <!-- end of remove-from-favorite-modal -->
 </main>
+@Html.Partial("~/Areas/User/Views/User/UploadImage.cshtml")
+@section scripts{
+    
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#img").click(function () {
+
+                $('#uploadModal').modal('show');
+                //$('.imageupload').on("change", function () {
+                //    var filename = $(this).val().splitt("\\").pop();
+                //})
+            })
+        })
+    </script>
+    <script>
+
+        //function PopUp(element) {
+        //    $('#modal').trigger('click');
+        //}
+
+
+
+
+    </script>
+}

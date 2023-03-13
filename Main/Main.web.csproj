@@ -34,6 +34,7 @@
     <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\CssAboutus\" />
     <Folder Include="wwwroot\ImagAbout\" />
+    <Folder Include="wwwroot\Images\" />
   </ItemGroup>
 
   <ItemGroup>

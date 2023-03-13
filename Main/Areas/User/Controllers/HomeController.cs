@@ -1,13 +1,23 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Main.Application.Services.Interfaces;
+using Main.Domain.ViewModel.User;
+using Main.web.IdentityManager;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Main.web.Areas.User.Controllers
 {
     [Area("User")]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private IUserService _userService;
+        public HomeController(IUserService userService)
         {
-            return View();
+            this._userService = userService;
+        }
+        public async Task<IActionResult> Index(UserAvatarViewModel view)
+        {
+            int id = User.GetUserId();
+            view.AvatarName =  await _userService.GetAvatarNameById(id);
+            return View(view);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Main.Domain.Models.User;
 using Main.Domain.ViewModel.Admin;
 using Main.Domain.ViewModel.User;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,6 +51,10 @@ namespace Main.Application.Services.Interfaces
 
         #endregion
 
+        #region UploadImage
+        Task<bool> UploadImageByUser(IFormFile image,int id); 
+        Task<string> GetAvatarNameById(int id);
+        #endregion
 
 
     }

@@ -15,6 +15,7 @@ namespace Main.Domain.ViewModel.Admin
 
 
         public string? AvatarName { get; set; }
+        public string? AvatarUrl { get; set; }
 
         public  string?  Email { get; set; }
 

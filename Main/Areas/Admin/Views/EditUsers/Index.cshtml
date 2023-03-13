@@ -4,189 +4,194 @@
 @{
     ViewData["Title"] = "لیست کاربران";
 
-
+    Layout = "_AdminLayout";
 }
 
 
+<div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+        <div class="page-content">
+            <div class="col-xs-12 col-md-12 col-sm-12">
+                <div class="well with-header with-footer">
+                    <div class="header bordered-pink">
 
-<div class="col-xs-12 col-md-12 col-sm-12">
-    <div class="well with-header with-footer">
-        <div class="header bordered-pink">
-
-            <div class="col-md-6 col-sm-6 col-xs-6">
-                <a class="btn btn-default purple" asp-controller="EditUsers" asp-action="CreateUser" asp-area="Admin"><i class="fa fa-plus"></i> افزودن کاربر جدید</a>
-            </div>
-            <div class="col-md-offset-6">
-                لیست کاربران
-            </div>
-
-
-        </div>
-        <div class="table-scrollable">
-            <table class="table table-striped table-bordered table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            نام
-                        </th>
-                        <th>
-                            نام خانودادگی
-                        </th>
-                        <th>
-                            اسم عکس
-                        </th>
-                        <th>
-                            جنسیت
-                        </th>
-                        <th>
-                            ایمیل
-                        </th>
-                        <th>
-                            شماره موبایل
-                        </th>
-                        <th>
-                            رمز
-                        </th>
-                        <th>
-                            ادمین است؟
-                        </th>
-                        <th>
-                            کدفعالسازی
-                        </th>
-                        <th>
-                            فعال است؟
-                        </th>
-                        <th>
-                            حذف فعال است؟
-                        </th>
-                        <th>
-                            تاریخ ایجاد
-                        </th>
-                        <th>
-                            #
-                        </th>
-
-                    </tr>
-                </thead>
-                <tbody>
-
-                    @foreach (var item in Model)
-                    {
-
-                        <tr>
-                            <td>
-                                @item.Name
-                            </td>
-                            <td>
-                                @item.Family
-                            </td>
-                            <td>
-                                @item.AvatarName
-                            </td>
-                            <td>
-                                ....
-                            </td>
-                            <td>
-                                @item.Email
-                            </td>
-                            <td>
-                                @item.PhoneNumber
-                            </td>
-                            <td>
-                                @item.Password
-                            </td>
-                            <td>
-                                @item.IsAdmin
-                            </td>
-                            <td>
-                                @item.ActivitationCode
-                            </td>
-                            <td>
-                                @item.IsActive
-                            </td>
-                            <td>
-                                @item.IsDelete
-                            </td>
-                            <td>
-                                @item.CreateDate
-                            </td>
-                            <td>
-                                <a asp-controller="Users" asp-action="UpdateUser" asp-route-id="@item.Id" class="btn btn-default btn-xs purple"><i class="fa fa-edit"></i> ویرایش</a>
-                                <a onclick="DeleteAjax(@item.Id)" class="btn btn-default btn-xs black"><i class="fa fa-trash-o"></i> حذف</a>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <a class="btn btn-default purple" asp-controller="EditUsers" asp-action="CreateUser" asp-area="Admin"><i class="fa fa-plus"></i> افزودن کاربر جدید</a>
+                        </div>
+                        <div class="col-md-offset-6">
+                            لیست کاربران
+                        </div>
 
 
-                            </td>
-                        </tr>
+                    </div>
+                    <div class="table-scrollable">
+                        <table class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        نام
+                                    </th>
+                                    <th>
+                                        نام خانودادگی
+                                    </th>
+                                    <th>
+                                        تصویرکاربر
+                                    </th>
+                                    <th>
+                                        جنسیت
+                                    </th>
+                                    <th>
+                                        ایمیل
+                                    </th>
+                                    <th>
+                                        شماره موبایل
+                                    </th>
 
+                                    <th>
+                                        ادمین است؟
+                                    </th>
+                                    <th>
+                                        کدفعالسازی
+                                    </th>
+                                    <th>
+                                        فعال است؟
+                                    </th>
+                                    <th>
+                                        حذف فعال است؟
+                                    </th>
+                                    <th>
+                                        تاریخ ایجاد
+                                    </th>
+                                    <th>
+                                        #
+                                    </th>
 
-                    }
+                                </tr>
+                            </thead>
+                            <tbody>
 
-
-                </tbody>
-            </table>
-
-            <div class="footer">
-                <code>&lt; th class="hidden-xs" &gt;</code>
-            </div>
-        </div>
-    </div>
-</div>
-
-@section scripts{
-    <script type="text/javascript">
-        function DeleteAjax(id) {
-
-            swal.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes, delete it!',
-                cancelButtonText: 'No, cancel!',
-                reverseButtons: true
-                }).then((result) =>
-                {
-                    if (result.isConfirmed)
-                    {
-                        $.ajax({
-                             type: 'POST',
-                             url: "/Admin/EditUsers/DeleteUser",
-                             data: { id: id },
-                            success: function (data)
-                            {   /*-->this data is for ActionMethod return value!*/
-                                if (data.status == "Success")
+                                @foreach (var item in Model)
                                 {
-                                    setTimeout(function () {
-                                        window.location.reload();
-                                    }, 4000)
-                                    swal.fire
-                                    (
-                                    'Deleted!',
-                                    'Your file has been deleted.',
-                                    'success'
+
+                                    <tr>
+                                        <td>
+                                            @item.Name
+                                        </td>
+                                        <td>
+                                            @item.Family
+                                        </td>
+                                        <td>
+                                            @if (item.AvatarName == null)
+                                            {
+                                                <img src="/Images/115-1150821_default-avatar-comments-sign-in-icon-png" alt="Default" height="50px" width="50px">
+                                            }
+                                            @if (item.AvatarName != null)
+                                            {
+                                                <img src="/Images/@item.AvatarName" height="50px" width="50px" />
+                                            }
+
+                                        </td>
+                                        <td>
+                                            ....
+                                        </td>
+                                        <td>
+                                            @item.Email
+                                        </td>
+                                        <td>
+                                            @item.PhoneNumber
+                                        </td>
+
+                                        <td>
+                                            @item.IsAdmin
+                                        </td>
+                                        <td>
+                                            @item.ActivitationCode
+                                        </td>
+                                        <td>
+                                            @item.IsActive
+                                        </td>
+                                        <td>
+                                            @item.IsDelete
+                                        </td>
+                                        <td>
+                                            @item.CreateDate
+                                        </td>
+                                        <td>
+                                            <a asp-controller="EditUsers" asp-action="UpdateUser" asp-route-id="@item.Id" class="btn btn-default btn-xs purple"><i class="fa fa-edit"></i> ویرایش</a>
+                                            <a onclick="DeleteAjax(@item.Id)" class="btn btn-default btn-xs black"><i class="fa fa-trash-o"></i> حذف</a>
+
+
+                                        </td>
+                                    </tr>
+
+
+                                }
+
+
+                            </tbody>
+                        </table>
+
+                        <div class="footer">
+                            <code>&lt; th class="hidden-xs" &gt;</code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+        </div>
+
+        @section scripts{
+            <script type="text/javascript">
+                function DeleteAjax(id) {
+
+                    swal.fire({
+                        title: 'Are you sure?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Yes, delete it!',
+                        cancelButtonText: 'No, cancel!',
+                        reverseButtons: true
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: 'POST',
+                                url: "/Admin/EditUsers/DeleteUser",
+                                data: { id: id },
+                                success: function (data) {   /*-->this data is for ActionMethod return value!*/
+                                    if (data.status == "Success") {
+                                        setTimeout(function () {
+                                            window.location.reload();
+                                        }, 4000)
+                                        swal.fire
+                                            (
+                                                'Deleted!',
+                                                'Your file has been deleted.',
+                                                'success'
+                                            )
+                                    }
+                                },
+                                error: function () {
+                                    swal.fire(
+                                        'Cancelled',
+                                        'Your imaginary file is safe :)',
+                                        'error'
                                     )
                                 }
-                            },
-                            error: function ()
-                            {
-                            swal.fire(
-                                'Cancelled',
-                                'Your imaginary file is safe :)',
-                                'error'
-                                     )
-                            }
-                        });
-                    }
-                    else if (result.dismiss === Swal.DismissReason.cancel)
-                    {
-                        swal.fire
-                        (
-                        'Cancelled',
-                        'Your imaginary file is safe :)',
-                        'error'
-                        )
-                    }
-            })
+                            });
+                        }
+                        else if (result.dismiss === Swal.DismissReason.cancel) {
+                            swal.fire
+                                (
+                                    'Cancelled',
+                                    'Your imaginary file is safe :)',
+                                    'error'
+                                )
+                        }
+                    })
+                }
+            </script>
         }
-    </script>
-}

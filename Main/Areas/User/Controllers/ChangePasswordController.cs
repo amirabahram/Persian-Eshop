@@ -38,8 +38,8 @@ namespace Main.web.Areas.User.Controllers
             else
             {
                 await  _userService.UpdatePassword(viewModel.NewPassword,id);
-                return JsonResponseStatus.Success();
-                //return RedirectToAction("Index", "Home", new { area = "User" });
+                //return JsonResponseStatus.Success();
+                return Redirect("/Login");
 
             }
 

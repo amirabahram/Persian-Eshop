@@ -4,6 +4,7 @@ using Main.Domain.Interfaces;
 using Main.Domain.Models.User;
 using Main.Domain.ViewModel.Admin;
 using Main.Domain.ViewModel.User;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -242,6 +243,28 @@ namespace Main.Application.Services.Implementations
             user.Password = Hash.EncodePasswordMd5(newPassword);
             await _userRepository.Save();
             return true;
+        }
+
+        public async Task<bool> UploadImageByUser(IFormFile image,int id)
+        {
+            string imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/Images",
+                image.FileName);
+            UserEntity user = await _userRepository.GetUserForEditById(id);
+            if(user == null) return false;
+            using (var fileStream = new FileStream(imagePath, FileMode.Create))
+            {
+                await image.CopyToAsync(fileStream);
+            }
+            user.AvatarName = image.FileName;
+            
+            await _userRepository.Save();
+            return true;
+        }
+
+        public async Task<string> GetAvatarNameById(int id)
+        {
+            UserEntity user =  await _userRepository.GetUserForEditById(id);
+            return user.AvatarName;
         }
 
 

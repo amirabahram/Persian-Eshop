@@ -1,15 +1,28 @@
 ﻿@model Main.Domain.ViewModel.UpdateFaqViewModel
 
 
+@{
+    ViewData["Title"] = "صفحه ویرایش سوالات متداول سمت ادمین";
 
-<form asp-action="EditFaq" asp-controller="Faq" asp-area="Admin">
-    @*خود اینها  متد ای اس پی را روی پست می گذارند*@
-    <label>سوال:</label>
-    <input asp-for="Question" />
-    
-    <label>پاسخ:</label>
-    <textarea asp-for="Answer" rows="4" cols="50">
+    Layout = "_AdminLayout";
+}
+<div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+        <div class="page-content">
+            <div class="col-xs-12 col-md-12 col-sm-12">
+                <form asp-action="EditFaq" asp-controller="Faq" asp-area="Admin">
+                    @*خود اینها  متد ای اس پی را روی پست می گذارند*@
+                    <label>سوال:</label>
+                    <input asp-for="Question" />
+
+                    <label>پاسخ:</label>
+                    <textarea asp-for="Answer" rows="4" cols="50">
     
     </textarea>
-    <button type="submit" class="btn btn-success">به روزرسانی <i class="fa fa-check right"></i></button>
-</form>
+                    <button type="submit" class="btn btn-success">به روزرسانی <i class="fa fa-check right"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
