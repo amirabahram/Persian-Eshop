@@ -1,4 +1,4 @@
-﻿@model Main.Domain.ViewModel.User.UserAvatarViewModel 
+﻿@model Main.Domain.ViewModel.User.UserAvatarViewModel
 
   <!-- start of page-header -->
 <header class="page-header d-md-block d-none">
@@ -119,11 +119,11 @@
                                 <div class="profile-detail">
                                     <div class="d-flex align-items-center">
                                         <div class="profile-avatar me-3">
-                                            @if (Model.AvatarName == null)
+                                            @if (Model == null)
                                             {
                                                 <img src="/Images/115-1150821_default-avatar-comments-sign-in-icon-png.png" alt="avatar">
                                             }
-                                            @if (Model.AvatarName != null) 
+                                            @if (Model != null && Model.AvatarName != null) 
                                             {
                                                 <img src="/Images/@Model.AvatarName" />
                                             }

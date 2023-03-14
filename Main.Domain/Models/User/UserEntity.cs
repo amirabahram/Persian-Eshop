@@ -21,7 +21,7 @@ namespace Main.Domain.Models.User
         public string Email { get; set; }
 
         [MaxLength(250)]
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
 
         [Required]
         [MaxLength(250)]

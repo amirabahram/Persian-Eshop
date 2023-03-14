@@ -15,6 +15,7 @@ namespace Main.Domain.Interfaces
         Task Insert(UserEntity user);
         bool Update(UserEntity user);
         Task Save();
+        void SaveChanges();
 
         void Register(UserEntity user);
 
