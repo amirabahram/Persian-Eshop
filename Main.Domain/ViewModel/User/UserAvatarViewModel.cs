@@ -9,6 +9,6 @@ namespace Main.Domain.ViewModel.User
 {
     public class UserAvatarViewModel
     {
-        public string AvatarName { get; set; }
+        public string? AvatarName { get; set; }
     }
 }
