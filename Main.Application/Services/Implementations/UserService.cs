@@ -225,7 +225,7 @@ namespace Main.Application.Services.Implementations
             string code = Guid.NewGuid().ToString(); //Generates 16 digits Random number
             registerModel.ActivitationCode = code;
             _userRepository.Register(registerModel);
-            _userRepository.Save();
+            _userRepository.SaveChanges();
             _emailSender.EmailSending(registerModel.Email, "Eshop Email Vertification"
                 , $"<a href='https://localhost:7049/SubmittDone/{code}'> لطفا روی این لینک کلیک کنید</a>");
 
@@ -267,6 +267,7 @@ namespace Main.Application.Services.Implementations
         {
             UserEntity user =  await _userRepository.GetUserForEditById(id);
             return user.AvatarName;
+
         }
 
 

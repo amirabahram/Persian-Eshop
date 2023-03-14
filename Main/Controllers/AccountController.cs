@@ -109,7 +109,7 @@ namespace Main.web.Controllers
         public IActionResult Logout()
         {
             HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return Redirect("");
+            return Redirect("/");
         }
         #endregion
 
@@ -186,25 +186,7 @@ namespace Main.web.Controllers
         }
         #endregion
 
-        #region EditProfile
-
-
-        [HttpGet]
-        public IActionResult EditProfile()
-        {
-            return View();
-        }
-
-
-
-        [HttpPost]
-        public IActionResult EditProfile(int id )
-        {
-            return View();
-        }
-
-
-        #endregion
+       
 
 
 
