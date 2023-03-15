@@ -13,8 +13,8 @@ namespace Main.Domain.Models.Category
     {
         public string Title { get; set; }
         public int ParentId { get; set; }
-        public Category CategoryParent { get; set; }
+        public Category? CategoryParent { get; set; }
 
-        public List<Product.Product> Products { get; set; }
+        public List<Product.Product>? Products { get; set; } // List: because 1 Category can have many Products
     }
 }
