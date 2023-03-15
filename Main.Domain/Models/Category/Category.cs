@@ -13,7 +13,7 @@ namespace Main.Domain.Models.Category
 {
     public class Category: BaseEntity
     {
-        [MaxLength("50")]
+        [MaxLength(50)]
         [DisplayName("عنوان")]
         [Required(ErrorMessage ="وارد کردن عنوان اجباری می باشد!")]
         public string Title { get; set; }
