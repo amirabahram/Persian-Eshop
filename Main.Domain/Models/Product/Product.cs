@@ -21,8 +21,11 @@ namespace Main.Domain.Models.Product
         public int Count { get; set; }
 
         public List<Product_Image_Gallery.ProductImageGallery>? productImageGalleries { get; set; }
-        [ForeignKey("Id")]
-        public Category.Category? category { get; set; }
+       
+        [ForeignKey("CategoryId")]//recommended
+        public int CategoryId { get; set; }
+        public Category.Category Category { get; set; }
+        
       
       
         
