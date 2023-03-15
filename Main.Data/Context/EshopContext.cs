@@ -22,24 +22,24 @@ namespace Main.Data.Context
 
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<Product>   Products { get; set; }
-        public DbSet<Category>  categories { get; set; }
+        public DbSet<Category>  Categories { get; set; }
         public DbSet<ProductImageGallery> ProductImageGalleries { get; set; }
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            {
-                relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+        //    {
+        //        relationship.DeleteBehavior = DeleteBehavior.Restrict;
+        //    }
 
 
-            modelBuilder.Entity<Faq>().HasData(new Faq()
-            {
-                Id = 1,
-                Question = "سوال اول",
-                Answer = "پاسخ سوال اول"
-            });
+        //    modelBuilder.Entity<Faq>().HasData(new Faq()
+        //    {
+        //        Id = 1,
+        //        Question = "سوال اول",
+        //        Answer = "پاسخ سوال اول"
+        //    });
 
-            base.OnModelCreating(modelBuilder);
-        }
+        //    base.OnModelCreating(modelBuilder);
+        //}
     }
 }
