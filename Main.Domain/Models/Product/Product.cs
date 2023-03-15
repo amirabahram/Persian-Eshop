@@ -21,7 +21,9 @@ namespace Main.Domain.Models.Product
         public int Count { get; set; }
 
         public List<Product_Image_Gallery.ProductImageGallery>? productImageGalleries { get; set; }
-        [ForeignKey("Id")]
+        //public Category.Category CategoryId { get; set; }/// 2 rah darim ta moshakhas konim Foreign Key chand ast. ya im modeli ya estefade az attribute!
+        [ForeignKey("Id")]   //// /    in Id marbut be Category ast ke az Base Entity Ersbary Kardeast!
+        
         public Category.Category? category { get; set; }
       
       
