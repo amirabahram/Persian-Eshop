@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Main.Data.Migrations
 {
     [DbContext(typeof(EshopContext))]
-    [Migration("20230310132623_init")]
-    partial class init
+    [Migration("20230313112011_inital")]
+    partial class inital
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,6 +143,7 @@ namespace Main.Data.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("PhoneNumber")
+                        .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 

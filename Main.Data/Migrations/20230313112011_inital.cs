@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Main.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class inital : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -54,7 +54,7 @@ namespace Main.Data.Migrations
                     Family = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     AvatarName = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Password = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     IsAdmin = table.Column<bool>(type: "bit", maxLength: 250, nullable: true),
                     ActivitationCode = table.Column<string>(type: "nvarchar(max)", nullable: true),

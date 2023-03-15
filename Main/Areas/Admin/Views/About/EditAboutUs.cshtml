@@ -3,30 +3,39 @@
 @{
     ViewData["Title"] = "CreateAboutUs";
 }
-<div class="col-lg-6 col-sm-6 col-xs-12">
-    <div class="widget">
-        <div class="widget-header bordered-top bordered-palegreen">
-            <span class="widget-caption">Default Inputs</span>
-        </div>
-        <div class="widget-body">
-            <div class="collapse in">
-                <form asp-action="EditAboutUs" method="post" role="form" enctype="multipart/form-data">
-                    <input type="hidden" asp-for="Id"/>
-                    <div class="form-group">
-                        <label for="xsinput">موضوع</label>
-                        <input type="text" asp-for="Title" class="form-control input-xs" id="xsinput" placeholder="موصوع">
-                    </div>
-                    <div class="form-group">
-                        <label for="sminput">توضیحات </label>
-                        <textarea type="text" asp-for="Description" class="form-control input-sm" id="sminput" placeholder="توضیحات"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <input type="file" name="imageAbout" class="btn btn-danger">ارسال عکس
-                    </div>
-                    <button type="submit" class="btn btn-danger">ثبت </button>
+<div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+        <div class="page-content">
+            <div class="col-xs-12 col-md-12 col-sm-12">
+                <div class="col-lg-6 col-sm-6 col-xs-12">
+                    <div class="widget">
+                        <div class="widget-header bordered-top bordered-palegreen">
+                            <span class="widget-caption">Default Inputs</span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="collapse in">
+                                <form asp-action="EditAboutUs" method="post" role="form" enctype="multipart/form-data">
+                                    <input type="hidden" asp-for="Id" />
+                                    <div class="form-group">
+                                        <label for="xsinput">موضوع</label>
+                                        <input type="text" asp-for="Title" class="form-control input-xs" id="xsinput" placeholder="موصوع">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sminput">توضیحات </label>
+                                        <textarea type="text" asp-for="Description" class="form-control input-sm" id="sminput" placeholder="توضیحات"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="file" name="imageAbout" class="btn btn-danger">ارسال عکس
+                                    </div>
+                                    <button type="submit" class="btn btn-danger">ثبت </button>
 
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>
