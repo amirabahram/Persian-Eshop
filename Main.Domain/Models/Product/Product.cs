@@ -4,6 +4,7 @@ using Main.Domain.Models.Common;
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -15,13 +16,25 @@ namespace Main.Domain.Models.Product
 {
     public class Product: BaseEntity
     {
+        [Required]
         [MaxLength(50)]
+        [DisplayName("عنوان")]
         public string Title { get; set; }
         [MaxLength(350)]
+        [DisplayName("توضیحات")]
         public string Description { get; set; }
+
+
+        [DisplayName("قیمت")]
+        [Required]
         public int Price { get; set; }
+
         [MaxLength(50)]
+        [DisplayName("عکس")]
         public string MainImage { get; set; }
+
+
+        [DisplayName("تعداد")]
         public int Count { get; set; }
 
         public List<Product_Image_Gallery.ProductImageGallery>? productImageGalleries { get; set; }
