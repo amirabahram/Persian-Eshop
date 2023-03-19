@@ -22,6 +22,10 @@ namespace Main.IoC
             services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IProductServices, ProductServices>();
+            services.AddScoped<IProductImageGalleryRepository,ProductImageGalleryRepository >();
+            
 
         }
     }
