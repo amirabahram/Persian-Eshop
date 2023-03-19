@@ -12,9 +12,9 @@ namespace Main.Domain.ViewModel.User
     {
         [Required(ErrorMessage ="ایمیل اجباری می باشد")]
         public string  Email{ get; set; }
-        [Required(ErrorMessage ="فیلد نام اجباری می باشد")]
+        [Required(ErrorMessage ="فیلد کلمه عبور اجباری می باشد")]
         public string Password { get; set; }
-        [Required(ErrorMessage ="فیلد تکرار پسوورد اجباری می باشد")]
+        [Required(ErrorMessage ="فیلد تکرار کلمه عبور اجباری می باشد")]
         [Compare("Password", ErrorMessage ="پسوورد با تکرارپسسورد مطابقت نداشت!")]
         public string RePassword { get; set; }
 
