@@ -21,12 +21,12 @@ namespace Main.Data.Repositories
         }
         public async Task<List<Product>> GetAllProduct()
         {
-            return await _eshopContext.Products.Where(p=>p.IsDelete==false).ToListAsync();
+            return await _eshopContext.Products.Where(p=>p.IsDelete==false && p.IsActive==true).ToListAsync();
         }
 
         public async Task<Product> GetProductById(int Id)
         {
-            return await _eshopContext.Products.FirstOrDefaultAsync(p=>p.Id==Id);
+            return await _eshopContext.Products.FirstOrDefaultAsync(p=>p.Id==Id && p.IsDelete == false && p.IsActive == true);
         }
 
         public async Task InsertProduct(Product product)
