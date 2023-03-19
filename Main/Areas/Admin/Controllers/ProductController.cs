@@ -20,7 +20,6 @@ namespace Main.web.Areas.Admin.Controllers
             _productServices = productServices;
         }
 
-        [Area("Admin")]
         [HttpGet]
         public IActionResult IndexCategory()
         {
