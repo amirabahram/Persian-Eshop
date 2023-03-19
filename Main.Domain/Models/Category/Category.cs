@@ -23,4 +23,12 @@ namespace Main.Domain.Models.Category
 
         public List<Product.Product>? Products { get; set; } // List: because 1 Category can have many Products
     }
+
+    public enum UpdateCategoryResult
+    {
+        Success,
+        Failed,
+        DuplicatedCategory,
+        CategoryNotFound
+    }
 }

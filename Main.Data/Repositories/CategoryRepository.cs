@@ -23,9 +23,25 @@ namespace Main.Data.Repositories
             return await db.Categories.Where(c => c.IsDelete == false).ToListAsync();
         }
 
+        public async Task<Category> GetCategoryById(int id)
+        {
+            return db.Categories.FirstOrDefault(c => c.Id == id);
+        }
+
         public async Task InsertCategory(Category category)
         {
             db.Categories.Add(category);
+        }
+
+        public async Task<bool> IsDuplicated(string title)
+        {
+            if(db.Categories.Any(c => c.Title == title)) return true;
+            return false;
+        }
+
+        public async Task Save()
+        {
+            db.SaveChangesAsync();
         }
 
         public void UpdateCategory(Category category)
