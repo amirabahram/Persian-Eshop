@@ -19,25 +19,25 @@ namespace Main.Domain.Models.Product
         [Required]
         [MaxLength(50)]
         [DisplayName("عنوان")]
-        public string Title { get; set; }
+        public string? Title { get; set; }
         [MaxLength(350)]
         [DisplayName("توضیحات")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
 
         [DisplayName("قیمت")]
         [Required]
-        public int Price { get; set; }
+        public int? Price { get; set; }
 
         [MaxLength(50)]
         [DisplayName("عکس")]
-        public string MainImage { get; set; }
+        public string? MainImage { get; set; }
 
         public bool IsActive { get; set; }
 
 
         [DisplayName("تعداد")]
-        public int Count { get; set; }
+        public int? Count { get; set; }
 
         public List<Product_Image_Gallery.ProductImageGallery>? productImageGalleries { get; set; }
        

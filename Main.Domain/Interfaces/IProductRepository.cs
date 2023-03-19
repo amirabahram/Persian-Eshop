@@ -18,10 +18,11 @@ namespace Main.Domain.Interfaces
         public Task<Product> GetProductById(int Id);
        
         //update a product from product table by id
-        public void UpdateProductById(Product product);
+        public void UpdateProductByProduct(Product product);
 
+        // remove product from product table by change value of IsDelete to true
+        public Task<Product> RemoveProductById(int Id);
 
-
-
+        public void Save();
     }
 }

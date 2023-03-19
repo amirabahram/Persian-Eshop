@@ -1,4 +1,5 @@
 ﻿using Main.Data.Context;
+using Main.Data.Migrations;
 using Main.Domain.Interfaces;
 using Main.Domain.Models.Product;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +22,12 @@ namespace Main.Data.Repositories
         }
         public async Task<List<Product>> GetAllProduct()
         {
-            return await _eshopContext.Products.Where(p=>p.IsDelete==false && p.IsActive==true).ToListAsync();
+            return await _eshopContext.Products.Include(c=>c.Category).Where(p=>p.IsDelete==false && p.IsActive==true).ToListAsync();
         }
 
         public async Task<Product> GetProductById(int Id)
         {
-            return await _eshopContext.Products.FirstOrDefaultAsync(p=>p.Id==Id && p.IsDelete == false && p.IsActive == true);
+            return await _eshopContext.Products.Include(c => c.Category).FirstOrDefaultAsync(p=>p.Id==Id && p.IsDelete == false && p.IsActive == true);
         }
 
         public async Task InsertProduct(Product product)
@@ -36,9 +37,23 @@ namespace Main.Data.Repositories
 
        
 
-        public void UpdateProductById(Product product)
+        public async void UpdateProductByProduct(Product product)
         {
+          
              _eshopContext.Products.Update(product);
+        }
+
+        public async Task<Product> RemoveProductById(int Id)
+        {
+         
+            var myproduct= _eshopContext.Products.FirstOrDefaultAsync(p => p.Id == Id).Result;
+            myproduct.IsDelete = true;
+            return myproduct;
+        }
+
+        public void Save()
+        {
+            _eshopContext.SaveChangesAsync();
         }
     }
 }
