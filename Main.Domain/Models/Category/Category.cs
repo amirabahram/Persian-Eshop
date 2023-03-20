@@ -18,7 +18,7 @@ namespace Main.Domain.Models.Category
         [Required(ErrorMessage ="وارد کردن عنوان اجباری می باشد!")]
         public string Title { get; set; }
 
-        public int ParentId { get; set; }
+        public int? ParentId { get; set; }
         public Category? CategoryParent { get; set; }
 
         public List<Product.Product>? Products { get; set; } // List: because 1 Category can have many Products

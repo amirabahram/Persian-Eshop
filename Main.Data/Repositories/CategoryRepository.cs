@@ -25,26 +25,26 @@ namespace Main.Data.Repositories
 
         public async Task<Category> GetCategoryById(int id)
         {
-            return db.Categories.FirstOrDefault(c => c.Id == id);
+            return await  db.Categories.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task InsertCategory(Category category)
+        public void Insert(Category category)
         {
-            db.Categories.Add(category);
+             db.Categories.Add(category);
         }
 
         public async Task<bool> IsDuplicated(string title)
         {
-            if(db.Categories.Any(c => c.Title == title)) return true;
+            if(await db.Categories.AnyAsync(c => c.Title == title)) return true;
             return false;
         }
 
-        public async Task Save()
+        public void Save()
         {
-            db.SaveChangesAsync();
+             db.SaveChanges();
         }
 
-        public void UpdateCategory(Category category)
+        public void Update(Category category)
         {
             db.Categories.Update(category);
         }

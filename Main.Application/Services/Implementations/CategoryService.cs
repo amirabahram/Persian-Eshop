@@ -1,6 +1,7 @@
 ﻿using Main.Application.Services.Interfaces;
 using Main.Domain.Interfaces;
 using Main.Domain.Models.Category;
+using Main.Domain.ViewModel.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,8 +25,8 @@ namespace Main.Application.Services.Implementations
             var category = await _categoryRepository.GetCategoryById(id);
             if (category == null) return false;
             category.IsDelete = true;
-            _categoryRepository.UpdateCategory(category);
-            await _categoryRepository.Save();
+            _categoryRepository.Update(category);
+             _categoryRepository.Save();
             return true;
 
         }
@@ -37,11 +38,17 @@ namespace Main.Application.Services.Implementations
         }
 
 
-        public async Task<bool> InsertCategory(Category category)
+        public async Task<bool> InsertCategory(CategoryViewModel viewModel)
         {
-            if (category == null) return  false;
-            await _categoryRepository.InsertCategory(category);
-            await _categoryRepository.Save();
+            if (viewModel == null) return  false;
+            Category category = new Category()
+            {
+                Title = viewModel.Title,
+                CreateDate = DateTime.Now,
+
+            };
+             _categoryRepository.Insert(category);
+             _categoryRepository.Save();
             return true;
 
         }
@@ -54,8 +61,8 @@ namespace Main.Application.Services.Implementations
             if (oldCategory == null) return UpdateCategoryResult.CategoryNotFound;
             if (await _categoryRepository.IsDuplicated(category.Title)) return UpdateCategoryResult.DuplicatedCategory;
             oldCategory.Title = category.Title;
-            _categoryRepository.UpdateCategory(oldCategory);
-            await _categoryRepository.Save();
+            _categoryRepository.Update(oldCategory);
+             _categoryRepository.Save();
             return UpdateCategoryResult.Success;
 
 
