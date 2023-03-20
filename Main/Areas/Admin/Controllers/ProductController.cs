@@ -40,11 +40,11 @@ namespace Main.web.Areas.Admin.Controllers
         [HttpGet]
         public async  Task<IActionResult> CreateProduct()
         {
-            var viewModel = new ProductViewModel
+            var productvViewModel = new ProductViewModel
             {
-                //Categories = _context.Categories.ToList()
+                Categories = await _categoryService.GetAllCategories()
             };
-            return View(); 
+            return View(productvViewModel); 
         }
         [HttpPost]
         public async Task<IActionResult> CreateProduct(ProductViewModel productViewModel)
