@@ -12,9 +12,9 @@ namespace Main.Domain.Interfaces
         Task<List<Category>> GetAllCategories();
         Task<Category> GetCategoryById(int id);
         Task<bool> IsDuplicated(string title);
-        Task InsertCategory(Category category);
-        void UpdateCategory(Category category);
-        Task Save();
+        void Insert(Category category);
+        void Update(Category category);
+        void Save();
 
 
     }

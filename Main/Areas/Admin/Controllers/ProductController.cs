@@ -21,14 +21,33 @@ namespace Main.web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult IndexCategory()
+        public async Task<IActionResult> IndexCategory()
         {
-            var category = _categoryService.GetAllCategories();
+            var category = await _categoryService.GetAllCategories();
             return View(category);
         }
-        
+        [HttpPost]
+        public async Task<IActionResult> IndexCategory(CategoryViewModel model)
+        {
+            var result = await _categoryService.InsertCategory(model);
+            if (result)
+            {
+                return JsonResponseStatus.Success();
+            }
+            else
+            {
+                return BadRequest();
+            }
 
-        
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteCategory(int id)
+        {
+            await _categoryService.DeleteCategory(id);
+            return JsonResponseStatus.Success();
+        }
 
 
         public async Task<IActionResult> Index()
@@ -51,15 +70,15 @@ namespace Main.web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                bool InserResult = await _productServices.InsertProduct(productViewModel);
-                if (InserResult)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    return View("CreateProduct");
-                }
+                //bool InserResult = await _productServices.InsertProduct(productViewModel);
+                //if (InserResult)
+                //{
+                //    return RedirectToAction("Index");
+                //}
+                //else
+                //{
+                //    return View("CreateProduct");
+                //}
             }
             return View(productViewModel);
 

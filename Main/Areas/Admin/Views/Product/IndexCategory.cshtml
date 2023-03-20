@@ -1,4 +1,4 @@
-﻿@model Main.Domain.Models.Category.Category
+﻿@model List<Main.Domain.Models.Category.Category>
 
 
 
@@ -13,7 +13,7 @@
     <div class="page-container">
         <div class="page-content">
             <div class="col-xs-12 col-md-12 col-sm-12">
-                
+
                 <div class="well with-header with-footer">
                     <div class="col-md-6 col-sm-6 col-xs-6">
                         <button id="btnadd" class="btn btn-default purple" data-target="#AddCategory" data-toggle="modal"><i class="fa fa-plus"></i> افزودن دسته بندی جدید</button>
@@ -24,15 +24,15 @@
                                 <button class="close text-danger" data-dismiss="modal">&times;</button>
                             </div>
                             <div class="modal-body">
-                                <form>
+                                <form id="myForm">
                                     <div class="form-group">
-                                        <label asp-for="Title">نام دسته بندی</label>
-                                        <input  asp-for="Title"  class="form-control" type="text" placeholder="Insert Category" id="Categoryy" />
+                                        <label for="Title">نام دسته بندی</label>
+                                        <input class="form-control" type="text" placeholder="Insert Category" id="Title" />
                                     </div>
                                 </form>
                             </div>
                             <div class="modal-footer">
-                                <a onclick="InsertAjax()" class="btn btn-primary">ثبت</a>
+                                <button type="button" class="btn btn-primary" id="saveButton">Save</button>
                             </div>
                         </div>
                     </div>
@@ -52,16 +52,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>
-                                    ...
-                                </td>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
 
-                                <td>
-                                    <a onclick="DeleteAjax(@Model.Id)" class="btn btn-default btn-xs black"><i class="fa fa-trash-o"></i> Delete</a>
-                                </td>
-                            </tr>
+                                    <td>
 
+                                        @item.Title
+
+                                    </td>
+
+                                    <td>
+                                        <a onclick="DeleteAjax(@item.Id)" class="btn btn-default btn-xs black"><i class="fa fa-trash-o"></i> حذف</a>
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
 
@@ -77,34 +82,28 @@
 
 @section scripts{
     <script type="text/javascript">
-        function InsertAjax() {
+        $('#saveButton').click(function (event) {
+            event.preventDefault(); // prevent default form submission
+            var data = $('#Title').val(); // serialize form data
             $.ajax({
-                type: 'POST',
+                type: "POST",
                 url: "/Admin/Product/IndexCategory",
-                data: { id: id },
-                success: function (data) {   /*-->this data is for ActionMethod return value!*/
-                    if (data.status == "Success") {
-                        setTimeout(function () {
-                            window.location.reload();
-                        }, 4000)
-                        swal.fire
-                            (
-                                'حذف',
-                                'عملیات حذف با موفقیت به اتمام رسید',
-                                'success'
-                            )
-                    }
+                data: { title: data },
+                success: function (response) {
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 1000)
+                    $('#AddCategory').modal('hide'); // hide modal after successful submission
                 },
                 error: function () {
-                    swal.fire(
-                        'Cancelled',
-                        'Your imaginary file is safe :)',
-                        'error'
-                    )
+                    console.log("Error adding data:", error);
                 }
             });
-        }
-                function DeleteAjax(id) {
+        });
+
+
+
+               function DeleteAjax(id) {
 
                     swal.fire({
                         title: 'آیا از حذف این دسته بندی مطمئن هستید؟',
@@ -117,8 +116,8 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
-                                type: 'POST',
-                                url: "/Admin/Product/Category",
+                                type: 'GET',
+                                url: "/Admin/Product/DeleteCategory",
                                 data: { id: id },
                                 success: function (data) {   /*-->this data is for ActionMethod return value!*/
                                     if (data.status == "Success") {
@@ -130,7 +129,9 @@
                                                 'حذف',
                                                 'عملیات حذف با موفقیت به اتمام رسید',
                                                 'success'
-                                            )
+                                               
+                                        )
+                                        
                                     }
                                 },
                                 error: function () {

@@ -1,4 +1,5 @@
 ﻿using Main.Domain.Models.Category;
+using Main.Domain.ViewModel.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Main.Application.Services.Interfaces
     public interface ICategoryService
     {
         Task<List<Category>> GetAllCategories();
-        Task<bool> InsertCategory(Category category);
+        Task<bool> InsertCategory(CategoryViewModel viewModel);
         Task<UpdateCategoryResult> UpdateCategory(Category category);
         Task<bool> DeleteCategory(int id);
         
