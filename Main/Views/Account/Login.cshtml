@@ -2,35 +2,9 @@
 @model LoginViewModel ;
 
 
-@{
-    Layout = "_LayoutAccount";
-}
 
-<!DOCTYPE html>
-<!--
-BeyondAdmin - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.3.6
-Version: 1.6.0
-Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB06R48S4
--->
+<!--<body>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<!--Head-->
-<head>
-    <meta charset="utf-8" />
-    <title>Login Page</title>
-
-    <meta name="description" content="login page" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <partial name="LoginLink" />
-  
-    <partial name="LoginScript" />
-</head>
-<!--Head Ends-->
-<!--Body-->
-<body>
-   
     <form asp-controller="Account" asp-action="Login" method="post" class="auth-form">
 
         <div class="col-md-3" style="margin-top:20px;margin-right:100px">
@@ -53,7 +27,7 @@ Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB0
                             <span asp-validation-for="Password"></span>
                         </div>
                         <div class="loginbox-textbox">
-                            <input asp-for="RememberMe" type="checkbox"  placeholder="RemmeberMe" />
+                            <input asp-for="RememberMe" type="checkbox" placeholder="RemmeberMe" />
                         </div>
                         <div class="loginbox-forgot">
                             <a href="">Forgot Password?</a>
@@ -69,12 +43,67 @@ Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB0
                     </div>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <!--Basic Scripts-->
-     <partial name="LoginBasicScript" />
+        <!--<partial name="LoginBasicScript" />
     </form>
-   
-</body>
+
+</body>-->
 <!--Body Ends-->
-</html>
+@{
+    ViewData["Title"] = "صفحه ورودبه سایت";
+    Layout = "_LayoutAccount";
+}
+
+<main class="page-content page-auth">
+    <!-- start of auth-container -->
+    <div class="auth-container">
+        <div class="auth-title mb-3">  فرم ثبت نام</div>
+        <!-- start of auth-box -->
+        <div class="auth-box ui-box">
+            <!-- start of auth-form -->
+            <form asp-controller="Account" asp-action="Login" class="auth-form">
+                <!-- start of form-element -->
+                <div class="form-element-row mb-5">
+                    <input asp-for="Email" type="text" class="form-control" placeholder=" ایمیل">
+                    <span asp-validation-for="Email"></span>@*asp-validation is for ModelState*@
+
+                </div>
+                <div class="form-element-row mb-5">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="کلمه عبور">
+                    <span asp-validation-for="Password"></span>
+                </div>
+                @*<div class="loginbox-textbox">
+            <label for="rememberme">مرا به خاطر بسپار</label>
+            <input asp-for="RememberMe" class="checkbox-input" type="checkbox" id="rememberme" />
+        </div>*@
+                <label class="checkbox-label">
+                    <input asp-for="RememberMe" type="checkbox" class="checkbox-input" id="RememberMe" />
+                    <span>مرابه خاطر بسپار!</span>
+                </label>
+                <!-- end of form-element -->
+                <!-- start of form-element -->
+                <div class="form-element-row mb-3">
+                    <button type="submit" class="btn btn-primary">ورودبه سایت</button>
+                </div>
+                <!-- end of form-element -->
+                <!-- start of form-element -->
+                <div class="form-element-row">
+                    <div>
+                        با ورود و یا ثبت نام در سایت شما <a href="#" class="link">
+                            شرایط و
+                            قوانین
+                        </a> استفاده
+                        از تمام سرویس های
+                        سایت و <a href="#" class="link">قوانین حریم خصوصی</a> آن را می‌پذیرید.
+                    </div>
+                </div>
+                <!-- end of form-element -->
+            </form>
+            <!-- end of auth-form -->
+        </div>
+        <!-- end of auth-box -->
+    </div>
+    <!-- start of auth-container -->
+</main>
