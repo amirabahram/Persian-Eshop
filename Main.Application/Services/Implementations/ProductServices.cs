@@ -25,13 +25,13 @@ namespace Main.Application.Services.Implementations
     {
         private readonly IProductRepository _productRepository;
         private readonly IProductImageGalleryRepository _productImageGalleryRepository;
-
+       
 
         public ProductServices(IProductRepository productRepository, IProductImageGalleryRepository productImageGalleryRepository)
         {
             _productRepository = productRepository;
             _productImageGalleryRepository = productImageGalleryRepository;
-
+           
         }
 
         public async Task<List<Product>> GetAllProduct()
@@ -80,9 +80,12 @@ namespace Main.Application.Services.Implementations
 
                 };
 
-                 await _productRepository.InsertProduct(newProduct);
+                await _productRepository.InsertProduct(newProduct);
+                // Now how to save product in product table
+                 await _productRepository.Save();
+                // Get Id Of Product that Inserted Now
+                ProductImageGalleryId = await GetProductIdByProduct(newProduct);
                 
-                ProductImageGalleryId = await _productRepository.GetProductIdByProduct(newProduct);
             }
             #endregion
             else
@@ -102,7 +105,12 @@ namespace Main.Application.Services.Implementations
 
                 };
 
-                ProductImageGalleryId = await _productRepository.InsertProduct(ProductWihoutMainImage);
+                await _productRepository.InsertProduct(ProductWihoutMainImage);
+                // Now how to save product in product table
+                await _productRepository.Save();
+                // Get Id Of Product that Inserted Now
+                ProductImageGalleryId = await GetProductIdByProduct(ProductWihoutMainImage);
+               
 
                 #endregion
 
@@ -133,7 +141,8 @@ namespace Main.Application.Services.Implementations
                         productViewModel.GalleryImages[i].AddImageToServer(GalleryImagesFileNewName,
                             GalleryImagesFilePath, 50, 100);
 
-                        imageGalleries.Add(new ProductImageGallery {
+                        imageGalleries.Add(new ProductImageGallery
+                        {
                             ProductId = ProductImageGalleryId,
                             ImageName = GalleryImagesFileNewName,
                             CreateDate = DateTime.Now
@@ -151,7 +160,7 @@ namespace Main.Application.Services.Implementations
             #endregion
 
 
-            _productRepository.Save();
+            await _productRepository.Save();
 
             return CreateProductResult.Success;
 
@@ -177,6 +186,9 @@ namespace Main.Application.Services.Implementations
             throw new NotImplementedException();
         }
 
-
+        public async Task<int> GetProductIdByProduct(Product product)
+        {
+            return await _productRepository.GetProductIdByProduct( product);
+        }
     }
 }

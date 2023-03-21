@@ -30,11 +30,10 @@ namespace Main.Data.Repositories
             return await _eshopContext.Products.Include(c => c.Category).FirstOrDefaultAsync(p=>p.Id==Id && p.IsDelete == false && p.IsActive == true);
         }
 
-        public async Task<int> InsertProduct(Product product)
+        public async Task InsertProduct(Product product)
         {
              await _eshopContext.Products.AddAsync(product);
-            await _eshopContext.SaveChangesAsync();
-            return product.Id;
+                     
         }
 
        
@@ -53,9 +52,9 @@ namespace Main.Data.Repositories
             return myproduct;
         }
 
-        public void Save()
+        public async Task Save()
         {
-            _eshopContext.SaveChangesAsync();
+           await _eshopContext.SaveChangesAsync();
         }
 
         public async Task<int> GetProductIdByProduct(Product product)

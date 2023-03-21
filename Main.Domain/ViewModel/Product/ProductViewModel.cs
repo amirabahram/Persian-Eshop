@@ -14,9 +14,9 @@ namespace Main.Domain.ViewModel.Product
 {
     public  class ProductViewModel
     {
+        [DisplayName("عنوان")]
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         [MaxLength(50,ErrorMessage = "حداکثر کاراکتر برای {0} 50 کاراکتر بیشتر نیست")]
-        [DisplayName("عنوان")]
         public string? Title { get; set; }
         [MaxLength(350, ErrorMessage = "حداکثر کاراکتر برای {0} 350 کاراکتر بیشتر نیست")]
         [DisplayName("توضیحات")]

@@ -11,7 +11,7 @@ namespace Main.Domain.Interfaces
     public interface IProductRepository
     {
         // insert product
-        public Task<int> InsertProduct(Product product);
+        public Task InsertProduct(Product product);
         // select all products from product table
         public Task<List<Product>> GetAllProduct();
         // select a product from product table by id
@@ -23,7 +23,7 @@ namespace Main.Domain.Interfaces
         // remove product from product table by change value of IsDelete to true
         public Task<Product> RemoveProductById(int Id);
 
-        public void Save();
+        public Task Save();
 
         // Get ProductId From a Product
         public Task<int> GetProductIdByProduct(Product product);

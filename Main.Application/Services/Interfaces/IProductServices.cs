@@ -23,5 +23,7 @@ namespace Main.Application.Services.Interfaces
         //remove a product from product table by product id
         public Task RemoveProduct(int productId);
 
+        Task<int> GetProductIdByProduct(Product product);
+
     }
 }
