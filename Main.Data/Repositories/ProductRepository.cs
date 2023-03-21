@@ -57,5 +57,11 @@ namespace Main.Data.Repositories
         {
             _eshopContext.SaveChangesAsync();
         }
+
+        public async Task<int> GetProductIdByProduct(Product product)
+        {
+            var product1 = await _eshopContext.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
+            return product1.Id;
+        }
     }
 }

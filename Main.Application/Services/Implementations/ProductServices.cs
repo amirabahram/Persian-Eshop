@@ -1,6 +1,7 @@
 ﻿using Academy.Application.Extensions;
 using Academy.Application.Security;
 using Main.Application.Services.Interfaces;
+using Main.Data.Context;
 using Main.Data.Migrations;
 using Main.Data.Repositories;
 using Main.Domain.Interfaces;
@@ -79,8 +80,9 @@ namespace Main.Application.Services.Implementations
 
                 };
 
-                ProductImageGalleryId = await _productRepository.InsertProduct(newProduct);
-
+                 await _productRepository.InsertProduct(newProduct);
+                
+                ProductImageGalleryId = await _productRepository.GetProductIdByProduct(newProduct);
             }
             #endregion
             else
@@ -141,7 +143,9 @@ namespace Main.Application.Services.Implementations
                 }
                 // Save ImageName Of Product On the Database
                 await _productImageGalleryRepository.InsertImage(imageGalleries);
+
                 await _productImageGalleryRepository.Save();
+
             }
 
             #endregion

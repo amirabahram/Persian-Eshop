@@ -24,5 +24,9 @@ namespace Main.Domain.Interfaces
         public Task<Product> RemoveProductById(int Id);
 
         public void Save();
+
+        // Get ProductId From a Product
+        public Task<int> GetProductIdByProduct(Product product);
+
     }
 }
