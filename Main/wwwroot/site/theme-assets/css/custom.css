@@ -1,2 +1,13 @@
 /* Write your code here */
 /*# sourceMappingURL=custom.css.map */
+/*added by amiralaei!*/
+
+label.checkbox-label {
+    display: flex;
+    align-items: center;
+}
+
+    label.checkbox-label .checkbox-input {
+        order: 2;
+        margin-right: 10px;
+    }
