@@ -12,5 +12,7 @@ namespace Main.Domain.Interfaces
         Task<List<ProductImageGallery>> GetAllImages();
         Task InsertImage(ProductImageGallery productImageGallery);
         void UpdateImage(ProductImageGallery image);
+        Task InsertImage(List<ProductImageGallery> productImageGallery);
+        public Task Save();
     }
 }

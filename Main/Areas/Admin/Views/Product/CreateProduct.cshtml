@@ -14,22 +14,22 @@
                         </div>
                         <div class="widget-body">
                             <div class="collapse in">
-                                <form method="post" asp-area="Admin" asp-controller=" Product" asp-action="CreateProduct">
+                                <form enctype="multipart/form-data" method="post" asp-area="Admin" asp-controller="Product" asp-action="CreateProduct">
 
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
 
                                                 <label for="name">نام محصول</label>
-                                                <input type="text" asp-for="Title" class="form-control" placeholder="نام محصول"><br><br>
-
+                                                <input type="text" asp-for="Title" required="required" class="form-control" placeholder="نام محصول را وارد کنید"><br><br>
+                                                <span asp-validation-for="Title" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="price">قیمت</label>
-                                                <input type="number" asp-for="Price" class="form-control"><br><br>
-
+                                                <input type="number" required="required" asp-for="Price" class="form-control"><br><br>
+                                                <span asp-validation-for="Price" class="text-danger"></span>
                                             </div>
                                         </div>
 
@@ -39,8 +39,8 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="count">تعداد</label>
-                                                <input type="number" asp-for="Count" class="form-control"><br><br>
-
+                                                <input type="number" required="required" asp-for="Count" class="form-control"><br><br>
+                                                <span asp-validation-for="Count" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -76,7 +76,7 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="image">اضافه کردن عکس جدید </label>
-                                                <input type="file" id="fileInput2" asp-for="MainImage" accept="image/*" class="form-control" placeholder="انتخاب عکس های جدید برای محصول" multiple><br><br>
+                                                <input type="file" id="fileInput2" asp-for="GalleryImages" accept="image/*" class="form-control" placeholder="انتخاب عکس های جدید برای محصول" multiple><br><br>
                                                 <div id="previewContainer"></div>
                                             </div>
                                         </div>
@@ -100,11 +100,9 @@
 
 
 
-
-
 <script>
 
-    const fileInput3 = document.getElementById('fileInput');
+        const fileInput3 = document.getElementById('fileInput');
     fileInput3.addEventListener('change', () => {
         const file3 = fileInput3.files[0];
 
@@ -124,8 +122,6 @@
         }
     });
 </script>
-
-
 
 <script>
     const fileInput = document.getElementById('fileInput');
@@ -151,9 +147,6 @@
     });
 
 </script>
-
-
-
 
 <script>
     function showPreview() {
@@ -182,3 +175,8 @@
     // Call the showPreview function when the file input value changes
     document.getElementById('fileInput2').addEventListener('change', showPreview);
 </script>
+
+
+
+
+

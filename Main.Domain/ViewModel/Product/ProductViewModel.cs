@@ -8,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Main.Domain.ViewModel.Product
 {
@@ -26,9 +27,8 @@ namespace Main.Domain.ViewModel.Product
         [Required(ErrorMessage = "لطفا {0} را وارد کنید")]
         public int? Price { get; set; }= 0;
 
-        [MaxLength(50, ErrorMessage = "حداکثر کاراکتر برای {0} 50 کاراکتر بیشتر نیست")]
         [DisplayName("عکس")]
-        public string? MainImage { get; set; }
+        public IFormFile? MainImage { get; set; }
 
         public bool IsActive { get; set; }
 
@@ -38,7 +38,8 @@ namespace Main.Domain.ViewModel.Product
             
         public int? CategoryId { get; set; }
 
-        public string[]? GalleryImages { get; set; }
+        
+        public List<IFormFile>? GalleryImages { get; set; }
 
         public List<Category>? Categories { get; set; }
     }

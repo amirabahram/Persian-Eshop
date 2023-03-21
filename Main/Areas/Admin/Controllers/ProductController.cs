@@ -6,6 +6,7 @@ using Main.Domain.ViewModel.Product;
 using Main.Domain.Models.Category;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Academy.Application.Security;
 
 namespace Main.web.Areas.Admin.Controllers
 {
@@ -52,8 +53,8 @@ namespace Main.web.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-           
-            return View(await _productServices.GetAllProduct());
+            var showAllProduct = await _productServices.GetAllProduct();
+            return View(showAllProduct);
         }
 
         [HttpGet]
@@ -66,20 +67,24 @@ namespace Main.web.Areas.Admin.Controllers
             return View(productvViewModel); 
         }
         [HttpPost]
-        public async Task<IActionResult> CreateProduct(ProductViewModel productViewModel)
+        public async Task<IActionResult> CreateProduct([FromForm] ProductViewModel productViewModel)
         {
             if (ModelState.IsValid)
             {
-                //bool InserResult = await _productServices.InsertProduct(productViewModel);
-                //if (InserResult)
-                //{
-                //    return RedirectToAction("Index");
-                //}
-                //else
-                //{
-                //    return View("CreateProduct");
-                //}
+
+                CreateProductResult InserResult = await _productServices.InsertProduct(productViewModel);
+                if (InserResult== CreateProductResult.Success)
+                {
+                    TempData["SuccessMessage"] ="ثبت محصول با موفقیت انجام شد";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    TempData["Failed"] = "مشکلی در ثبت محصول وجود دارد!";
+                    return View("CreateProduct");
+                }
             }
+            productViewModel.Categories = await _categoryService.GetAllCategories();
             return View(productViewModel);
 
 

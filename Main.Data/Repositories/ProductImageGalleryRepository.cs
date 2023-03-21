@@ -27,9 +27,20 @@ namespace Main.Data.Repositories
             db.ProductImageGalleries.Add(productImageGallery);
         }
 
+
+        public async Task InsertImage(List<ProductImageGallery>  productImageGallery)
+        {
+           await db.ProductImageGalleries.AddRangeAsync(productImageGallery);
+        }
+
         public void UpdateImage(ProductImageGallery image)
         {
             db.ProductImageGalleries.Update(image);
+        }
+
+        public async Task Save()
+        {
+            await db.SaveChangesAsync();
         }
     }
 }

@@ -25,11 +25,11 @@ namespace Main.IoC
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductServices, ProductServices>();
             services.AddScoped<IProductImageGalleryRepository,ProductImageGalleryRepository >();
-            
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
-            
             services.AddScoped<IProductImageGalleryService, ProductImageGalleryService>();
+          
+
 
         }
     }

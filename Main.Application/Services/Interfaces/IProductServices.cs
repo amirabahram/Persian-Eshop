@@ -15,7 +15,7 @@ namespace Main.Application.Services.Interfaces
         public Task<List<Product>> GetAllProduct();
 
         // insert a product in product table
-        public Task<bool> InsertProduct(ProductViewModel productViewModel);
+        public Task<CreateProductResult> InsertProduct(ProductViewModel productViewModel);
 
         // update a product in product table by product id
         public Task<bool> UpdateProduct(int proudctId);
