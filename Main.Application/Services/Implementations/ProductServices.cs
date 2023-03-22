@@ -78,8 +78,9 @@ namespace Main.Application.Services.Implementations
                     IsActive = true
 
                 };
-
-                ProductImageGalleryId = await _productRepository.InsertProduct(newProduct);
+                _productRepository.Save();
+                ProductImageGalleryId = newProduct.Id;
+                
 
             }
             #endregion
@@ -100,8 +101,9 @@ namespace Main.Application.Services.Implementations
 
                 };
 
-                ProductImageGalleryId = await _productRepository.InsertProduct(ProductWihoutMainImage);
-
+                //ProductImageGalleryId = await _productRepository.InsertProduct(ProductWihoutMainImage);
+                _productRepository.Save();
+                ProductImageGalleryId = ProductWihoutMainImage.Id;
                 #endregion
 
             }
