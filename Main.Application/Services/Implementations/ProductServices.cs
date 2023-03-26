@@ -22,14 +22,16 @@ namespace Main.Application.Services.Implementations
 {
     public class ProductServices : IProductServices
     {
-        private readonly IProductRepository _productRepository;
-        private readonly IProductImageGalleryRepository _productImageGalleryRepository;
+        private  IProductRepository _productRepository;
+        private  ICategoryService _categoryServices;
+        private  IProductImageGalleryService _productImageGalleryService;
+        
 
-
-        public ProductServices(IProductRepository productRepository, IProductImageGalleryRepository productImageGalleryRepository)
+        public ProductServices(IProductRepository productRepository,IProductImageGalleryService productImageGalleryService, ICategoryService categoryServices)
         {
             _productRepository = productRepository;
-            _productImageGalleryRepository = productImageGalleryRepository;
+            _categoryServices = categoryServices;
+            _productImageGalleryService = productImageGalleryService;
 
         }
 
@@ -78,10 +80,13 @@ namespace Main.Application.Services.Implementations
                     IsActive = true
 
                 };
-                _productRepository.Save();
-                ProductImageGalleryId = newProduct.Id;
-                
 
+                await _productRepository.InsertProduct(newProduct);
+                // Now how to save product in product table
+                  await _productRepository.Save();
+                // Get Id Of Product that Inserted Now
+                ProductImageGalleryId = await GetProductIdByProduct(newProduct);
+                
             }
             #endregion
             else
@@ -101,55 +106,20 @@ namespace Main.Application.Services.Implementations
 
                 };
 
-                //ProductImageGalleryId = await _productRepository.InsertProduct(ProductWihoutMainImage);
-                _productRepository.Save();
-                ProductImageGalleryId = ProductWihoutMainImage.Id;
+                await _productRepository.InsertProduct(ProductWihoutMainImage);
+                // Now how to save product in product table
+                 await _productRepository.Save();
+                // Get Id Of Product that Inserted Now
+                ProductImageGalleryId = await GetProductIdByProduct(ProductWihoutMainImage);
+               
+
                 #endregion
 
             }
 
 
-            #region Insert Images Of Product Into ProductImageGalleries 
 
-            if (productViewModel.GalleryImages != null)
-            {
-                var GalleryImagesFileNewName = "";
-                List<ProductImageGallery> imageGalleries = new List<ProductImageGallery>();
-                for (int i = 0; i < productViewModel.GalleryImages.Count; i++)
-                {
-                    if (productViewModel.GalleryImages[i].HasLength(0) == false &&
-                        productViewModel.GalleryImages[i].IsImage() == true)
-                    {
-                        // Get the filename and extension
-                        var GalleryImagesFileName = Path.GetFileName(productViewModel.GalleryImages[i].FileName);
-                        var GalleryImagesFileExt = Path.GetExtension(GalleryImagesFileName);
-                        // Generate a unique filename
-                        GalleryImagesFileNewName = Guid.NewGuid().ToString() + GalleryImagesFileExt;
-
-                        // Combine the path with the filename
-                        string GalleryImagesFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImageProducts/");
-
-                        // Save the file to the server
-                        productViewModel.GalleryImages[i].AddImageToServer(GalleryImagesFileNewName,
-                            GalleryImagesFilePath, 50, 100);
-
-                        imageGalleries.Add(new ProductImageGallery {
-                            ProductId = ProductImageGalleryId,
-                            ImageName = GalleryImagesFileNewName,
-                            CreateDate = DateTime.Now
-                        });
-
-                    }
-                }
-                // Save ImageName Of Product On the Database
-                await _productImageGalleryRepository.InsertImage(imageGalleries);
-                await _productImageGalleryRepository.Save();
-            }
-
-            #endregion
-
-
-            _productRepository.Save();
+            await _productRepository.Save();
 
             return CreateProductResult.Success;
 
@@ -167,14 +137,80 @@ namespace Main.Application.Services.Implementations
             _productRepository.UpdateProductByProduct(product);
 
 
-            _productRepository.Save();
+            await _productRepository.Save();
         }
 
-        public Task<bool> UpdateProduct(int proudctId)
+
+
+        public async Task<int> GetProductIdByProduct(Product product)
         {
-            throw new NotImplementedException();
+            return await _productRepository.GetProductIdByProduct( product);
         }
 
+        public async Task<ProductViewModel> ShowProductForEditById(int id)
+        {
+            var product = await _productRepository.GetProductById(id);
+            if (product == null) return null;
 
+            var Categories = await _categoryServices.GetAllCategories();
+            var GalleryImages = await _productImageGalleryService.GetGalleryImages(id);
+            return new ProductViewModel
+            {
+                //Id = product.Id,
+                Pictures = GalleryImages,
+                Title = product.Title,
+                Description = product.Description,
+                CategoryId = product.CategoryId,
+                Count = product.Count,
+                IsActive = product.IsActive,
+                Price = product.Price,
+                MainPic = product.MainImage,
+                Categories = Categories
+                
+
+            };
+            
+        }
+
+        public async Task<UpdateProductResult> UpdateProduct(ProductViewModel model)
+        {
+            string imageNewName = "";
+            var product = await _productRepository.GetProductById(model.Id);
+            if (product == null) return UpdateProductResult.ProductNotFound;
+            if (model.MainImage != null)
+            {
+                if (model.MainImage.HasLength(0) == false && model.MainImage.IsImage() == true)
+                {
+
+                    // Get the filename and extension
+                    var fileName = Path.GetFileName(model.MainImage.FileName);
+                    var fileExt = Path.GetExtension(fileName);
+                    // Generate a unique filename
+                    imageNewName = Guid.NewGuid().ToString() + fileExt;
+
+                    // Combine the path with the filename
+                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImageProducts/");
+
+                    // Save the file to the server
+                    model.MainImage.AddImageToServer(imageNewName, filePath, 50, 100);
+                }
+                product.MainImage = imageNewName;
+            }
+
+            product.Title = model.Title;
+            product.Description = model.Description;
+            product.CategoryId = model.CategoryId;
+            product.Count = model.Count;
+            product.IsActive = model.IsActive;
+            product.Price = model.Price;
+
+            await _productImageGalleryService.UpdateGalleryImage(model.GalleryImages,model.Id);
+            _productRepository.UpdateProductByProduct(product);
+            await _productRepository.Save();
+            return UpdateProductResult.Success;
+
+
+
+        }
     }
 }

@@ -22,22 +22,23 @@ namespace Main.Data.Repositories
         }
         public async Task<List<Product>> GetAllProduct()
         {
-            return await _eshopContext.Products.Include(c=>c.Category).Where(p=>p.IsDelete==false && p.IsActive==true).ToListAsync();
+            return await _eshopContext.Products.Include(c=>c.Category).Where(p=>p.IsDelete==false).ToListAsync();
         }
 
         public async Task<Product> GetProductById(int Id)
         {
-            return await _eshopContext.Products.Include(c => c.Category).FirstOrDefaultAsync(p=>p.Id==Id && p.IsDelete == false && p.IsActive == true);
+            return await _eshopContext.Products.Include(c => c.Category).FirstOrDefaultAsync(p=>p.Id==Id && p.IsDelete == false);
         }
 
         public async Task InsertProduct(Product product)
         {
              await _eshopContext.Products.AddAsync(product);
+                     
         }
 
        
 
-        public async void UpdateProductByProduct(Product product)
+        public void UpdateProductByProduct(Product product)
         {
           
              _eshopContext.Products.Update(product);
@@ -51,9 +52,15 @@ namespace Main.Data.Repositories
             return myproduct;
         }
 
-        public void Save()
+        public async Task Save()
         {
-            _eshopContext.SaveChangesAsync();
+           await _eshopContext.SaveChangesAsync();
+        }
+
+        public async Task<int> GetProductIdByProduct(Product product)
+        {
+            var product1 = await _eshopContext.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
+            return product1.Id;
         }
     }
 }

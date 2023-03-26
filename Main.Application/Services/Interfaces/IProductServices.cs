@@ -17,11 +17,15 @@ namespace Main.Application.Services.Interfaces
         // insert a product in product table
         public Task<CreateProductResult> InsertProduct(ProductViewModel productViewModel);
 
-        // update a product in product table by product id
-        public Task<bool> UpdateProduct(int proudctId);
+        
+        public Task<UpdateProductResult> UpdateProduct(ProductViewModel model);
 
         //remove a product from product table by product id
         public Task RemoveProduct(int productId);
+
+        Task<int> GetProductIdByProduct(Product product);
+
+        Task<ProductViewModel> ShowProductForEditById(int id);
 
     }
 }

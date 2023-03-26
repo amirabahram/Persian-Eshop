@@ -9,10 +9,9 @@ namespace Main.Domain.Interfaces
 {
     public interface IProductImageGalleryRepository
     {
-        Task<List<ProductImageGallery>> GetAllImages();
-        Task InsertImage(ProductImageGallery productImageGallery);
-        void UpdateImage(ProductImageGallery image);
+        Task<List<ProductImageGallery>> GetGalleryImageById(int id);
         Task InsertImage(List<ProductImageGallery> productImageGallery);
-        public Task Save();
+        void UpdateImage(List<ProductImageGallery> images);
+        Task Save();
     }
 }

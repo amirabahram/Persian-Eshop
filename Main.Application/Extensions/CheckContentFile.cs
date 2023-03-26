@@ -30,6 +30,7 @@ namespace Academy.Application.Security
 
         public static bool HasLength(this IFormFile postedFile, int length)
         {
+            
             if (postedFile.Length > length)
             {
                 return false;

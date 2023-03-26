@@ -11,18 +11,22 @@ namespace Main.Domain.Interfaces
     public interface IProductRepository
     {
         // insert product
-        public Task InsertProduct(Product product);
+         Task InsertProduct(Product product);
         // select all products from product table
-        public Task<List<Product>> GetAllProduct();
+         Task<List<Product>> GetAllProduct();
         // select a product from product table by id
-        public Task<Product> GetProductById(int Id);
+         Task<Product> GetProductById(int Id);
        
         //update a product from product table by id
-        public void UpdateProductByProduct(Product product);
+         void UpdateProductByProduct(Product product);
 
         // remove product from product table by change value of IsDelete to true
-        public Task<Product> RemoveProductById(int Id);
+        Task<Product> RemoveProductById(int Id);
 
-        public void Save();
+        Task Save();
+
+        // Get ProductId From a Product
+         Task<int> GetProductIdByProduct(Product product);
+
     }
 }

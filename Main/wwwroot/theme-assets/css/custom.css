@@ -1,2 +1,62 @@
 /* Write your code here */
 /*# sourceMappingURL=custom.css.map */
+/* Style the container for the radio buttons */
+.radio-container {
+    display: block;
+    position: relative;
+    padding-left: 5px; /* Adjust this value to align the radio buttons properly */
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+    /* Hide the radio buttons */
+    .radio-container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+        /* Style the radio buttons */
+        .radio-container input:checked ~ .checkmark {
+            background-color: #2196F3;
+        }
+
+    /* Style the radio button label */
+    .radio-container .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+        border-radius: 50%;
+    }
+
+    /* Add a hover effect to the radio buttons */
+    .radio-container:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* Style the radio button label when selected */
+    .radio-container input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Create the checkmark for the radio buttons */
+    .radio-container .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(1.2);
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: white;
+    }
+.image-wrapper {
+    margin-right: 10px;
+    display: inline-block;
+}

@@ -52,6 +52,9 @@
                                         تاریخ ایجاد
                                     </th>
                                     <th>
+                                        فعال است؟
+                                    </th>
+                                    <th>
                                         #
                                     </th>
 
@@ -62,43 +65,46 @@
                                 @foreach (var item in Model)
                                 {
 
-                                    <tr>
-                                        <td>
-                                            @item.Title
-                                        </td>
-                                        <td>
-                                            @item.Description
-                                        </td>
-                                        <td>
-                                            @item.Price
-                                        </td>
-                                        <td>
-                                            @if (item.MainImage == null)
-                                            {
-                                                <img src="/ImageProducts/NoImage" alt="Default" height="50px" width="50px">
-                                            }
-                                            <img src="/ImageProducts/@item.MainImage" height="50px" width="50px" />
-                                           
-                                            
-
-                                        </td>
-                                        <td>
-                                            @item.Count
-                                        </td>
-
-                                        <td>
-                                            @item.Category.Title
-                                        </td>
-                                        <td>
-                                            @item.CreateDate
-                                        </td>
-                                        <td>
-                                            <a asp-controller="Product" asp-action="UpdateUser" asp-route-id="@item.Id" class="btn btn-default btn-xs purple"><i class="fa fa-edit"></i> ویرایش</a>
-                                            <a onclick="DeleteAjax(@item.Id)" class="btn btn-default btn-xs black"><i class="fa fa-trash-o"></i> حذف</a>
+                                <tr>
+                                    <td>
+                                        @item.Title
+                                    </td>
+                                    <td>
+                                        @item.Description
+                                    </td>
+                                    <td>
+                                        @item.Price
+                                    </td>
+                                    <td>
+                                        @if (item.MainImage == null)
+                                        {
+                                            <img src="/ImageProducts/NoImage" alt="Default" height="50px" width="50px">
+                                        }
+                                        <img src="/ImageProducts/@item.MainImage" height="50px" width="50px" />
 
 
-                                        </td>
-                                    </tr>
+
+                                    </td>
+                                    <td>
+                                        @item.Count
+                                    </td>
+
+                                    <td>
+                                        @item.Category.Title
+                                    </td>
+                                    <td>
+                                        @item.CreateDate
+                                    </td>
+                                    <td>
+                                        @item.IsActive
+                                    </td>
+                                    <td>
+                                        <a asp-area="Admin" asp-controller="Product" asp-action="UpdateProduct" asp-route-id="@item.Id" class="btn btn-default btn-xs purple"><i class="fa fa-edit"></i> ویرایش</a>
+                                        <a onclick="DeleteAjax(@item.Id)" class="btn btn-default btn-xs black"><i class="fa fa-trash-o"></i> حذف</a>
+
+
+                                    </td>
+                                </tr>
 
 
                                 }

@@ -15,10 +15,12 @@ namespace Main.web.Areas.Admin.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly IProductServices _productServices;
+       
         public ProductController(ICategoryService categoryService, IProductServices productServices)
         {
             _categoryService = categoryService;
             _productServices = productServices;
+              
         }
 
         [HttpGet]
@@ -91,15 +93,39 @@ namespace Main.web.Areas.Admin.Controllers
         }
            
            
-       
+        
 
-
+        [HttpGet]
         public async Task<IActionResult> UpdateProduct(int id)
         {
-            return View(await _productServices.UpdateProduct(id));
+           
+           return View(await _productServices.ShowProductForEditById(id));
+
+
         }
 
+        [HttpPost]
 
+        public async Task<IActionResult> UpdateProduct( ProductViewModel view)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                var result = await _productServices.UpdateProduct(view);
+                if (result == UpdateProductResult.Success)
+                {
+                    TempData["SuccessMessage"] = "ویرایش محصول با موفقیت انجام شد";
+                    return RedirectToAction("Index");
+                }
+                if(result == UpdateProductResult.ProductNotFound)
+                {
+                    TempData["Failed"] = "مشکلی در ویرایش محصول وجود دارد!";
+                    return  RedirectToAction("Index");
+                }
+            }
+            return View(view);
+
+        }
         [HttpPost]
         public IActionResult DeletProdudct(int id)
         {

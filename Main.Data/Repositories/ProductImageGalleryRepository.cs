@@ -17,30 +17,27 @@ namespace Main.Data.Repositories
         {
             this.db = context;
         }
-        public async Task<List<ProductImageGallery>> GetAllImages()
-        {
-           return await db.ProductImageGalleries.Where(i => i.IsDelete == false).ToListAsync();
-        }
 
-        public async Task InsertImage(ProductImageGallery productImageGallery)
-        {
-            db.ProductImageGalleries.Add(productImageGallery);
-        }
-
-
-        public async Task InsertImage(List<ProductImageGallery>  productImageGallery)
-        {
-           await db.ProductImageGalleries.AddRangeAsync(productImageGallery);
-        }
-
-        public void UpdateImage(ProductImageGallery image)
-        {
-            db.ProductImageGalleries.Update(image);
-        }
 
         public async Task Save()
         {
             await db.SaveChangesAsync();
+        }
+
+        public async Task<List<ProductImageGallery>> GetGalleryImageById(int id)
+        {
+            return await db.ProductImageGalleries.Where(i => i.ProductId == id && i.IsDelete == false).ToListAsync();
+        }
+
+
+        public async Task InsertImage(List<ProductImageGallery> productImageGallery)
+        {
+            await db.ProductImageGalleries.AddRangeAsync(productImageGallery);
+        }
+
+        public void UpdateImage(List<ProductImageGallery> images)
+        {
+           db.ProductImageGalleries.UpdateRange(images);
         }
     }
 }

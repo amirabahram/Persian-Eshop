@@ -7,6 +7,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Areas\Admin\Data\**" />
+	  <Compile Remove="Areas\Admin\Models\**" />
+	  <Content Remove="Areas\Admin\Data\**" />
+	  <Content Remove="Areas\Admin\Models\**" />
+	  <EmbeddedResource Remove="Areas\Admin\Data\**" />
+	  <EmbeddedResource Remove="Areas\Admin\Models\**" />
+	  <None Remove="Areas\Admin\Data\**" />
+	  <None Remove="Areas\Admin\Models\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.13">
 			<PrivateAssets>all</PrivateAssets>
@@ -22,8 +33,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Folder Include="Areas\Admin\Data\" />
-		<Folder Include="Areas\Admin\Models\" />
 		<Folder Include="wwwroot\css\" />
 		<Folder Include="wwwroot\js\" />
 		<Folder Include="wwwroot\CssAboutus\" />

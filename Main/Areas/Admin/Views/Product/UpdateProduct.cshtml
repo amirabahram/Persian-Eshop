@@ -1,0 +1,237 @@
+﻿@model Main.Domain.ViewModel.Product.ProductViewModel;
+
+
+
+@{
+    ViewData["Title"] = "صفحه ویرایش محصولات";
+
+    Layout = "_AdminLayout";
+}
+
+
+<div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+        <div class="page-content">
+            <div class="col-xs-12 col-md-12 col-sm-12">
+
+                <div class="col-lg-12 col-sm-12 col-xs-12 col-md-12">
+                    <div class="widget">
+                        <div class="widget-header bordered-top bordered-palegreen">
+                            <span class="widget-caption">ویرایش محصول</span>
+                        </div>
+                        <div class="widget-body">
+                            <div class="collapse in">
+                                <form id="myForm" enctype="multipart/form-data" asp-area="Admin" asp-controller="Product" asp-action="UpdateProduct">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label for="name">نام محصول</label>
+                                                <input type="text" asp-for="Title" required="required" class="form-control" placeholder="نام محصول را وارد کنید"><br><br>
+                                                <span asp-validation-for="Title" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="price">قیمت</label>
+                                                <input type="number" required="required" asp-for="Price" class="form-control"><br><br>
+                                                <span asp-validation-for="Price" class="text-danger"></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="count">تعداد</label>
+                                                <input type="number" required="required" asp-for="Count" class="form-control"><br><br>
+                                                <span asp-validation-for="Count" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="category">انتخاب کتگوری</label>
+                                                <select id="categoryId" name="categoryId" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Title"))" class="form-control">
+                                                    <option value="">-- انتخاب کتگوری --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="image">عکس اصلی</label>
+                                                @*<input id="fileInput" type="file" asp-for="MainImage" accept="image/*" class="form-control " placeholder="عکس اصلی محصول را انتخاب کنید"><br><br>*@
+                                                <input type="file" id="fileInput" name="MainImage" asp-for="MainImage" accept="image/*" class="form-control " placeholder="عکس اصلی محصول را انتخاب کنید" />
+                                                <img id="preview" src="/ImageProducts/@Model.MainPic" height="100px" width="100px" />
+                                                @*<div id="preview"></div>*@
+
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="description">توضیحات</label>
+                                                <textarea asp-for="Description" class="form-control" placeholder="توضیحات محصول"></textarea><br><br>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="image">اضافه کردن عکس جدید </label>
+                                                <input type="file" id="fileInput2" asp-for="GalleryImages" accept="image/*" class="form-control" placeholder="انتخاب عکس های جدید برای محصول" multiple><br><br>
+                                                <div id="previewContainer">
+                                                    @foreach (var item in Model.Pictures)
+                                                    {
+                                                        <img src="/ImageProducts/@item.ImageName" height="100px" width="100px" />
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="radio-container">
+                                                    @Html.RadioButtonFor(model => model.IsActive, true, new { id = "true-option" })
+                                                    <span class="checkmark"></span>
+                                                    محصول فعال!
+                                                </label>
+
+                                                <label class="radio-container">
+                                                    @Html.RadioButtonFor(model => model.IsActive, false, new { id = "false-option" })
+                                                    <span class="checkmark"></span>
+                                                    محصول غیر فعال!
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row text-center">
+                                        <input type="submit" class="btn btn-blue active" value="ویرایش محصول">
+                                        @* <button type="submit" class="btn btn-success">ثبت ویرایش <i class="fa fa-check right"></i></button>*@
+                                    </div>
+
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+@section scripts{
+    <script>
+        function readURL(input, idImg) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $(idImg).attr('src', e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+
+            }
+        }
+
+        $("#fileInput").change(function () {
+            readURL(this, "#preview");
+        });
+
+
+
+
+    </script>
+
+    <script>
+        function readURL(input, idImg) {
+            if (input.files) {
+                for (var i = 0; i < input.files.length; i++) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $(idImg).attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }
+        }
+
+        $("#fileInput2").change(function () {
+            readURL(this, "#preview2");
+        });
+    </script>
+
+    <script>
+
+        const fileInput3 = document.getElementById('fileInput');
+        fileInput3.addEventListener('change', () => {
+            const file3 = fileInput3.files[0];
+
+            if (file3 && !file3.type.startsWith('image/')) {
+                fileInput3.value = '';
+                alert('فقط فایل هایی با فرمت عکس قابل استفاده است');
+            }
+        });
+
+        const fileInput4 = document.getElementById('fileInput2');
+        fileInput4.addEventListener('change', () => {
+            const file4 = fileInput4.files[0];
+
+            if (file4 && !file4.type.startsWith('image/')) {
+                fileInput4.value = '';
+                alert('فقط فایل هایی با فرمت عکس قابل استفاده است');
+            }
+        });
+    </script>
+
+
+
+    <script>
+        function showPreview() {
+            const previewContainer = document.getElementById('previewContainer');
+            const fileInput2 = document.getElementById('fileInput2');
+            const files = fileInput2.files;
+
+            // Clear existing previews
+            previewContainer.innerHTML = '';
+
+            // Loop through the selected files and create previews
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].type.match('image.*')) {
+                    const reader2 = new FileReader();
+                    reader2.onload = function () {
+                        const preview = document.createElement('img');
+                        preview.src = reader2.result;
+                        preview.style.width = '100px'; // Set the size of the preview image
+                        previewContainer.appendChild(preview);
+                    }
+                    reader2.readAsDataURL(files[i]);
+                }
+            }
+        }
+
+        // Call the showPreview function when the file input value changes
+        document.getElementById('fileInput2').addEventListener('change', showPreview);
+    </script>
+
+}
+
+
+
+
+
+

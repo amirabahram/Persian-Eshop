@@ -33,6 +33,7 @@ namespace Main.Domain.Models.Product
         [DisplayName("عکس")]
         public string? MainImage { get; set; }
 
+
         public bool IsActive { get; set; }
 
 
