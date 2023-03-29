@@ -85,8 +85,10 @@ namespace Main.Application.Services.Implementations
                 // Now how to save product in product table
                   await _productRepository.Save();
                 // Get Id Of Product that Inserted Now
-                ProductImageGalleryId = await GetProductIdByProduct(newProduct);
-                
+                ProductImageGalleryId = newProduct.Id;
+                await _productImageGalleryService.InsertGalleryImage(productViewModel.GalleryImages, ProductImageGalleryId);
+
+
             }
             #endregion
             else
@@ -110,8 +112,9 @@ namespace Main.Application.Services.Implementations
                 // Now how to save product in product table
                  await _productRepository.Save();
                 // Get Id Of Product that Inserted Now
-                ProductImageGalleryId = await GetProductIdByProduct(ProductWihoutMainImage);
-               
+                ProductImageGalleryId = ProductWihoutMainImage.Id;
+                await _productImageGalleryService.InsertGalleryImage(productViewModel.GalleryImages, ProductImageGalleryId);
+
 
                 #endregion
 
@@ -140,12 +143,6 @@ namespace Main.Application.Services.Implementations
             await _productRepository.Save();
         }
 
-
-
-        public async Task<int> GetProductIdByProduct(Product product)
-        {
-            return await _productRepository.GetProductIdByProduct( product);
-        }
 
         public async Task<ProductViewModel> ShowProductForEditById(int id)
         {

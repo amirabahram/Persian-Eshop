@@ -22,10 +22,10 @@ namespace Main.Domain.Models.Base_Paging
 
         public BasePaging()
         {
-            int CurrentPage = 1;
-            int HowManyBeforeAndAfter = 5;
-            int TakeEntity = 10;
-            var Entities = new List<T>();
+             CurrentPage = 1;
+             HowManyBeforeAndAfter = 5;
+             TakeEntity = 10;
+             Entities = new List<T>();
         }
 
         public async Task Paging(IQueryable<T> queryable)
@@ -38,6 +38,16 @@ namespace Main.Domain.Models.Base_Paging
             
             Entities = await queryable.Skip(SkipEntity).Take(TakeEntity).ToListAsync();
 
+        }
+
+        public PagingViewModel CurrentPaging()
+        {
+            return new PagingViewModel()
+            {
+                StartPage = this.StartPage,
+                EndPage = this.EndPage,
+                CurrentPage = this.CurrentPage
+            };
         }
    
     }
