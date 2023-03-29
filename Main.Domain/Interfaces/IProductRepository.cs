@@ -1,5 +1,6 @@
 ﻿using Main.Domain.Models.Product;
 using Main.Domain.Models.User;
+using Main.Domain.ViewModel.Filtering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +23,11 @@ namespace Main.Domain.Interfaces
 
         // remove product from product table by change value of IsDelete to true
         Task<Product> RemoveProductById(int Id);
+        Task<FilterProductViewModel> Filter(FilterProductViewModel filterView);
 
         Task Save();
 
-        // Get ProductId From a Product
-         Task<int> GetProductIdByProduct(Product product);
+
 
     }
 }

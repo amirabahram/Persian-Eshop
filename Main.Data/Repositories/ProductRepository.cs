@@ -2,6 +2,7 @@
 using Main.Data.Migrations;
 using Main.Domain.Interfaces;
 using Main.Domain.Models.Product;
+using Main.Domain.ViewModel.Filtering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -56,11 +57,18 @@ namespace Main.Data.Repositories
         {
            await _eshopContext.SaveChangesAsync();
         }
-
-        public async Task<int> GetProductIdByProduct(Product product)
+    
+        public async Task<FilterProductViewModel> Filter(FilterProductViewModel filterView)
         {
-            var product1 = await _eshopContext.Products.FirstOrDefaultAsync(p => p.Id == product.Id);
-            return product1.Id;
+
+            //var query = _eshopContext.Products.AsQueryable();
+            //if (!string.IsNullOrEmpty(filterView.Title))
+            //{
+            //    query = query.Where();
+            //}
+            //await filterView.Paging(query);
+            return filterView;
         }
     }
-}
+    }
+

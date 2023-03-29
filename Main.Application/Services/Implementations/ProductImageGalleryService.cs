@@ -15,9 +15,11 @@ namespace Main.Application.Services.Implementations
     public class ProductImageGalleryService : IProductImageGalleryService
     {
         private IProductImageGalleryRepository _productImageGalleryRepository;
+
         public ProductImageGalleryService(IProductImageGalleryRepository productImageGalleryRepository)
         {
             this._productImageGalleryRepository = productImageGalleryRepository;
+
         }
 
         public async Task<bool> DeleteGalleryImage(int id)
@@ -39,9 +41,51 @@ namespace Main.Application.Services.Implementations
         }
 
 
-        public Task<bool> InsertGalleryImage(List<ProductImageGallery> imageGalleries)
+        public async Task<bool> InsertGalleryImage(List<IFormFile> imageGallery, int id)
         {
-            throw new NotImplementedException();
+            if (imageGallery != null)
+            {
+                var GalleryImagesFileNewName = "";
+                List<ProductImageGallery> imageGalleries = new List<ProductImageGallery>();
+                for (int i = 0; i < imageGallery.Count; i++)
+                {
+                    if (imageGallery[i].HasLength(0) == false &&
+                        imageGallery[i].IsImage() == true)
+                    {
+                        // Get the filename and extension
+                        var GalleryImagesFileName = Path.GetFileName(imageGallery[i].FileName);
+                        var GalleryImagesFileExt = Path.GetExtension(GalleryImagesFileName);
+                        // Generate a unique filename
+                        GalleryImagesFileNewName = Guid.NewGuid().ToString() + GalleryImagesFileExt;
+
+                        // Combine the path with the filename
+                        string GalleryImagesFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImageProducts/");
+
+                        // Save the file to the server
+                        imageGallery[i].AddImageToServer(GalleryImagesFileNewName,
+                            GalleryImagesFilePath, 50, 100);
+
+
+                        imageGalleries.Add(new ProductImageGallery
+                        {
+                            ProductId = id,
+                            ImageName = GalleryImagesFileNewName,
+                            CreateDate = DateTime.Now
+                        });
+
+                    }
+                }
+                // Save ImageName Of Product On the Database
+                await _productImageGalleryRepository.InsertImage(imageGalleries);
+          
+
+                await _productImageGalleryRepository.Save();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public async Task<bool> Save()
@@ -51,10 +95,10 @@ namespace Main.Application.Services.Implementations
         }
 
 
-        public async Task<bool> UpdateGalleryImage(List<IFormFile> imageGallery,int id)
+        public async Task<bool> UpdateGalleryImage(List<IFormFile> imageGallery, int id)
         {
             var oldImages = await GetGalleryImages(id);
-            foreach(var image in oldImages) { image.IsDelete=true; }
+            foreach (var image in oldImages) { image.IsDelete = true; }
             if (imageGallery != null)
             {
                 var GalleryImagesFileNewName = "";
@@ -87,8 +131,8 @@ namespace Main.Application.Services.Implementations
                     }
                 }
                 // Save ImageName Of Product On the Database
-                 _productImageGalleryRepository.UpdateImage(oldImages);
-                 _productImageGalleryRepository.UpdateImage(imageGalleries);
+                _productImageGalleryRepository.UpdateImage(oldImages);
+                _productImageGalleryRepository.UpdateImage(imageGalleries);
 
                 await _productImageGalleryRepository.Save();
                 return true;

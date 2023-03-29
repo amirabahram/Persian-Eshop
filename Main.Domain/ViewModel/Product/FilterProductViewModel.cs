@@ -9,6 +9,6 @@ namespace Main.Domain.ViewModel.Filtering
 {
     public class FilterProductViewModel:BasePaging<FilterProductViewModel>
     {
-
+        public string? Title;
     }
 }

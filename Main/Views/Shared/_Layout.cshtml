@@ -1,4 +1,6 @@
-﻿
+﻿@model Main.Domain.ViewModel.Product.CategoryViewModel
+
+
 <!DOCTYPE html>
 <html lang="fa">
 
@@ -15,7 +17,7 @@
 
 <body>
     <div class="page-wrapper">
-        <partial name="_HeaderPartialView" />
+        @Html.Partial("_HeaderPartialView")
         @RenderBody()
         <partial name="_FooterPartialView" />
     </div>
