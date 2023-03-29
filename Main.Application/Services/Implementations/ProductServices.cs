@@ -125,19 +125,24 @@ namespace Main.Application.Services.Implementations
 
         }
 
-        public async Task RemoveProduct(int productId)
+        public async Task<CreateProductResult> RemoveProduct(int productId)
         {
-            // Combine the path with the filename
-            string GalleryImagesFilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImageProducts/");
+            // Remove Additional Images Of Product
+            //if (await _productImageGalleryRepository.HasValue(productId))
+            //{
+            //    //Remove Records of Images From DataBase
+            //    _productImageGalleryRepository.RemoveImageByProductId(productId);
+            //}
 
-            //
-
+            // Remove Product From Database
             var product = await _productRepository.RemoveProductById(productId);
-
             _productRepository.UpdateProductByProduct(product);
 
 
             await _productRepository.Save();
+
+
+            return CreateProductResult.Success;
         }
 
 

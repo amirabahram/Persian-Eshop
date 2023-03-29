@@ -127,10 +127,19 @@ namespace Main.web.Areas.Admin.Controllers
 
         }
         [HttpPost]
-        public IActionResult DeletProdudct(int id)
+        public async Task<IActionResult> DeletProdudct(int id)
         {
-            _productServices.RemoveProduct(id);
-            return View();
+            CreateProductResult DeleteResult = await _productServices.RemoveProduct(id);
+            if (DeleteResult == CreateProductResult.Success)
+            {
+                TempData["SuccessMessage"] = "حذف محصول با موفقیت انجام شد";
+                return RedirectToAction("Index", "Product");
+            }
+            else
+            {
+                TempData["Failed"] = "مشکلی در حذف محصول وجود دارد!";
+                return RedirectToAction("Index", "Product");
+            }
         }
 
     }
