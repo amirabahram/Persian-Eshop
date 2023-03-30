@@ -13,5 +13,7 @@ namespace Main.Domain.Interfaces
         Task InsertImage(List<ProductImageGallery> productImageGallery);
         void UpdateImage(List<ProductImageGallery> images);
         Task Save();
+
+        Task<bool> HasValue(int productId);
     }
 }

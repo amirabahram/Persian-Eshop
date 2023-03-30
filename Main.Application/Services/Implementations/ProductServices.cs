@@ -120,9 +120,13 @@ namespace Main.Application.Services.Implementations
 
             }
 
+            #region Insert Images In ProductImageGallary
 
+                var resultInsertGallaryImage = await _productImageGalleryService.InsertGalleryImage(productViewModel.GalleryImages, ProductImageGalleryId);
 
-            await _productRepository.Save();
+            #endregion
+
+        await _productRepository.Save();
 
             return CreateProductResult.Success;
 
@@ -130,14 +134,15 @@ namespace Main.Application.Services.Implementations
 
         public async Task<CreateProductResult> RemoveProduct(int productId)
         {
-            // Remove Additional Images Of Product
-            //if (await _productImageGalleryRepository.HasValue(productId))
-            //{
-            //    //Remove Records of Images From DataBase
-            //    _productImageGalleryRepository.RemoveImageByProductId(productId);
-            //}
+            
+            //Remove Additional Images Of Product
+            if (await _productImageGalleryService.HasValue(productId))
+            {
+                //Remove Records of Images From DataBase
+                _productImageGalleryService.DeleteGalleryImage(productId);
+            }
 
-            // Remove Product From Database
+            //Remove Product From Database
             var product = await _productRepository.RemoveProductById(productId);
             _productRepository.UpdateProductByProduct(product);
 

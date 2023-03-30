@@ -143,5 +143,10 @@ namespace Main.Application.Services.Implementations
             }
 
         }
+
+       public async Task<bool> HasValue(int productId)
+        {
+            return await _productImageGalleryRepository.HasValue(productId);
+        }
     }
 }

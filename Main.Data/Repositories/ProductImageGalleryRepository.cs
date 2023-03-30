@@ -39,5 +39,10 @@ namespace Main.Data.Repositories
         {
            db.ProductImageGalleries.UpdateRange(images);
         }
+
+        public async Task<bool>  HasValue(int proudctId)
+        {
+            return await db.ProductImageGalleries.AnyAsync(p => p.ProductId == proudctId);
+        }
     }
 }

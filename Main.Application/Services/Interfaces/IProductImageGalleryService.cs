@@ -15,5 +15,6 @@ namespace Main.Application.Services.Interfaces
         Task<bool> UpdateGalleryImage(List<IFormFile> imageGalleries, int id);
         Task<bool> DeleteGalleryImage(int id);
         Task<bool> Save();
+        Task<bool> HasValue(int productId);
     }
 }
