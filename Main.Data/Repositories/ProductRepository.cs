@@ -45,13 +45,6 @@ namespace Main.Data.Repositories
              _eshopContext.Products.Update(product);
         }
 
-        public async Task<Product> RemoveProductById(int Id)
-        {
-         
-            var myproduct= _eshopContext.Products.FirstOrDefaultAsync(p => p.Id == Id).Result;
-            myproduct.IsDelete = true;
-            return myproduct;
-        }
 
         public async Task Save()
         {

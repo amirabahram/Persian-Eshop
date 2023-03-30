@@ -132,8 +132,8 @@ namespace Main.web.Areas.Admin.Controllers
             CreateProductResult DeleteResult = await _productServices.RemoveProduct(id);
             if (DeleteResult == CreateProductResult.Success)
             {
-                TempData["SuccessMessage"] = "حذف محصول با موفقیت انجام شد";
-                return RedirectToAction("Index", "Product");
+                return new JsonResult(new { status = "Success" });
+
             }
             else
             {

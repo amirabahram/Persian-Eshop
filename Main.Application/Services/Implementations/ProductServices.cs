@@ -142,8 +142,8 @@ namespace Main.Application.Services.Implementations
                 _productImageGalleryService.DeleteGalleryImage(productId);
             }
 
-            //Remove Product From Database
-            var product = await _productRepository.RemoveProductById(productId);
+            var product = await _productRepository.GetProductById(productId);
+            product.IsDelete = true;
             _productRepository.UpdateProductByProduct(product);
 
 

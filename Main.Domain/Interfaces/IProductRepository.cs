@@ -21,8 +21,6 @@ namespace Main.Domain.Interfaces
         //update a product from product table by id
          void UpdateProductByProduct(Product product);
 
-        // remove product from product table by change value of IsDelete to true
-        Task<Product> RemoveProductById(int Id);
         Task<FilterProductViewModel> Filter(FilterProductViewModel filterView);
 
         Task Save();
