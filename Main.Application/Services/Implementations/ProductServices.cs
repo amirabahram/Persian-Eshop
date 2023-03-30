@@ -86,7 +86,6 @@ namespace Main.Application.Services.Implementations
                   await _productRepository.Save();
                 // Get Id Of Product that Inserted Now
                 ProductImageGalleryId = newProduct.Id;
-                await _productImageGalleryService.InsertGalleryImage(productViewModel.GalleryImages, ProductImageGalleryId);
 
 
             }
@@ -113,7 +112,6 @@ namespace Main.Application.Services.Implementations
                  await _productRepository.Save();
                 // Get Id Of Product that Inserted Now
                 ProductImageGalleryId = ProductWihoutMainImage.Id;
-                await _productImageGalleryService.InsertGalleryImage(productViewModel.GalleryImages, ProductImageGalleryId);
 
 
                 #endregion
