@@ -21,7 +21,7 @@ namespace Main.Application.Services.Interfaces
         public Task<UpdateProductResult> UpdateProduct(ProductViewModel model);
 
         //remove a product from product table by product id
-        public Task RemoveProduct(int productId);
+        public Task<CreateProductResult> RemoveProduct(int productId);
 
 
         Task<ProductViewModel> ShowProductForEditById(int id);
