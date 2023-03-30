@@ -97,10 +97,11 @@ namespace Main.Application.Services.Implementations
 
         public async Task<bool> UpdateGalleryImage(List<IFormFile> imageGallery, int id)
         {
-            var oldImages = await GetGalleryImages(id);
-            foreach (var image in oldImages) { image.IsDelete = true; }
+
             if (imageGallery != null)
             {
+                var oldImages = await GetGalleryImages(id);
+                foreach (var image in oldImages) { image.IsDelete = true; }
                 var GalleryImagesFileNewName = "";
                 List<ProductImageGallery> imageGalleries = new List<ProductImageGallery>();
                 for (int i = 0; i < imageGallery.Count; i++)

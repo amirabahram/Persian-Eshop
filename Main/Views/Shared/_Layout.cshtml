@@ -17,7 +17,7 @@
 
 <body>
     <div class="page-wrapper">
-        @Html.Partial("_HeaderPartialView")
+        @Html.Partial("_HeaderPartialView",Model)
         @RenderBody()
         <partial name="_FooterPartialView" />
     </div>
