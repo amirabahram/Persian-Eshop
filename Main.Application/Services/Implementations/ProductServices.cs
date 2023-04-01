@@ -137,7 +137,7 @@ namespace Main.Application.Services.Implementations
             if (await _productImageGalleryService.HasValue(productId))
             {
                 //Remove Records of Images From DataBase
-                _productImageGalleryService.DeleteGalleryImage(productId);
+              await  _productImageGalleryService.DeleteGalleryImage(productId);               
             }
 
             var product = await _productRepository.GetProductById(productId);
