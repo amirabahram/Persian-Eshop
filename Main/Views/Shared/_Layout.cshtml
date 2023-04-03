@@ -1,4 +1,4 @@
-﻿@model List<Main.Domain.ViewModel.Product.CategoryProductViewModel>
+﻿@model List<Main.Domain.Models.Category.Category>
 
 
 <!DOCTYPE html>
@@ -18,15 +18,6 @@
 <body>
     <div class="page-wrapper">
         @Html.Partial("_HeaderPartialView", Model)
-        <div class="row">
-
-            <div class="col-3">
-               @* @await Component.InvokeAsync("Categories")*@
-            </div>
-            <div class="col-9">
-                @Html.Partial("AdsBesideCategoriesComponent") 
-            </div>
-        </div>
         @RenderBody()
         <partial name="_FooterPartialView" />
     </div>

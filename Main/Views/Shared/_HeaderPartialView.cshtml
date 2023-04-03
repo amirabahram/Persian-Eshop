@@ -1,5 +1,4 @@
-﻿@model List<Main.Domain.ViewModel.Product.CategoryProductViewModel>
-
+﻿@model List<Main.Domain.Models.Category.Category>
 
 
 
@@ -144,9 +143,20 @@
                 <div class="vertical-menu">
                     <a href="#" class="vertical-menu-btn">دسته بندی کالاها <i class="ri-apps-fill icon"></i></a>
                     <div class="vertical-menu-items">
+                        <ul>
+                            @foreach (var item in Model)
+                                {
+                                    <li class="mega-menu-category show">
+                                        <a asp-controller="ShowProduct" asp-action="ShowProducts">@item.Title</a>
+                                        @*<ul class="mega-menu">
+                                            <li class="parent"><a href="#">....</a></li>
 
                         @await Component.InvokeAsync("Categories")
 
+                                        </ul>*@
+                                    </li>
+                                }
+                        </ul>
                     </div>
                 </div>
                 <ul class="nav">
