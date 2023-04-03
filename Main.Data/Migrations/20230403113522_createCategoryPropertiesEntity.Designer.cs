@@ -4,6 +4,7 @@ using Main.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Main.Data.Migrations
 {
     [DbContext(typeof(EshopContext))]
-    partial class EshopContextModelSnapshot : ModelSnapshot
+    [Migration("20230403113522_createCategoryPropertiesEntity")]
+    partial class createCategoryPropertiesEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,40 +88,6 @@ namespace Main.Data.Migrations
                     b.HasIndex("CategoryParentId");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("Main.Domain.Models.CategoryProperties.CategoryProperties", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PropertyValue")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.ToTable("categoryProperties");
                 });
 
             modelBuilder.Entity("Main.Domain.Models.Faq.Faq", b =>
@@ -285,15 +253,6 @@ namespace Main.Data.Migrations
                         .HasForeignKey("CategoryParentId");
 
                     b.Navigation("CategoryParent");
-                });
-
-            modelBuilder.Entity("Main.Domain.Models.CategoryProperties.CategoryProperties", b =>
-                {
-                    b.HasOne("Main.Domain.Models.Category.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-
-                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Main.Domain.Models.Product_Image_Gallery.ProductImageGallery", b =>

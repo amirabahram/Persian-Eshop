@@ -3,7 +3,7 @@
 
 
 
-        <!-- start of page-header -->
+<!-- start of page-header -->
 <header class="page-header d-md-block d-none">
     <!-- start banner -->
     <div class="alert banner-container alert-dismissible fade show" role="alert">
@@ -60,14 +60,14 @@
                             <a class="nav-link" href="#">درباره ما</a>
                         </li>
 
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Account" asp-action="Logout">خروج </a>
-                            </li>
-                        
-                   
-                     
                         <li class="nav-item">
-                            <a class="nav-link"  asp-controller="Account" asp-action="Login">ورود </a>
+                            <a class="nav-link" asp-controller="Account" asp-action="Logout">خروج </a>
+                        </li>
+
+
+
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Account" asp-action="Login">ورود </a>
                         </li>
                     </ul>
                 </div>
@@ -122,15 +122,17 @@
                     </div>
                 </div>
 
-                @{ if (User.Identity.IsAuthenticated)
+                @{
+                    if (User.Identity.IsAuthenticated)
                     {
-                        @await Component.InvokeAsync("Sidebar");
+                        @await Component.InvokeAsync("Sidebar")
+                        ;
                     }
                     else
                     {
                         <partial name="RegisterAndLoginPartialView" />
                     }
-                    }
+                }
             </div>
         </div>
     </div>
@@ -142,19 +144,9 @@
                 <div class="vertical-menu">
                     <a href="#" class="vertical-menu-btn">دسته بندی کالاها <i class="ri-apps-fill icon"></i></a>
                     <div class="vertical-menu-items">
-                        <ul>
-                            @*@foreach (var item in Model)
-                            {
-                                <li class="mega-menu-category show">
-                                    <a href="#">@item.Category.Title</a>
-                                    <ul class="mega-menu">
-                                        <li class="parent"><a href="#">....</a></li>
 
+                        @await Component.InvokeAsync("Categories")
 
-                                    </ul>
-                                </li>
-                            }*@
-                        </ul>
                     </div>
                 </div>
                 <ul class="nav">
