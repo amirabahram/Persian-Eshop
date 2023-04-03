@@ -43,8 +43,7 @@ namespace Main.Domain.ViewModel.Product
         public int? CategoryId { get; set; }
 
         
-        public List<IFormFile>? GalleryImages { get; set; }
-        public List<ProductImageGallery>? Pictures { get; set; }
+
 
         public List<Category>? Categories { get; set; }
     }

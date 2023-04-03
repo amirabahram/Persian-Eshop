@@ -1,0 +1,31 @@
+﻿@*@model Main.Domain.Models.Product_Image_Gallery.ProductImageGallery
+
+<h1>@Model.Name</h1>
+
+<p>@Model.Description</p>
+
+@if (Model.Images.Count > 0)
+{
+    <h2>Current Images:</h2>
+    <ul>
+        @foreach (var image in Model.Images)
+        {
+            <li>
+                <img src="@image.Url" alt="@image.Description" />
+                @using (Html.BeginForm("DeleteImage", "Products", new { imageId = image.Id }, FormMethod.Post))
+                {
+                    <button type="submit">Delete</button>
+                }
+            </li>
+        }
+    </ul>
+}
+
+<h2>Add New Images:</h2>
+@using (Html.BeginForm("UploadImages", "Products", new { productId = Model.Id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="file" name="images" multiple="multiple" />
+    <button type="submit">Upload</button>
+}*@
+
+<h1>fff</h1>

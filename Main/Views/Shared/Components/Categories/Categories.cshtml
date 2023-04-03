@@ -1,0 +1,19 @@
+﻿@model IEnumerable<Main.Domain.Models.Category.Category>
+
+
+<main class="page-content">
+    <div class="container">
+
+        <ul class="list-group">
+            @foreach (var category in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css">
+                    <a href="/Group/@category.Id/@category.Title">@category.Title</a>
+                    <span class="badge badge-primary badge-pill">0</span>
+                </li>
+            }
+        </ul>
+    </div>
+
+</main>

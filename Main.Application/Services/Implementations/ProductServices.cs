@@ -35,6 +35,34 @@ namespace Main.Application.Services.Implementations
 
         }
 
+        //amir: this method is for shownig all categories an every category products and I think this method doesnt recommended
+        public async Task<List<CategoryProductViewModel>> GetAllCategoriesAndProducts()
+        {
+            var categories = await _categoryServices.GetAllCategories();
+            var products   = await _productRepository.GetAllProduct();
+            var categoryProductViewModels = new List<CategoryProductViewModel>();
+            foreach (var category in categories)
+            {
+                var productViewModels = products
+                    .Where(p => p.CategoryId == category.Id)
+                    .Select(p => new ProductViewModel
+                    {
+                        Id = p.Id,
+                        Title = p.Title
+                    });
+                var categoryProductViewModel = new CategoryProductViewModel
+                {
+                    Category = new CategoryViewModel
+                    {
+                          Title = category.Title,
+                    },
+                    Products = productViewModels
+                };
+                categoryProductViewModels.Add(categoryProductViewModel);
+            }
+            return categoryProductViewModels;
+        }
+
         public async Task<List<Product>> GetAllProduct()
         {
             return await _productRepository.GetAllProduct();
@@ -86,7 +114,7 @@ namespace Main.Application.Services.Implementations
                   await _productRepository.Save();
                 // Get Id Of Product that Inserted Now
                 ProductImageGalleryId = newProduct.Id;
-                await _productImageGalleryService.InsertGalleryImage(productViewModel.GalleryImages, ProductImageGalleryId);
+                
 
 
             }
@@ -111,20 +139,16 @@ namespace Main.Application.Services.Implementations
                 await _productRepository.InsertProduct(ProductWihoutMainImage);
                 // Now how to save product in product table
                  await _productRepository.Save();
-                // Get Id Of Product that Inserted Now
-                ProductImageGalleryId = ProductWihoutMainImage.Id;
-                await _productImageGalleryService.InsertGalleryImage(productViewModel.GalleryImages, ProductImageGalleryId);
+              
+             
+               
 
 
                 #endregion
 
             }
 
-            #region Insert Images In ProductImageGallary
 
-                var resultInsertGallaryImage = await _productImageGalleryService.InsertGalleryImage(productViewModel.GalleryImages, ProductImageGalleryId);
-
-            #endregion
 
         await _productRepository.Save();
 
@@ -135,12 +159,12 @@ namespace Main.Application.Services.Implementations
         public async Task<CreateProductResult> RemoveProduct(int productId)
         {
             
-            //Remove Additional Images Of Product
-            if (await _productImageGalleryService.HasValue(productId))
-            {
-                //Remove Records of Images From DataBase
-                _productImageGalleryService.DeleteGalleryImage(productId);
-            }
+
+            //if (await _productImageGalleryService.HasValue(productId))
+            //{
+            //    //Remove Records of Images From DataBase
+            //    _productImageGalleryService.DeleteGalleryImage(productId);
+            //}
 
             var product = await _productRepository.GetProductById(productId);
             product.IsDelete = true;
@@ -164,7 +188,7 @@ namespace Main.Application.Services.Implementations
             return new ProductViewModel
             {
                 //Id = product.Id,
-                Pictures = GalleryImages,
+        
                 Title = product.Title,
                 Description = product.Description,
                 CategoryId = product.CategoryId,
@@ -211,7 +235,7 @@ namespace Main.Application.Services.Implementations
             product.IsActive = model.IsActive;
             product.Price = model.Price;
 
-            await _productImageGalleryService.UpdateGalleryImage(model.GalleryImages,model.Id);
+           
             _productRepository.UpdateProductByProduct(product);
             await _productRepository.Save();
             return UpdateProductResult.Success;

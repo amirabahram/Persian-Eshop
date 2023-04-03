@@ -12,19 +12,21 @@ namespace Main.Application.Services.Interfaces
     public interface IProductServices
     {
         // get all product from table
-        public Task<List<Product>> GetAllProduct();
+         Task<List<Product>> GetAllProduct();
 
         // insert a product in product table
-        public Task<CreateProductResult> InsertProduct(ProductViewModel productViewModel);
+         Task<CreateProductResult> InsertProduct(ProductViewModel productViewModel);
 
         
-        public Task<UpdateProductResult> UpdateProduct(ProductViewModel model);
+         Task<UpdateProductResult> UpdateProduct(ProductViewModel model);
 
         //remove a product from product table by product id
-        public Task<CreateProductResult> RemoveProduct(int productId);
+         Task<CreateProductResult> RemoveProduct(int productId);
 
 
         Task<ProductViewModel> ShowProductForEditById(int id);
+
+        Task<List<CategoryProductViewModel>> GetAllCategoriesAndProducts();
 
     }
 }

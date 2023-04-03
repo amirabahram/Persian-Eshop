@@ -15,6 +15,8 @@ namespace Main.Domain.Interfaces
          Task InsertProduct(Product product);
         // select all products from product table
          Task<List<Product>> GetAllProduct();
+
+        
         // select a product from product table by id
          Task<Product> GetProductById(int Id);
        

@@ -141,6 +141,12 @@ namespace Main.web.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Product");
             }
         }
+        
+        //public async Task<IActionResult> ProductGallery(int id)
+        //{
+        //    var 
+        //    return View();
+        //}
 
     }
 }

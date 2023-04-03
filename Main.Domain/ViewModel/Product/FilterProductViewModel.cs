@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Main.Domain.ViewModel.Filtering
 {
-    public class FilterProductViewModel:BasePaging<FilterProductViewModel>
+    public class FilterProductViewModel:BasePaging<Main.Domain.Models.Product.Product>
     {
         public string? Title;
     }

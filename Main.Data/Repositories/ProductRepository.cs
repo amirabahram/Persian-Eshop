@@ -53,8 +53,9 @@ namespace Main.Data.Repositories
     
         public async Task<FilterProductViewModel> Filter(FilterProductViewModel filterView)
         {
-
-            //var query = _eshopContext.Products.AsQueryable();
+            //Soal -----> aya nabayad in dar service piade shavad??????????
+            var query = _eshopContext.Products.AsQueryable();
+            ///////////////////////////////////////---------------------------------bagie dar service piade mishavad!
             //if (!string.IsNullOrEmpty(filterView.Title))
             //{
             //    query = query.Where();
@@ -62,6 +63,7 @@ namespace Main.Data.Repositories
             //await filterView.Paging(query);
             return filterView;
         }
+
     }
     }
 
