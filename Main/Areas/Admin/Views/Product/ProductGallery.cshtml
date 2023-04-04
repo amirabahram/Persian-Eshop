@@ -1,31 +1,22 @@
-﻿@*@model Main.Domain.Models.Product_Image_Gallery.ProductImageGallery
+﻿@using Main.Domain.ViewModel.Product;
+@model ProductGalleryViewModel
 
-<h1>@Model.Name</h1>
+<div>
+    <div class="col-md-9">
+    </div>
+    <div class="col-md-3">
+        <div class="widget radius-bordered">
+            <div class="widget-header">
+                <span class="widget-caption">انتخاب تصاویر</span>
+            </div>
+            <div class="widget-body">
+                <h5>Standard Button</h5>
+                <hr class="wide">
+                <span class="file-input btn btn-azure btn-block btn-default btn-file">
+                    ثبت تصویر <input type="file" multiple="">
+                </span>
 
-<p>@Model.Description</p>
-
-@if (Model.Images.Count > 0)
-{
-    <h2>Current Images:</h2>
-    <ul>
-        @foreach (var image in Model.Images)
-        {
-            <li>
-                <img src="@image.Url" alt="@image.Description" />
-                @using (Html.BeginForm("DeleteImage", "Products", new { imageId = image.Id }, FormMethod.Post))
-                {
-                    <button type="submit">Delete</button>
-                }
-            </li>
-        }
-    </ul>
-}
-
-<h2>Add New Images:</h2>
-@using (Html.BeginForm("UploadImages", "Products", new { productId = Model.Id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <input type="file" name="images" multiple="multiple" />
-    <button type="submit">Upload</button>
-}*@
-
-<h1>fff</h1>
+            </div>
+        </div>
+    </div>
+</div>
