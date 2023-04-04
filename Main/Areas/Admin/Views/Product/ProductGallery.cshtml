@@ -1,31 +1,63 @@
-﻿@*@model Main.Domain.Models.Product_Image_Gallery.ProductImageGallery
+﻿<!--@model List<Main.Domain.Models.Product_Image_Gallery.ProductImageGallery>
 
-<h1>@Model.Name</h1>
 
-<p>@Model.Description</p>
+<div class="main-container container-fluid">-->
+    <!-- Page Container -->
+    <!--<div class="page-container">
+        <div class="page-content">
+            <div class="col-xs-12 col-md-12 col-sm-12">
+                <div class="widget-body">
+                    <div class="collapse in">
+                        <form id="myForm" enctype="multipart/form-data" asp-area="Admin" asp-controller="Product" asp-action="UpdateProduct">
 
-@if (Model.Images.Count > 0)
-{
-    <h2>Current Images:</h2>
-    <ul>
-        @foreach (var image in Model.Images)
-        {
-            <li>
-                <img src="@image.Url" alt="@image.Description" />
-                @using (Html.BeginForm("DeleteImage", "Products", new { imageId = image.Id }, FormMethod.Post))
-                {
-                    <button type="submit">Delete</button>
+                            <div class="row">
+                                <label for="fileInput" class="file-input-label">
+                                    <img src="/Images/add-image-icon-0.jpg" height="100px" width="100px">
+                                </label>
+                                <input type="file" id="fileInput" class="file-input" style="display: none;">
+                                <div id="previewContainer">
+                                   
+                                        @foreach (var item in Model)
+                                        {
+                                            <img src="/ImageProducts/@item.ImageName" height="100px" width="100px" />
+                                        }
+                                    
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        function showPreview() {
+            const previewContainer = document.getElementById('previewContainer');
+            const fileInput2 = document.getElementById('fileInput2');
+            const files = fileInput2.files;
+
+            // Clear existing previews
+            previewContainer.innerHTML = '';
+
+            // Loop through the selected files and create previews
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].type.match('image.*')) {
+                    const reader2 = new FileReader();
+                    reader2.onload = function () {
+                        const preview = document.createElement('img');
+                        preview.src = reader2.result;
+                        preview.style.width = '100px'; // Set the size of the preview image
+                        previewContainer.appendChild(preview);
+                    }
+                    reader2.readAsDataURL(files[i]);
                 }
-            </li>
+            }
         }
-    </ul>
-}
 
-<h2>Add New Images:</h2>
-@using (Html.BeginForm("UploadImages", "Products", new { productId = Model.Id }, FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <input type="file" name="images" multiple="multiple" />
-    <button type="submit">Upload</button>
-}*@
-
-<h1>fff</h1>
+        // Call the showPreview function when the file input value changes
+        document.getElementById('fileInput2').addEventListener('change', showPreview);
+    </script>
+}-->

@@ -15,11 +15,13 @@ namespace Main.web.Areas.Admin.Controllers
     {
         private readonly ICategoryService _categoryService;
         private readonly IProductServices _productServices;
+        private readonly IProductImageGalleryService _productImageGalleryService;
        
-        public ProductController(ICategoryService categoryService, IProductServices productServices)
+        public ProductController(ICategoryService categoryService, IProductServices productServices, IProductImageGalleryService productImageGalleryService)
         {
             _categoryService = categoryService;
             _productServices = productServices;
+            _productImageGalleryService = productImageGalleryService;
               
         }
 
@@ -141,12 +143,20 @@ namespace Main.web.Areas.Admin.Controllers
                 return RedirectToAction("Index", "Product");
             }
         }
-        
-        //public async Task<IActionResult> ProductGallery(int id)
-        //{
-        //    var 
-        //    return View();
-        //}
 
+        public async Task<IActionResult> ProductGallery(int id)
+        {
+
+            var images = await _productImageGalleryService.GetGalleryImages(id);
+            return View(images);
+        }
+        //[HttpPost]
+        //public async Task<IActionResult> ProductGallery(ProductGalleryViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _productImageGalleryService.InsertGalleryImage(model.GalleryImage,model.Id);
+        //    }
+        //}
     }
 }

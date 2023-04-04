@@ -10,6 +10,7 @@ namespace Main.Domain.ViewModel.Product
 {
     public class ProductGalleryViewModel
     {
+        public int Id { get; set; }
         public IFormFile GalleryImage { get; set; }
         public List<string>? Pictures { get; set; }
     }

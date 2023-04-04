@@ -1,4 +1,5 @@
 ﻿using Main.Domain.Models.Product_Image_Gallery;
+using Main.Domain.ViewModel.Product;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
