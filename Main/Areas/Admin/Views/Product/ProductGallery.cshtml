@@ -1,4 +1,12 @@
-﻿@model List<Main.Domain.Models.Product_Image_Gallery.ProductImageGallery>
+﻿@model Main.Domain.ViewModel.Product.ProductGalleryAddViewModel
+@using Main.Domain.ViewModel.Product
+@{
+    ViewBag.Title = "List Of Images";
+
+    var Pics = ViewBag.Pictures != null ? ViewBag.Pictures as List<ProductGalleryShowViewModel> : null;
+
+}
+
 
 <div class="main-container container-fluid">
     <!-- Page Container -->
@@ -18,12 +26,15 @@
 
                                         <div class="row">
 
-                                            <div id="previewContainer"  style="overflow-x: auto; white-space: nowrap;">
-
-                                                @foreach (var item in Model)
+                                            <div id="previewContainer" style="overflow-x: auto; white-space: nowrap;">
+                                                @if (Pics != null && Pics.Any())
                                                 {
-                                                    <img src="/ImageProducts/@item.ImageName" height="100px" width="100px" style="margin-right: 10px; display: inline-block;" />
+                                                    foreach (var item in Pics)
+                                                    {
+                                                        <img src="/ImageProducts/@item.Picture" height="100px" width="100px" style="margin-right: 10px; display: inline-block;" />
+                                                    }
                                                 }
+
 
 
                                             </div>
@@ -34,7 +45,7 @@
                             </div>
                         </div>
 
-                     
+
                     </div>
                     <div class="col-md-3">
                         <div class="widget radius-bordered">
@@ -42,16 +53,19 @@
                                 <span class="widget-caption">انتخاب تصاویر</span>
                             </div>
                             <div class="widget-body">
-                                <label for="fileInput" class="file-input-label">
-                                    <img src="/Images/add-image-icon-0.jpg" height="100px" width="100px">
-                                </label>
-                                <input type="file" id="fileInput" class="file-input" style="display: none;">
-                                <hr class="wide">
-                                <span class="file-input btn btn-azure btn-block btn-default btn-file">
-                                    ثبت تصویر <input type="file" multiple="">
-                                </span>
+                                <form id="myForm" enctype="multipart/form-data" asp-area="Admin" asp-controller="Product" asp-action="ProductGallery">
+                                    <label for="fileInput2" class="file-input-label">
+                                        <img src="/Images/add-image-icon-0.jpg" height="100px" width="100px">
+                                    </label>
+                                    <input type="hidden" asp-for="ProductId"/>
+                                    <input type="file" asp-for="InputImages" id="fileInput2" multiple class="file-input" style="display: none;">
+                                    <div id="previewContainer2">
+                                    </div>
+                                    <hr class="wide">
+                                    <input type="submit" class="btn btn-blue active" value="ثبت تصاویر">
 
 
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -59,7 +73,7 @@
 
 
 
-              
+
             </div>
         </div>
     </div>
@@ -68,6 +82,33 @@
     <script>
         function showPreview() {
             const previewContainer = document.getElementById('previewContainer');
+            const fileInput2 = document.getElementById('fileInput');
+            const files = fileInput2.files;
+
+            // Clear existing previews
+            previewContainer.innerHTML = '';
+
+            // Loop through the selected files and create previews
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].type.match('image.*')) {
+                    const reader2 = new FileReader();
+                    reader2.onload = function () {
+                        const preview = document.createElement('img');
+                        preview.src = reader2.result;
+                        preview.style.width = '100px'; // Set the size of the preview image
+                        previewContainer.appendChild(preview);
+                    }
+                    reader2.readAsDataURL(files[i]);
+                }
+            }
+        }
+
+        // Call the showPreview function when the file input value changes
+        document.getElementById('fileInput').addEventListener('change', showPreview);
+    </script>
+    <script>
+        function showPreview() {
+            const previewContainer = document.getElementById('previewContainer2');
             const fileInput2 = document.getElementById('fileInput2');
             const files = fileInput2.files;
 

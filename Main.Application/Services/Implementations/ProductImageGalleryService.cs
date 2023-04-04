@@ -5,6 +5,7 @@ using Main.Domain.Interfaces;
 using Main.Domain.Models.Product_Image_Gallery;
 using Main.Domain.ViewModel.Product;
 using Microsoft.AspNetCore.Http;
+using NuGet.Packaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,10 +37,24 @@ namespace Main.Application.Services.Implementations
             return true;
         }
 
-        public async Task<List<ProductImageGallery>> GetGalleryImages(int id)
+        public async Task<List<ProductGalleryShowViewModel>> GetGalleryImages(int id)
         {
-            return await _productImageGalleryRepository.GetGalleryImageById(id);
 
+            var images = await _productImageGalleryRepository.GetGalleryImageById(id);
+            var galleryList = new List<ProductGalleryShowViewModel>();
+
+            foreach(var image in images)
+            {
+                var gallery = new ProductGalleryShowViewModel()
+                {
+                    ProductId = id,
+                    ImageId = image.Id,
+                    Picture = image.ImageName
+
+                };
+                galleryList.Add(gallery);
+            };
+           return galleryList;
 
         }
 

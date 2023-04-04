@@ -7,6 +7,7 @@ using Main.Domain.Models.Category;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Academy.Application.Security;
+using Main.Domain.Models.Product_Image_Gallery;
 
 namespace Main.web.Areas.Admin.Controllers
 {
@@ -147,16 +148,24 @@ namespace Main.web.Areas.Admin.Controllers
         public async Task<IActionResult> ProductGallery(int id)
         {
 
-            var images = await _productImageGalleryService.GetGalleryImages(id);
-            return View(images);
+            ViewBag.Pictures = await _productImageGalleryService.GetGalleryImages(id);
+            var inputImages = new ProductGalleryAddViewModel()
+            {
+                ProductId = id
+            };
+            return View(inputImages);
         }
-        //[HttpPost]
-        //public async Task<IActionResult> ProductGallery(ProductGalleryViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _productImageGalleryService.InsertGalleryImage(model.GalleryImage,model.Id);
-        //    }
-        //}
+        [HttpPost]
+        public async Task<IActionResult> ProductGallery(ProductGalleryAddViewModel images)
+        {
+            if (ModelState.IsValid)
+            {
+                await _productImageGalleryService.InsertGalleryImage(images.InputImages, images.ProductId);
+                var indexModel = await _productServices.GetAllProduct();
+                return View("Index", indexModel);
+            }
+            return RedirectToAction("ProductGallery");
+
+        }
     }
 }
