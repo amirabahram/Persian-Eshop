@@ -1,33 +1,65 @@
-﻿<!--@model List<Main.Domain.Models.Product_Image_Gallery.ProductImageGallery>
+﻿@model List<Main.Domain.Models.Product_Image_Gallery.ProductImageGallery>
 
-
-<div class="main-container container-fluid">-->
+<div class="main-container container-fluid">
     <!-- Page Container -->
-    <!--<div class="page-container">
+    <div class="page-container">
         <div class="page-content">
             <div class="col-xs-12 col-md-12 col-sm-12">
-                <div class="widget-body">
-                    <div class="collapse in">
-                        <form id="myForm" enctype="multipart/form-data" asp-area="Admin" asp-controller="Product" asp-action="UpdateProduct">
+                <div class="databox databox-xxlg databox-vertical databox-shadowed bg-white radius-bordered padding-5">
+                    <div class="col-md-9">
+                        <div class="widget radius-bordered">
+                            <div class="widget-header">
+                                <span class="widget-caption"> تصاویر ثبت شده**برای حذف روی تصویر کلیک کنید**</span>
+                            </div>
+                            <div class="widget-body">
 
-                            <div class="row">
+                                <div class="collapse in">
+                                    <form id="myForm" enctype="multipart/form-data" asp-area="Admin" asp-controller="Product" asp-action="UpdateProduct">
+
+                                        <div class="row">
+
+                                            <div id="previewContainer"  style="overflow-x: auto; white-space: nowrap;">
+
+                                                @foreach (var item in Model)
+                                                {
+                                                    <img src="/ImageProducts/@item.ImageName" height="100px" width="100px" style="margin-right: 10px; display: inline-block;" />
+                                                }
+
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+
+                     
+                    </div>
+                    <div class="col-md-3">
+                        <div class="widget radius-bordered">
+                            <div class="widget-header">
+                                <span class="widget-caption">انتخاب تصاویر</span>
+                            </div>
+                            <div class="widget-body">
                                 <label for="fileInput" class="file-input-label">
                                     <img src="/Images/add-image-icon-0.jpg" height="100px" width="100px">
                                 </label>
                                 <input type="file" id="fileInput" class="file-input" style="display: none;">
-                                <div id="previewContainer">
-                                   
-                                        @foreach (var item in Model)
-                                        {
-                                            <img src="/ImageProducts/@item.ImageName" height="100px" width="100px" />
-                                        }
-                                    
+                                <hr class="wide">
+                                <span class="file-input btn btn-azure btn-block btn-default btn-file">
+                                    ثبت تصویر <input type="file" multiple="">
+                                </span>
 
-                                </div>
+
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </div>
+
+
+
+              
             </div>
         </div>
     </div>
@@ -60,4 +92,4 @@
         // Call the showPreview function when the file input value changes
         document.getElementById('fileInput2').addEventListener('change', showPreview);
     </script>
-}-->
+}
