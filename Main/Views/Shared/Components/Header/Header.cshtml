@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "...";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
     var Categories = ViewBag.AllCategories != null ? ViewBag.AllCategories as List<Category> : null;
 }
 
@@ -152,18 +152,25 @@
                         <ul>
                             @foreach (var category in Categories)
                             {
+
                                 <li class="mega-menu-category show">
                                     <a asp-controller="Home" asp-action="Index">@category.Title</a>
                                     <ul class="mega-menu">
-                                        <li class="parent"><a href="#">....</a></li>
+                                        @foreach (var item in Model)
+                                        {
 
-                                        @*@foreach (var item in Model)
+
+                                            @if (category.Id == item.CategoryId)
                                             {
-                                                @if (category.Id == item.CategoryId)
-                                                {
-                                                    @item.ProductTitle
-                                                }
-                                            }*@
+                                                <li class="parent">
+                                                    <a href="#">
+                                                        @item.ProductTitle
+                                                    </a>
+                                                </li>
+                                            }
+
+
+                                        }
                                     </ul>
                                 </li>
                             }

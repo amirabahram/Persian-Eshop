@@ -12,18 +12,15 @@ namespace Main.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private readonly ICategoryService _categoryService;
 
-        public HomeController(ILogger<HomeController> logger, ICategoryService categoryService)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            this._categoryService = categoryService;
         }
 
-        public async Task<IActionResult> Index()
+        public  IActionResult Index()
         {
-            var allCategories = await  _categoryService.GetAllCategories();
-            return View(allCategories);
+            return View();
         }
 
         public IActionResult Privacy()

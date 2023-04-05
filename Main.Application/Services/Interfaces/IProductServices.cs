@@ -1,5 +1,6 @@
 ﻿using Main.Data.Migrations;
 using Main.Domain.Models.Product;
+using Main.Domain.ViewModel.Filtering;
 using Main.Domain.ViewModel.Product;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,9 @@ namespace Main.Application.Services.Interfaces
 
         Task<ProductViewModel> ShowProductForEditById(int id);
 
-        Task<List<CategoryProductViewModel>> GetAllCategoriesAndProducts();
+
+        Task<FilterProductViewModel> Filter(FilterProductViewModel model);
+        Task<List<ProductsMenuViewModel>> GetAllProductsForMenu();
 
     }
 }

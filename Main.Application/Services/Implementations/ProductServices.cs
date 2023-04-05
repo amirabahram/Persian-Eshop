@@ -7,6 +7,7 @@ using Main.Domain.Interfaces;
 using Main.Domain.Models.Product;
 using Main.Domain.Models.Product_Image_Gallery;
 using Main.Domain.Models.User;
+using Main.Domain.ViewModel.Filtering;
 using Main.Domain.ViewModel.Product;
 
 using Newtonsoft.Json.Linq;
@@ -22,12 +23,12 @@ namespace Main.Application.Services.Implementations
 {
     public class ProductServices : IProductServices
     {
-        private  IProductRepository _productRepository;
-        private  ICategoryService _categoryServices;
-        private  IProductImageGalleryService _productImageGalleryService;
-        
+        private IProductRepository _productRepository;
+        private ICategoryService _categoryServices;
+        private IProductImageGalleryService _productImageGalleryService;
 
-        public ProductServices(IProductRepository productRepository,IProductImageGalleryService productImageGalleryService, ICategoryService categoryServices)
+
+        public ProductServices(IProductRepository productRepository, IProductImageGalleryService productImageGalleryService, ICategoryService categoryServices)
         {
             _productRepository = productRepository;
             _categoryServices = categoryServices;
@@ -35,57 +36,192 @@ namespace Main.Application.Services.Implementations
 
         }
 
-        //amir: this method is for shownig all categories an every category products and I think this method doesnt recommended
-        public async Task<List<CategoryProductViewModel>> GetAllCategoriesAndProducts()
+        public async Task<FilterProductViewModel> Filter(FilterProductViewModel model)
         {
-            var categories = await _categoryServices.GetAllCategories();
-            var products   = await _productRepository.GetAllProduct();
-            var categoryProductViewModels = new List<CategoryProductViewModel>();
-            foreach (var category in categories)
-            {
-                var productViewModels = products
-                    .Where(p => p.CategoryId == category.Id)
-                    .Select(p => new ProductViewModel
-                    {
-                        Id = p.Id,
-                        Title = p.Title
-                    });
-                var categoryProductViewModel = new CategoryProductViewModel
-                {
-                    Category = new CategoryViewModel
-                    {
-                          Title = category.Title,
-                    },
-                    Products = productViewModels
-                };
-                categoryProductViewModels.Add(categoryProductViewModel);
-            }
-            return categoryProductViewModels;
+            //if (!string.IsNullOrEmpty(model.Title))
+            //{
+            //    query = query.Where();
+            //}
+            //await model.Paging(query);
+            return model;
         }
+    
 
-        public async Task<List<Product>> GetAllProduct()
+
+
+    public async Task<List<Product>> GetAllProduct()
+    {
+        return await _productRepository.GetAllProduct();
+    }
+
+        public async Task<List<ProductsMenuViewModel>> GetAllProductsForMenu()
         {
-            return await _productRepository.GetAllProduct();
+            var allProducts = await _productRepository.GetAllProduct();
+            var productsList = new List<ProductsMenuViewModel>();
+            foreach(var product in allProducts)
+            {
+                var model = new ProductsMenuViewModel()
+                {
+                    CategoryId = product.CategoryId,
+                    ProductId = product.Id,
+                    ProductTitle = product.Title
+
+
+                };
+                productsList.Add(model);
+            }
+
+            return productsList;
+
         }
 
         public async Task<CreateProductResult> InsertProduct(ProductViewModel productViewModel)
+    {
+
+        if (productViewModel == null) return CreateProductResult.Failure;
+
+        #region Declare Variables
+
+        string imageNewName = "";
+        int ProductImageGalleryId = 0;
+
+        #endregion
+
+        #region Insert Product With MainImage 
+
+        if (productViewModel.MainImage.HasLength(0) == false && productViewModel.MainImage.IsImage() == true)
         {
+            // Get the filename and extension
+            var fileName = Path.GetFileName(productViewModel.MainImage.FileName);
+            var fileExt = Path.GetExtension(fileName);
+            // Generate a unique filename
+            imageNewName = Guid.NewGuid().ToString() + fileExt;
 
-            if (productViewModel == null) return CreateProductResult.Failure;
+            // Combine the path with the filename
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImageProducts/");
 
-            #region Declare Variables
+            // Save the file to the server
+            productViewModel.MainImage.AddImageToServer(imageNewName, filePath, 50, 100);
 
-            string imageNewName = "";
-            int ProductImageGalleryId = 0;
+            var newProduct = new Product()
+            {
+                Title = productViewModel.Title,
+                Description = productViewModel.Description,
+                Price = productViewModel.Price,
+                Count = productViewModel.Count,
+                MainImage = imageNewName,
+                CategoryId = productViewModel.CategoryId,
+                CreateDate = DateTime.Now,
+                IsActive = true
+
+            };
+
+            await _productRepository.InsertProduct(newProduct);
+            // Now how to save product in product table
+            await _productRepository.Save();
+            // Get Id Of Product that Inserted Now
+            ProductImageGalleryId = newProduct.Id;
+
+
+
+        }
+        #endregion
+        else
+        {
+            #region Insert Product  Without MainImage
+
+            var ProductWihoutMainImage = new Product()
+            {
+                Title = productViewModel.Title,
+                Description = productViewModel.Description,
+                Price = productViewModel.Price,
+                Count = productViewModel.Count,
+                MainImage = null,
+                CategoryId = productViewModel.CategoryId,
+                CreateDate = DateTime.Now,
+                IsActive = true
+
+            };
+
+            await _productRepository.InsertProduct(ProductWihoutMainImage);
+            // Now how to save product in product table
+            await _productRepository.Save();
+
+
+
+
 
             #endregion
 
-            #region Insert Product With MainImage 
+        }
 
-            if (productViewModel.MainImage.HasLength(0) == false && productViewModel.MainImage.IsImage() == true)
+
+
+        await _productRepository.Save();
+
+        return CreateProductResult.Success;
+
+    }
+
+    public async Task<CreateProductResult> RemoveProduct(int productId)
+    {
+
+
+        //if (await _productImageGalleryService.HasValue(productId))
+        //{
+        //    //Remove Records of Images From DataBase
+        //    _productImageGalleryService.DeleteGalleryImage(productId);
+        //}
+
+        var product = await _productRepository.GetProductById(productId);
+        product.IsDelete = true;
+        _productRepository.UpdateProductByProduct(product);
+
+
+        await _productRepository.Save();
+
+
+        return CreateProductResult.Success;
+    }
+
+
+    public async Task<ProductViewModel> ShowProductForEditById(int id)
+    {
+        var product = await _productRepository.GetProductById(id);
+        if (product == null) return null;
+
+        var Categories = await _categoryServices.GetAllCategories();
+        var GalleryImages = await _productImageGalleryService.GetGalleryImages(id);
+        return new ProductViewModel
+        {
+            //Id = product.Id,
+
+            Title = product.Title,
+            Description = product.Description,
+            CategoryId = product.CategoryId,
+            Count = product.Count,
+            IsActive = product.IsActive,
+            Price = product.Price,
+            MainPic = product.MainImage,
+            Categories = Categories
+
+
+        };
+
+    }
+
+    public async Task<UpdateProductResult> UpdateProduct(ProductViewModel model)
+    {
+        string imageNewName = "";
+        var product = await _productRepository.GetProductById(model.Id);
+        if (product == null) return UpdateProductResult.ProductNotFound;
+        if (model.MainImage != null)
+        {
+            if (model.MainImage.HasLength(0) == false && model.MainImage.IsImage() == true)
             {
+
                 // Get the filename and extension
-                var fileName = Path.GetFileName(productViewModel.MainImage.FileName);
+                var fileName = Path.GetFileName(model.MainImage.FileName);
                 var fileExt = Path.GetExtension(fileName);
                 // Generate a unique filename
                 imageNewName = Guid.NewGuid().ToString() + fileExt;
@@ -94,154 +230,25 @@ namespace Main.Application.Services.Implementations
                 string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImageProducts/");
 
                 // Save the file to the server
-                productViewModel.MainImage.AddImageToServer(imageNewName, filePath, 50, 100);
-
-                var newProduct = new Product()
-                {
-                    Title = productViewModel.Title,
-                    Description = productViewModel.Description,
-                    Price = productViewModel.Price,
-                    Count = productViewModel.Count,
-                    MainImage = imageNewName,
-                    CategoryId = productViewModel.CategoryId,
-                    CreateDate = DateTime.Now,
-                    IsActive = true
-
-                };
-
-                await _productRepository.InsertProduct(newProduct);
-                // Now how to save product in product table
-                  await _productRepository.Save();
-                // Get Id Of Product that Inserted Now
-                ProductImageGalleryId = newProduct.Id;
-                
-
-
+                model.MainImage.AddImageToServer(imageNewName, filePath, 50, 100);
             }
-            #endregion
-            else
-            {
-                #region Insert Product  Without MainImage
+            product.MainImage = imageNewName;
+        }
 
-                var ProductWihoutMainImage = new Product()
-                {
-                    Title = productViewModel.Title,
-                    Description = productViewModel.Description,
-                    Price = productViewModel.Price,
-                    Count = productViewModel.Count,
-                    MainImage = null,
-                    CategoryId = productViewModel.CategoryId,
-                    CreateDate = DateTime.Now,
-                    IsActive = true
-
-                };
-
-                await _productRepository.InsertProduct(ProductWihoutMainImage);
-                // Now how to save product in product table
-                 await _productRepository.Save();
-              
-             
-               
+        product.Title = model.Title;
+        product.Description = model.Description;
+        product.CategoryId = model.CategoryId;
+        product.Count = model.Count;
+        product.IsActive = model.IsActive;
+        product.Price = model.Price;
 
 
-                #endregion
-
-            }
-
-
-
+        _productRepository.UpdateProductByProduct(product);
         await _productRepository.Save();
-
-            return CreateProductResult.Success;
-
-        }
-
-        public async Task<CreateProductResult> RemoveProduct(int productId)
-        {
-            
-
-            //if (await _productImageGalleryService.HasValue(productId))
-            //{
-            //    //Remove Records of Images From DataBase
-            //    _productImageGalleryService.DeleteGalleryImage(productId);
-            //}
-
-            var product = await _productRepository.GetProductById(productId);
-            product.IsDelete = true;
-            _productRepository.UpdateProductByProduct(product);
-
-
-            await _productRepository.Save();
-
-
-            return CreateProductResult.Success;
-        }
-
-
-        public async Task<ProductViewModel> ShowProductForEditById(int id)
-        {
-            var product = await _productRepository.GetProductById(id);
-            if (product == null) return null;
-
-            var Categories = await _categoryServices.GetAllCategories();
-            var GalleryImages = await _productImageGalleryService.GetGalleryImages(id);
-            return new ProductViewModel
-            {
-                //Id = product.Id,
-        
-                Title = product.Title,
-                Description = product.Description,
-                CategoryId = product.CategoryId,
-                Count = product.Count,
-                IsActive = product.IsActive,
-                Price = product.Price,
-                MainPic = product.MainImage,
-                Categories = Categories
-                
-
-            };
-            
-        }
-
-        public async Task<UpdateProductResult> UpdateProduct(ProductViewModel model)
-        {
-            string imageNewName = "";
-            var product = await _productRepository.GetProductById(model.Id);
-            if (product == null) return UpdateProductResult.ProductNotFound;
-            if (model.MainImage != null)
-            {
-                if (model.MainImage.HasLength(0) == false && model.MainImage.IsImage() == true)
-                {
-
-                    // Get the filename and extension
-                    var fileName = Path.GetFileName(model.MainImage.FileName);
-                    var fileExt = Path.GetExtension(fileName);
-                    // Generate a unique filename
-                    imageNewName = Guid.NewGuid().ToString() + fileExt;
-
-                    // Combine the path with the filename
-                    string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/ImageProducts/");
-
-                    // Save the file to the server
-                    model.MainImage.AddImageToServer(imageNewName, filePath, 50, 100);
-                }
-                product.MainImage = imageNewName;
-            }
-
-            product.Title = model.Title;
-            product.Description = model.Description;
-            product.CategoryId = model.CategoryId;
-            product.Count = model.Count;
-            product.IsActive = model.IsActive;
-            product.Price = model.Price;
-
-           
-            _productRepository.UpdateProductByProduct(product);
-            await _productRepository.Save();
-            return UpdateProductResult.Success;
+        return UpdateProductResult.Success;
 
 
 
-        }
     }
+}
 }

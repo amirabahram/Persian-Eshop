@@ -24,9 +24,9 @@ namespace Main.Data.Repositories
             await db.SaveChangesAsync();
         }
 
-        public async Task<List<ProductImageGallery>> GetGalleryImageById(int id)
+        public async Task<ProductImageGallery> GetGalleryImageById(int imageId,int productId)
         {
-            return await db.ProductImageGalleries.Where(i => i.ProductId == id && i.IsDelete == false).ToListAsync();
+            return await db.ProductImageGalleries.Where(i => i.Id == imageId && i.ProductId == productId && i.IsDelete == false).FirstOrDefaultAsync(); 
         }
 
 
@@ -35,14 +35,19 @@ namespace Main.Data.Repositories
             await db.ProductImageGalleries.AddRangeAsync(productImageGallery);
         }
 
-        public void UpdateImage(List<ProductImageGallery> images)
+        public void UpdateImage(ProductImageGallery image)
         {
-           db.ProductImageGalleries.UpdateRange(images);
+           db.ProductImageGalleries.Update(image);
         }
 
         public async Task<bool>  HasValue(int proudctId)
         {
             return await db.ProductImageGalleries.AnyAsync(p => p.ProductId == proudctId);
+        }
+
+        public async Task<List<ProductImageGallery>> GetGalleryImagesById(int productId)
+        {
+            return await db.ProductImageGalleries.Where(i =>  i.ProductId == productId && i.IsDelete == false).ToListAsync();
         }
     }
 }

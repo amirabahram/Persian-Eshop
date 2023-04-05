@@ -1,7 +1,7 @@
 ﻿@model Main.Domain.ViewModel.Product.ProductGalleryAddViewModel
 @using Main.Domain.ViewModel.Product
 @{
-    ViewBag.Title = "List Of Images";
+    ViewBag.Title = "لیست تصاویر گالری";
 
     var Pics = ViewBag.Pictures != null ? ViewBag.Pictures as List<ProductGalleryShowViewModel> : null;
 
@@ -31,7 +31,15 @@
                                                 {
                                                     foreach (var item in Pics)
                                                     {
-                                                        <img src="/ImageProducts/@item.Picture" height="100px" width="100px" style="margin-right: 10px; display: inline-block;" />
+                                                        <div class="image-container">
+                                                            <img src="/ImageProducts/@item.Picture" height="100px" width="100px" style="margin-right: 10px; display: inline-block;" />
+                                                            <span class="delete-icon" onclick="DeleteAjax(@item.ImageId,@item.ProductId)">
+                                                                <img src="/Images/458594.png" height="20px" width="20px" />
+
+                                                            </span>
+                                                        </div>
+
+
                                                     }
                                                 }
 
@@ -57,7 +65,7 @@
                                     <label for="fileInput2" class="file-input-label">
                                         <img src="/Images/add-image-icon-0.jpg" height="100px" width="100px">
                                     </label>
-                                    <input type="hidden" asp-for="ProductId"/>
+                                    <input type="hidden" asp-for="ProductId" />
                                     <input type="file" asp-for="InputImages" id="fileInput2" multiple class="file-input" style="display: none;">
                                     <div id="previewContainer2">
                                     </div>
@@ -78,6 +86,26 @@
         </div>
     </div>
 </div>
+
+<style>
+    .image-container {
+        display: inline-block;
+        position: relative;
+    }
+
+    .delete-icon {
+        display: none;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+    }
+
+    .image-container:hover .delete-icon {
+        display: block;
+    }
+</style>
+
 @section scripts{
     <script>
         function showPreview() {
@@ -132,5 +160,88 @@
 
         // Call the showPreview function when the file input value changes
         document.getElementById('fileInput2').addEventListener('change', showPreview);
+    </script>
+    <script>
+        // get all image container elements
+        var imageContainers = document.querySelectorAll('.image-container');
+
+        // loop through each image container element
+        for (var i = 0; i < imageContainers.length; i++) {
+            // create and add delete icon to image container
+            var deleteIcon = document.createElement('div');
+            deleteIcon.classList.add('delete-icon');
+            deleteIcon.innerHTML = '<i class="fas fa-trash"></i>';
+            imageContainers[i].appendChild(deleteIcon);
+
+            // add event listeners for mouse enter and leave events
+            imageContainers[i].addEventListener('mouseenter', function () {
+                this.querySelector('.delete-icon').style.display = 'block';
+            });
+
+            imageContainers[i].addEventListener('mouseleave', function () {
+                this.querySelector('.delete-icon').style.display = 'none';
+            });
+
+            // add event listener for click event on delete icon
+            deleteIcon.addEventListener('click', function () {
+                // do something when delete icon is clicked
+                console.log('Delete icon clicked');
+            });
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        function DeleteAjax(imageId,productId) {
+
+            swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/Admin/Product/GalleryImageDelete",
+                        data: {
+                            imageId: imageId,
+                            productId: productId  // add product ID key-value pair
+                        },
+                        success: function (data) {   /*-->this data is for ActionMethod return value!*/
+                            if (data.status == "Success") {
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 1500)
+                                swal.fire
+                                    (
+                                        'Deleted!',
+                                        'Your file has been deleted.',
+                                        'success'
+                                    )
+                            }
+                        },
+                        error: function () {
+                            swal.fire(
+                                'Cancelled',
+                                'Your imaginary file is safe :)',
+                                'error'
+                            )
+                        }
+                    });
+                }
+                else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swal.fire
+                        (
+                            'Cancelled',
+                            'Your imaginary file is safe :)',
+                            'error'
+                        )
+                }
+            })
+        }
     </script>
 }

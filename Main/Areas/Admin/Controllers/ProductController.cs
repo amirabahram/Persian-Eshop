@@ -167,5 +167,12 @@ namespace Main.web.Areas.Admin.Controllers
             return RedirectToAction("ProductGallery");
 
         }
+        [HttpPost]
+        public async Task<IActionResult> GalleryImageDelete(int imageId, int productId)
+        {
+            await _productImageGalleryService.DeleteGalleryImage(imageId, productId);
+            return JsonResponseStatus.Success();
+
+        }
     }
 }
