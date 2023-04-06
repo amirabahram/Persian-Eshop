@@ -22,6 +22,8 @@ namespace Main.Domain.Models.Category
         public Category? CategoryParent { get; set; }
 
         public List<Product.Product>? Products { get; set; } // List: because 1 Category can have many Products
+
+        public List<Main.Domain.Models.CategoryProperties.CategoryProperties> categoryProperties { get; set; }
     }
 
     public enum UpdateCategoryResult

@@ -22,6 +22,36 @@ Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB0
 
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,600,700,300" rel="stylesheet" type="text/css">
 
+    <style>
+        .image-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: #f44336;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            text-align: center;
+            cursor: pointer;
+            display: none;
+        }
+
+
+        .image-container:hover .delete-button {
+            display: block;
+        }
+
+
+
+    </style>
+
 </head>
 <!-- /Head -->
 <!-- Body -->
@@ -33,10 +63,10 @@ Purchase: https://wrapbootstrap.com/theme/beyondadmin-adminapp-angularjs-mvc-WB0
         <partial name="_AdminSidebarAndContainerPartialView" />
         @RenderBody()
     </div>
-        <partial name="_AdminScriptRefrensesPartial">
+    <partial name="_AdminScriptRefrensesPartial">
         <partial name="_AdminRefrensesPartialJS">
-        <partial name="_SweetAlertPartialView">
-        @RenderSection("scripts", required: false)
+            <partial name="_SweetAlertPartialView">
+                @RenderSection("scripts", required: false)
 </body>
 <!--  /Body -->
 </html>
