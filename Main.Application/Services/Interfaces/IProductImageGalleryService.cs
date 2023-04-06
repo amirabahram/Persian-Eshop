@@ -11,10 +11,9 @@ namespace Main.Application.Services.Interfaces
 {
     public interface IProductImageGalleryService
     {
-        Task<List<ProductImageGallery>> GetGalleryImages(int id);
+        Task<List<ProductGalleryShowViewModel>> GetGalleryImages(int id);
         Task<bool> InsertGalleryImage(List<IFormFile> imageGalleries, int id);
-        Task<bool> UpdateGalleryImage(List<IFormFile> imageGalleries, int id);
-        Task<bool> DeleteGalleryImage(int id);
+        Task<bool> DeleteGalleryImage(int imageId,int productId);
         Task<bool> Save();
         Task<bool> HasValue(int productId);
     }

@@ -1,6 +1,11 @@
-﻿@model List<Main.Domain.Models.Product_Image_Gallery.ProductImageGallery>
+﻿@model Main.Domain.ViewModel.Product.ProductGalleryAddViewModel
+@using Main.Domain.ViewModel.Product
+@{
+    ViewBag.Title = "لیست تصاویر گالری";
 
+    var Pics = ViewBag.Pictures != null ? ViewBag.Pictures as List<ProductGalleryShowViewModel> : null;
 
+}
 
 
 <div class="main-container container-fluid">
@@ -21,16 +26,26 @@
 
                                         <div class="row">
 
+                                            <div id="previewContainer" style="overflow-x: auto; white-space: nowrap;">
+                                                @if (Pics != null && Pics.Any())
+                                                {
+                                                    foreach (var item in Pics)
+                                                    {
+                                                        <div class="image-container">
+                                                            <img src="/ImageProducts/@item.Picture" height="100px" width="100px" style="margin-right: 10px; display: inline-block;" />
+                                                            <span class="delete-icon" onclick="DeleteAjax(@item.ImageId,@item.ProductId)">
+                                                                <img src="/Images/458594.png" height="20px" width="20px" />
 
-                                            @foreach (var item in Model)
-                                            {
-                                                <div id="previewContainer" class="image-container" style="overflow-x: auto; white-space: nowrap;">
-                                                    <img src="/ImageProducts/@item.ImageName" height="100px" width="100px" style="margin-right: 10px; display: inline-block;" id="@item.Id" />
-                                                    <a class="delete-button">&times;</a>
-                                                </div>
-                                            }
+                                                            </span>
+                                                        </div>
 
 
+                                                    }
+                                                }
+
+
+
+                                            </div>
                                         </div>
                                     </form>
                                 </div>
@@ -46,16 +61,19 @@
                                 <span class="widget-caption">انتخاب تصاویر</span>
                             </div>
                             <div class="widget-body">
-                                <label for="fileInput" class="file-input-label">
-                                    <img src="/Images/add-image-icon-0.jpg" height="100px" width="100px">
-                                </label>
-                                <input type="file" id="fileInput" class="file-input" style="display: none;">
-                                <hr class="wide">
-                                <span class="file-input btn btn-azure btn-block btn-default btn-file">
-                                    ثبت تصویر <input type="file" multiple="">
-                                </span>
+                                <form id="myForm" enctype="multipart/form-data" asp-area="Admin" asp-controller="Product" asp-action="ProductGallery">
+                                    <label for="fileInput2" class="file-input-label">
+                                        <img src="/Images/add-image-icon-0.jpg" height="100px" width="100px">
+                                    </label>
+                                    <input type="hidden" asp-for="ProductId" />
+                                    <input type="file" asp-for="InputImages" id="fileInput2" multiple class="file-input" style="display: none;">
+                                    <div id="previewContainer2">
+                                    </div>
+                                    <hr class="wide">
+                                    <input type="submit" class="btn btn-blue active" value="ثبت تصاویر">
 
 
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -68,10 +86,57 @@
         </div>
     </div>
 </div>
+
+<style>
+    .image-container {
+        display: inline-block;
+        position: relative;
+    }
+
+    .delete-icon {
+        display: none;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+    }
+
+    .image-container:hover .delete-icon {
+        display: block;
+    }
+</style>
+
 @section scripts{
     <script>
         function showPreview() {
             const previewContainer = document.getElementById('previewContainer');
+            const fileInput2 = document.getElementById('fileInput');
+            const files = fileInput2.files;
+
+            // Clear existing previews
+            previewContainer.innerHTML = '';
+
+            // Loop through the selected files and create previews
+            for (let i = 0; i < files.length; i++) {
+                if (files[i].type.match('image.*')) {
+                    const reader2 = new FileReader();
+                    reader2.onload = function () {
+                        const preview = document.createElement('img');
+                        preview.src = reader2.result;
+                        preview.style.width = '100px'; // Set the size of the preview image
+                        previewContainer.appendChild(preview);
+                    }
+                    reader2.readAsDataURL(files[i]);
+                }
+            }
+        }
+
+        // Call the showPreview function when the file input value changes
+        document.getElementById('fileInput').addEventListener('change', showPreview);
+    </script>
+    <script>
+        function showPreview() {
+            const previewContainer = document.getElementById('previewContainer2');
             const fileInput2 = document.getElementById('fileInput2');
             const files = fileInput2.files;
 
@@ -97,13 +162,86 @@
         document.getElementById('fileInput2').addEventListener('change', showPreview);
     </script>
     <script>
-        $('.image-container').on('mouseenter', function () {
-            $(this).find('.delete-button').show();
-        });
+        // get all image container elements
+        var imageContainers = document.querySelectorAll('.image-container');
 
-        $('.image-container').on('mouseleave', function () {
-            $(this).find('.delete-button').hide();
-        });
+        // loop through each image container element
+        for (var i = 0; i < imageContainers.length; i++) {
+            // create and add delete icon to image container
+            var deleteIcon = document.createElement('div');
+            deleteIcon.classList.add('delete-icon');
+            deleteIcon.innerHTML = '<i class="fas fa-trash"></i>';
+            imageContainers[i].appendChild(deleteIcon);
 
+            // add event listeners for mouse enter and leave events
+            imageContainers[i].addEventListener('mouseenter', function () {
+                this.querySelector('.delete-icon').style.display = 'block';
+            });
+
+            imageContainers[i].addEventListener('mouseleave', function () {
+                this.querySelector('.delete-icon').style.display = 'none';
+            });
+
+            // add event listener for click event on delete icon
+            deleteIcon.addEventListener('click', function () {
+                // do something when delete icon is clicked
+                console.log('Delete icon clicked');
+            });
+        }
+    </script>
+
+
+    <script type="text/javascript">
+        function DeleteAjax(imageId,productId) {
+
+            swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'POST',
+                        url: "/Admin/Product/GalleryImageDelete",
+                        data: {
+                            imageId: imageId,
+                            productId: productId  // add product ID key-value pair
+                        },
+                        success: function (data) {   /*-->this data is for ActionMethod return value!*/
+                            if (data.status == "Success") {
+                                setTimeout(function () {
+                                    window.location.reload();
+                                }, 1500)
+                                swal.fire
+                                    (
+                                        'Deleted!',
+                                        'Your file has been deleted.',
+                                        'success'
+                                    )
+                            }
+                        },
+                        error: function () {
+                            swal.fire(
+                                'Cancelled',
+                                'Your imaginary file is safe :)',
+                                'error'
+                            )
+                        }
+                    });
+                }
+                else if (result.dismiss === Swal.DismissReason.cancel) {
+                    swal.fire
+                        (
+                            'Cancelled',
+                            'Your imaginary file is safe :)',
+                            'error'
+                        )
+                }
+            })
+        }
     </script>
 }

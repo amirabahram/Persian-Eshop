@@ -1,7 +1,4 @@
-﻿@model List<Main.Domain.Models.Category.Category>
-
-
-<!DOCTYPE html>
+﻿ <!DOCTYPE html>
 <html lang="fa">
 
 <head>
@@ -12,12 +9,12 @@
     <meta name="msapplication-navbutton-color" content="#2962ff">
     <meta name="apple-mobile-web-app-status-bar-style" content="#2962ff">
     <title>@ViewData["Title"]</title>
-  <partial name="_HeaderRefrencePartialView" />
+    <partial name="_HeaderRefrencePartialView" />
 </head>
 
 <body>
     <div class="page-wrapper">
-        @Html.Partial("_HeaderPartialView", Model)
+        @await Component.InvokeAsync("Header")
         @RenderBody()
         <partial name="_FooterPartialView" />
     </div>

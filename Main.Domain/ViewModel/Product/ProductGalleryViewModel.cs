@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace Main.Domain.ViewModel.Product
 {
-    public class ProductGalleryViewModel
+    public class ProductGalleryShowViewModel
     {
-        public int Id { get; set; }
-        public IFormFile GalleryImage { get; set; }
-        public List<string>? Pictures { get; set; }
+        public int ImageId { get; set; }
+        public int ProductId { get; set; }
+        public string? Picture { get; set; }
     }
 }

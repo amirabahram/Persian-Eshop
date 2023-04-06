@@ -9,9 +9,10 @@ namespace Main.Domain.Interfaces
 {
     public interface IProductImageGalleryRepository
     {
-        Task<List<ProductImageGallery>> GetGalleryImageById(int id);
+        Task<ProductImageGallery> GetGalleryImageById(int imageId, int productId);
+        Task<List<ProductImageGallery>> GetGalleryImagesById(int productId);
         Task InsertImage(List<ProductImageGallery> productImageGallery);
-        void UpdateImage(List<ProductImageGallery> images);
+        void UpdateImage(ProductImageGallery image);
         Task Save();
 
         Task<bool> HasValue(int productId);
