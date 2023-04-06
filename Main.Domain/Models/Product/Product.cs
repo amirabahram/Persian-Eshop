@@ -46,7 +46,7 @@ namespace Main.Domain.Models.Product
         public int? CategoryId { get; set; }
         public Category.Category? Category { get; set; }// chonke Yek product fagat yek Category mitavanad dashte bashad! pas list nist.
         
-    
+        public ICollection<Cart.Cart> Carts { get; set; }
 
 
 
