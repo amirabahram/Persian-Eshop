@@ -1,0 +1,110 @@
+﻿@model Main.Domain.ViewModel.Product.PropertyViewModel
+@using Main.Domain.ViewModel.Product
+@using Main.Domain.Models.Category
+
+@{
+    TempData["Title"] = "صفحه افزودن ویژگی ها";
+    var properties = ViewBag.AllProperties != null ? ViewBag.AllProperties as List<PropertyViewModel> : null;
+    var categories = ViewBag.AllCategories != null ? ViewBag.AllCategories as List<Category> : null;
+}
+
+
+<div class="main-container container-fluid">
+    <!-- Page Container -->
+    <div class="page-container">
+        <div class="page-content">
+            <div class="col-xs-12 col-md-12 col-sm-12">
+                <div class="row">
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="widget">
+                            <div class="widget-header bordered-bottom bordered-sky">
+                                <span class="widget-caption">فرم افزودن ویژگی</span>
+                            </div>
+                            <div class="widget-body">
+                                <div>
+                                    <form role="form" asp-controller="Product" asp-area="Admin" asp-action="Properties">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="category">انتخاب کتگوری</label>
+                                                    <select id="categoryId" asp-for="CategoryId" asp-items="@(new SelectList(categories, "Id", "Title"))" class="form-control">
+                                                        <option value="">-- انتخاب کتگوری --</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <input type="text" asp-for="Title" placeholder="عنوان ویژگی" class="form-control">
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <input type="text" asp-for="Value" placeholder="مقدارویژگی" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                        <button type="submit" class="btn btn-blue">ثبت</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xs-12 col-md-12">
+                    <div class="well with-header  with-footer">
+                        <div class="header bg-blue">
+                            لیست ویژگی ها
+                        </div>
+                        <table class="table table-hover">
+                            <thead class="bordered-darkorange">
+                                <tr>
+                                    <th>
+                                        عنوان
+                                    </th>
+                                    <th>
+                                        مقدار
+                                    </th>
+                                    <th>
+                                        دسته بندی
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (properties != null)
+                                {
+                                    @foreach (var item in properties)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item.Title
+                                            </td>
+                                            <td>
+                                                @item.Value
+                                            </td>
+                                            <td>
+                                                @item.Category
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

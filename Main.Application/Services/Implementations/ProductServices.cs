@@ -193,7 +193,7 @@ namespace Main.Application.Services.Implementations
 
             Title = product.Title,
             Description = product.Description,
-            CategoryId = product.CategoryId,
+            CategoryId = product.CategoryId.GetValueOrDefault(),
             Count = product.Count,
             IsActive = product.IsActive,
             Price = product.Price,

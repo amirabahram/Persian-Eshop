@@ -4,6 +4,7 @@ using Main.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Main.Data.Migrations
 {
     [DbContext(typeof(EshopContext))]
-    partial class EshopContextModelSnapshot : ModelSnapshot
+    [Migration("20230406070513_CartProduct")]
+    partial class CartProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +23,21 @@ namespace Main.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("CartProduct", b =>
+                {
+                    b.Property<int>("CartsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductsId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CartsId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("CartProduct");
+                });
 
             modelBuilder.Entity("Main.Domain.Models.AboutUs.AboutUsModel", b =>
                 {
@@ -90,35 +107,6 @@ namespace Main.Data.Migrations
                     b.ToTable("Cart");
                 });
 
-            modelBuilder.Entity("Main.Domain.Models.CartProduct.CartProduct", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CartId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CartId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("CartProduct");
-                });
-
             modelBuilder.Entity("Main.Domain.Models.Category.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -159,7 +147,7 @@ namespace Main.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")
@@ -170,11 +158,13 @@ namespace Main.Data.Migrations
 
                     b.Property<string>("PropertyValue")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -284,38 +274,6 @@ namespace Main.Data.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("Main.Domain.Models.ProductProperties.ProductProperties", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDelete")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PropertyId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("ProductProperties");
-                });
-
             modelBuilder.Entity("Main.Domain.Models.User.UserEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -371,6 +329,21 @@ namespace Main.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("CartProduct", b =>
+                {
+                    b.HasOne("Main.Domain.Models.Cart.Cart", null)
+                        .WithMany()
+                        .HasForeignKey("CartsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Main.Domain.Models.Product.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Main.Domain.Models.Cart.Cart", b =>
                 {
                     b.HasOne("Main.Domain.Models.User.UserEntity", "User")
@@ -380,25 +353,6 @@ namespace Main.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Main.Domain.Models.CartProduct.CartProduct", b =>
-                {
-                    b.HasOne("Main.Domain.Models.Cart.Cart", "Cart")
-                        .WithMany("CartProducts")
-                        .HasForeignKey("CartId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Main.Domain.Models.Product.Product", "Product")
-                        .WithMany("CartProducts")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cart");
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("Main.Domain.Models.Category.Category", b =>
@@ -414,9 +368,7 @@ namespace Main.Data.Migrations
                 {
                     b.HasOne("Main.Domain.Models.Category.Category", "Category")
                         .WithMany("categoryProperties")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
@@ -439,30 +391,6 @@ namespace Main.Data.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("Main.Domain.Models.ProductProperties.ProductProperties", b =>
-                {
-                    b.HasOne("Main.Domain.Models.CategoryProperties.CategoryProperties", "Category")
-                        .WithMany("ProductProperties")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Main.Domain.Models.Product.Product", "Product")
-                        .WithMany("Properties")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Category");
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("Main.Domain.Models.Cart.Cart", b =>
-                {
-                    b.Navigation("CartProducts");
-                });
-
             modelBuilder.Entity("Main.Domain.Models.Category.Category", b =>
                 {
                     b.Navigation("Products");
@@ -470,17 +398,8 @@ namespace Main.Data.Migrations
                     b.Navigation("categoryProperties");
                 });
 
-            modelBuilder.Entity("Main.Domain.Models.CategoryProperties.CategoryProperties", b =>
-                {
-                    b.Navigation("ProductProperties");
-                });
-
             modelBuilder.Entity("Main.Domain.Models.Product.Product", b =>
                 {
-                    b.Navigation("CartProducts");
-
-                    b.Navigation("Properties");
-
                     b.Navigation("productImageGalleries");
                 });
 

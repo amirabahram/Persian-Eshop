@@ -28,6 +28,8 @@ namespace Main.IoC
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductImageGalleryService, ProductImageGalleryService>();
+            services.AddScoped<IPropertiesRepository, PropertiesRepository>();
+            services.AddScoped<IPropertiesService, PropertiesService>();
           
 
 

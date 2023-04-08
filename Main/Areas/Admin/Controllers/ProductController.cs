@@ -17,12 +17,14 @@ namespace Main.web.Areas.Admin.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IProductServices _productServices;
         private readonly IProductImageGalleryService _productImageGalleryService;
+        private  IPropertiesService _propertiesService;
        
-        public ProductController(ICategoryService categoryService, IProductServices productServices, IProductImageGalleryService productImageGalleryService)
+        public ProductController(ICategoryService categoryService, IProductServices productServices, IProductImageGalleryService productImageGalleryService, IPropertiesService propertiesService)
         {
             _categoryService = categoryService;
             _productServices = productServices;
             _productImageGalleryService = productImageGalleryService;
+            _propertiesService = propertiesService;
               
         }
 
@@ -173,6 +175,25 @@ namespace Main.web.Areas.Admin.Controllers
             await _productImageGalleryService.DeleteGalleryImage(imageId, productId);
             return JsonResponseStatus.Success();
 
+        }
+        [HttpGet]
+        public async Task<IActionResult> Properties()
+        {
+            ViewBag.AllProperties = await _propertiesService.GetAllProperties();
+            ViewBag.AllCategories = await _categoryService.GetAllCategories();
+            var viewModel = new PropertyViewModel();
+            return View(viewModel);
+        } 
+        [HttpPost]
+        public async Task<IActionResult> Properties(PropertyViewModel model)
+        {
+            ViewBag.AllCategories = await _categoryService.GetAllCategories();// ino majbur budam chon az yek view baraye nomayesh va add estefade kardam.
+            if (ModelState.IsValid)
+            {
+                await _propertiesService.InsertProperty(model);
+                
+            }
+            return RedirectToAction("Properties");
         }
     }
 }

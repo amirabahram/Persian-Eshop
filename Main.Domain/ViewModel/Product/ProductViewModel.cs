@@ -39,8 +39,9 @@ namespace Main.Domain.ViewModel.Product
 
         [DisplayName("تعداد")]
         public int? Count { get; set; } = 0;
-            
-        public int? CategoryId { get; set; }
+        [DisplayName ("دسته بندی")]
+        [Required(ErrorMessage =" است فیلد {0} اجباری!")]   
+        public int CategoryId { get; set; }
 
         
 
