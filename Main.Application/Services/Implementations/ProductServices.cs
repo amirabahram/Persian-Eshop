@@ -38,12 +38,7 @@ namespace Main.Application.Services.Implementations
 
         public async Task<FilterProductViewModel> Filter(FilterProductViewModel model)
         {
-            //if (!string.IsNullOrEmpty(model.Title))
-            //{
-            //    query = query.Where();
-            //}
-            //await model.Paging(query);
-            return model;
+           return await _productRepository.Filter(model);
         }
     
 
