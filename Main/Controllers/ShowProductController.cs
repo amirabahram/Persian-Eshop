@@ -15,9 +15,10 @@ namespace Main.web.Controllers
         }
 
         [HttpGet]
-        [Route("Group/{id}/{title}")]
+        [Route("Categories/Products")]
         public async Task<IActionResult> ShowProducts(int id,string title)
         {
+            ViewBag.Title = title;
             FilterProductViewModel filterProductViewModel = new FilterProductViewModel();
 
             return View();

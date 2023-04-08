@@ -154,7 +154,7 @@
                             {
 
                                 <li class="mega-menu-category show">
-                                    <a asp-controller="Home" asp-action="Index">@category.Title</a>
+                                    <a asp-controller="ShowProduct" asp-action="ShowProducts" asp-route-id="@category.Id" asp-route-title="@category.Title">@category.Title </a>
                                     <ul class="mega-menu">
                                         @foreach (var item in Model)
                                         {

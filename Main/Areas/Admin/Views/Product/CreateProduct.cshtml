@@ -46,9 +46,10 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="category">انتخاب کتگوری</label>
-                                                <select id="categoryId" name="categoryId" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Title"))" class="form-control">
+                                                <select id="categoryId" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Title"))" class="form-control">
                                                     <option value="">-- انتخاب کتگوری --</option>
                                                 </select>
+                                               
                                             </div>
                                         </div>
 
@@ -81,6 +82,7 @@
                                             </div>
                                         </div>
                                     </div>*@
+                                    <div asp-validation-summary="All" class="text-danger"></div>
                                     <div class="row text-center">
                                         <input type="submit" class="btn btn-blue active" value="ثبت محصول">
 

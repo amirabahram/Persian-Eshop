@@ -16,7 +16,7 @@ namespace Main.Domain.Models.Cart
         public int TotalPrice { get; set; }
         public int UserId { get; set; }
         public UserEntity User { get; set; }
-        public ICollection<Product.Product> Products { get; set; }
+        public ICollection<CartProduct.CartProduct> CartProducts { get; set; }
 
     }
 }
