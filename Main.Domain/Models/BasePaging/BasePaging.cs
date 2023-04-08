@@ -53,8 +53,8 @@ namespace Main.Domain.Models.Base_Paging
     }
     public class PagingViewModel
     {
-        public int StartPage { get; set; }
-        public int EndPage { get; set; }
-        public int CurrentPage { get; set; }
+        public int? StartPage { get; set; }
+        public int? EndPage { get; set; }
+        public int? CurrentPage { get; set; }
     }
 }
