@@ -52,10 +52,31 @@ namespace Main.Data.Repositories
             await _eshopContext.SaveChangesAsync();
         }
 
-        public IQueryable<Product> Filter() //// view model bayad bashe tu servise fagat mifrestim. tu memari fagat bekhatere filtet az view model estefade konim. kole view model raftan to doman
+        public  async Task<FilterProductViewModel> Filter(FilterProductViewModel viewModel) //// view model bayad bashe tu servise fagat mifrestim. tu memari fagat bekhatere filtet az view model estefade konim. kole view model raftan to doman
         {
+            var query = _eshopContext.Products.Where(p => p.IsDelete == false && p.IsActive == true);
+            
+            if (viewModel.CategoryId != null)
+            {
+                query = query.Where(q => q.CategoryId == viewModel.CategoryId);
 
-            return _eshopContext.Products.AsQueryable();
+            }
+
+            if (viewModel.Title!=null)
+            {
+                query = query.Where(q => q.Title == viewModel.Title);
+
+            }
+
+            if (viewModel.MaxPrice != null)
+            {
+                query = query.Where(q => q.Price >= viewModel.MinPrice && q.Price <= viewModel.MaxPrice  );
+
+            }
+
+            await viewModel.Paging(query);
+
+            return viewModel;
 
         }
 

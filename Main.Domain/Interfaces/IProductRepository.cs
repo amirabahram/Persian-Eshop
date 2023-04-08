@@ -23,7 +23,7 @@ namespace Main.Domain.Interfaces
         //update a product from product table by id
         void UpdateProductByProduct(Product product);
 
-        IQueryable<Product> Filter();
+        Task<FilterProductViewModel> Filter(FilterProductViewModel filterProductView);
 
         Task Save();
 
