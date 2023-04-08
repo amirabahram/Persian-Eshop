@@ -17,7 +17,7 @@ namespace Main.Domain.Models.CategoryProperties
 
         public string PropertyValue { get; set; }
 
-        [ForeignKey("CategoryId")]//recommended
+        [ForeignKey("Category")]//recommended
         public int CategoryId { get; set; }
         public Category.Category? Category { get; set; }
 

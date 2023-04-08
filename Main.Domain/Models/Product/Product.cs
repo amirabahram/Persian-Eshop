@@ -42,7 +42,7 @@ namespace Main.Domain.Models.Product
 
         public List<Product_Image_Gallery.ProductImageGallery>? productImageGalleries { get; set; }
        
-        [ForeignKey("CategoryId")]//recommended
+        [ForeignKey("Category")]//recommended
         public int? CategoryId { get; set; }
         public Category.Category? Category { get; set; }// chonke Yek product fagat yek Category mitavanad dashte bashad! pas list nist.
         

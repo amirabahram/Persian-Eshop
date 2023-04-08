@@ -10,9 +10,9 @@ namespace Main.Domain.Models.ProductProperties
 {
     public class ProductProperties:BaseEntity
     {
-        [ForeignKey("PropertyId")]
+        [ForeignKey("Category")] //Foreign Key Agar balaye ID bashad bayad name Navigation Property ra behesh bedim va agar balaye Navigation bashad bayad ID rabehesh bedim
         public int PropertyId { get; set; }
-        [ForeignKey("ProductId")]
+        [ForeignKey("Product")]
         public int ProductId { get; set; }
 
         public Product.Product Product { get; set; }    
