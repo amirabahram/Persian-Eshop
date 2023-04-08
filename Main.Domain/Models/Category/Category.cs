@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,7 +18,7 @@ namespace Main.Domain.Models.Category
         [DisplayName("عنوان")]
         [Required(ErrorMessage ="وارد کردن عنوان اجباری می باشد!")]
         public string Title { get; set; }
-
+        [ForeignKey("CategoryParent")]
         public int? ParentId { get; set; }
         public Category? CategoryParent { get; set; }
 
