@@ -30,6 +30,7 @@ namespace Main.IoC
             services.AddScoped<IProductImageGalleryService, ProductImageGalleryService>();
             services.AddScoped<IPropertiesRepository, PropertiesRepository>();
             services.AddScoped<IPropertiesService, PropertiesService>();
+            services.AddScoped<ICartRepository, CartRepository>();
           
 
 

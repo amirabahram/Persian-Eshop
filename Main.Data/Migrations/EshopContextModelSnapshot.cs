@@ -83,7 +83,7 @@ namespace Main.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Cart");
+                    b.ToTable("Carts");
                 });
 
             modelBuilder.Entity("Main.Domain.Models.CartProduct.CartDetails", b =>
@@ -118,7 +118,7 @@ namespace Main.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartDetails");
+                    b.ToTable("CartDetailsEntity");
                 });
 
             modelBuilder.Entity("Main.Domain.Models.Category.Category", b =>

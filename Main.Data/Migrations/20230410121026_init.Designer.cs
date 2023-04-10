@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Main.Data.Migrations
 {
     [DbContext(typeof(EshopContext))]
-    [Migration("20230408083238_CreateProductProperty")]
-    partial class CreateProductProperty
+    [Migration("20230410121026_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -72,11 +72,8 @@ namespace Main.Data.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("OrderCount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProductOrderPrice")
-                        .HasColumnType("int");
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
 
                     b.Property<int>("TotalPrice")
                         .HasColumnType("int");
@@ -86,13 +83,12 @@ namespace Main.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
-                    b.ToTable("Cart");
+                    b.ToTable("Carts");
                 });
 
-            modelBuilder.Entity("Main.Domain.Models.CartProduct.CartProduct", b =>
+            modelBuilder.Entity("Main.Domain.Models.CartProduct.CartDetails", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,7 +105,13 @@ namespace Main.Data.Migrations
                     b.Property<bool>("IsDelete")
                         .HasColumnType("bit");
 
+                    b.Property<int>("OrderCount")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProductTotalPriceAfterDiscount")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -118,7 +120,7 @@ namespace Main.Data.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("CartProduct");
+                    b.ToTable("CartDetailsEntity");
                 });
 
             modelBuilder.Entity("Main.Domain.Models.Category.Category", b =>
@@ -128,9 +130,6 @@ namespace Main.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("CategoryParentId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
@@ -148,7 +147,7 @@ namespace Main.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryParentId");
+                    b.HasIndex("ParentId");
 
                     b.ToTable("Categories");
                 });
@@ -294,9 +293,6 @@ namespace Main.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -311,9 +307,9 @@ namespace Main.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId");
-
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("PropertyId");
 
                     b.ToTable("ProductProperties");
                 });
@@ -376,24 +372,24 @@ namespace Main.Data.Migrations
             modelBuilder.Entity("Main.Domain.Models.Cart.Cart", b =>
                 {
                     b.HasOne("Main.Domain.Models.User.UserEntity", "User")
-                        .WithOne("Cart")
-                        .HasForeignKey("Main.Domain.Models.Cart.Cart", "UserId")
+                        .WithMany("Cart")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Main.Domain.Models.CartProduct.CartProduct", b =>
+            modelBuilder.Entity("Main.Domain.Models.CartProduct.CartDetails", b =>
                 {
                     b.HasOne("Main.Domain.Models.Cart.Cart", "Cart")
-                        .WithMany("CartProducts")
+                        .WithMany("CartDetails")
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Main.Domain.Models.Product.Product", "Product")
-                        .WithMany("CartProducts")
+                        .WithMany("CartDetails")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -407,7 +403,7 @@ namespace Main.Data.Migrations
                 {
                     b.HasOne("Main.Domain.Models.Category.Category", "CategoryParent")
                         .WithMany()
-                        .HasForeignKey("CategoryParentId");
+                        .HasForeignKey("ParentId");
 
                     b.Navigation("CategoryParent");
                 });
@@ -443,15 +439,15 @@ namespace Main.Data.Migrations
 
             modelBuilder.Entity("Main.Domain.Models.ProductProperties.ProductProperties", b =>
                 {
-                    b.HasOne("Main.Domain.Models.CategoryProperties.CategoryProperties", "Category")
-                        .WithMany("ProductProperties")
-                        .HasForeignKey("CategoryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Main.Domain.Models.Product.Product", "Product")
                         .WithMany("Properties")
                         .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Main.Domain.Models.CategoryProperties.CategoryProperties", "Category")
+                        .WithMany("ProductProperties")
+                        .HasForeignKey("PropertyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -462,7 +458,7 @@ namespace Main.Data.Migrations
 
             modelBuilder.Entity("Main.Domain.Models.Cart.Cart", b =>
                 {
-                    b.Navigation("CartProducts");
+                    b.Navigation("CartDetails");
                 });
 
             modelBuilder.Entity("Main.Domain.Models.Category.Category", b =>
@@ -479,7 +475,7 @@ namespace Main.Data.Migrations
 
             modelBuilder.Entity("Main.Domain.Models.Product.Product", b =>
                 {
-                    b.Navigation("CartProducts");
+                    b.Navigation("CartDetails");
 
                     b.Navigation("Properties");
 
@@ -488,8 +484,7 @@ namespace Main.Data.Migrations
 
             modelBuilder.Entity("Main.Domain.Models.User.UserEntity", b =>
                 {
-                    b.Navigation("Cart")
-                        .IsRequired();
+                    b.Navigation("Cart");
                 });
 #pragma warning restore 612, 618
         }

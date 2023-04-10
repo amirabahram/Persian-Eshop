@@ -1,7 +1,6 @@
 ﻿using Academy.Application.Extensions;
 using Academy.Application.Security;
 using Main.Application.Services.Interfaces;
-using Main.Data.Migrations;
 using Main.Data.Repositories;
 using Main.Domain.Interfaces;
 using Main.Domain.Models.Product;
