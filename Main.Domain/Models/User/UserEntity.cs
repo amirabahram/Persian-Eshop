@@ -41,7 +41,7 @@ namespace Main.Domain.Models.User
 
         public bool? IsActive { get; set; }
 
-        public Cart.Cart Cart { get; set; }
+        public List<Cart.Cart>? Cart { get; set; }
 
     }
 }
