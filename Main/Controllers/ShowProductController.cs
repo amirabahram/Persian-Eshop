@@ -15,13 +15,19 @@ namespace Main.web.Controllers
         }
 
         [HttpGet]
-        [Route("Categories/Products")]
-        public async Task<IActionResult> ShowProducts(int id,string title)
+        
+        public async Task<IActionResult> ShowProducts( FilterProductViewModel filter)
         {
-            ViewBag.Title = title;
-            FilterProductViewModel filterProductViewModel = new FilterProductViewModel();
-
-            return View();
+            
+            var filterOut  = await _productService.Filter(filter); 
+            return View(filterOut);
+        }
+        [HttpGet]
+        public async Task<IActionResult> ShowProductsAjax( FilterProductViewModel filter)
+        {
+            
+            var filterOut = await _productService.Filter(filter);
+            return PartialView(filterOut);
         }
     }
 }

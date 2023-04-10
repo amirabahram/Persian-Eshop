@@ -1,4 +1,4 @@
-﻿using Main.Domain.Models.Base_Paging;
+﻿using Main.Domain.Models.BasePaging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Main.Domain.ViewModel.Filtering
 {
-    public class FilterProductViewModel:BasePaging<Main.Domain.Models.Product.Product>
+    public class FilterProductViewModel : BasePaging<Main.Domain.Models.Product.Product>
     {
-        public string? Title;
-        public int? MinPrice=0;
-        public int? MaxPrice;
-        public int? CategoryId;
-        public int? CategoryPropertiesId;
+        public string? Title { get; set; }
+        public string? MinPrice { get; set; } 
+        public string? MaxPrice { get; set; }
+        public int? CategoryId { get; set; }
+        public int? CategoryPropertiesId { get; set; }
 
     }
 }

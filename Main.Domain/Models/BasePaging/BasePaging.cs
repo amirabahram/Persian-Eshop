@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace Main.Domain.Models.Base_Paging
+namespace Main.Domain.Models.BasePaging
 {
     public class BasePaging<T>
     {
@@ -19,25 +19,35 @@ namespace Main.Domain.Models.Base_Paging
         public int SkipEntity { get; set; }
         public int AllEntityCount { get; set; }
         public List<T> Entities { get; set; }
+        public int Counter { get; set; }
 
         public BasePaging()
         {
              CurrentPage = 1;
              HowManyBeforeAndAfter = 5;
-             TakeEntity = 10;
+             TakeEntity = 3;
              Entities = new List<T>();
         }
 
-        public async Task Paging(IQueryable<T> queryable)
+        public async Task<BasePaging<T>> Paging(IQueryable<T> queryable)
         {
-            int AllEntityCount = await queryable.CountAsync();
-            int SkipEntity = (CurrentPage - 1) * TakeEntity;
-            PageCount = Convert.ToInt32(Math.Ceiling(AllEntityCount / (double)TakeEntity));//ceiling be samt bala gerd mikonad....agar hardo int bashand bagimande nemidahad. yeki ra bayad double konim...inja chon vakeshi nemikonim await estefade nemikonim
-            StartPage = ((CurrentPage - HowManyBeforeAndAfter) < 0 || (CurrentPage - HowManyBeforeAndAfter) == 0) ? 1 : (CurrentPage - HowManyBeforeAndAfter);
-            EndPage = ((CurrentPage + HowManyBeforeAndAfter) > PageCount || (CurrentPage + HowManyBeforeAndAfter) == PageCount) ? PageCount : (CurrentPage + HowManyBeforeAndAfter);
-            
-            Entities = await queryable.Skip(SkipEntity).Take(TakeEntity).ToListAsync();
+            TakeEntity = TakeEntity;
 
+            var allEntitiesCount = await queryable.CountAsync();
+
+            var pageCount = Convert.ToInt32(Math.Ceiling(allEntitiesCount / (double)TakeEntity));
+
+            CurrentPage = CurrentPage > pageCount ? pageCount : CurrentPage;
+            if (CurrentPage <= 0) CurrentPage = 1;
+            AllEntityCount = allEntitiesCount;
+            HowManyBeforeAndAfter = HowManyBeforeAndAfter;
+            SkipEntity = (CurrentPage - 1) * TakeEntity;
+            StartPage = CurrentPage - HowManyBeforeAndAfter <= 0 ? 1 : CurrentPage - HowManyBeforeAndAfter;
+            EndPage = CurrentPage + HowManyBeforeAndAfter > pageCount ? pageCount : CurrentPage + HowManyBeforeAndAfter;
+            PageCount = pageCount;
+            Entities = await queryable.Skip(SkipEntity).Take(TakeEntity).ToListAsync();
+            Counter = ((CurrentPage - 1) * TakeEntity) + 1;
+            return this;
         }
 
         public PagingViewModel CurrentPaging()

@@ -52,25 +52,26 @@ namespace Main.Data.Repositories
             await _eshopContext.SaveChangesAsync();
         }
 
-        public  async Task<FilterProductViewModel> Filter(FilterProductViewModel viewModel) //// view model bayad bashe tu servise fagat mifrestim. tu memari fagat bekhatere filtet az view model estefade konim. kole view model raftan to doman
+        public async Task<FilterProductViewModel> Filter(FilterProductViewModel viewModel) //// view model bayad bashe tu servise fagat mifrestim. tu memari fagat bekhatere filtet az view model estefade konim. kole view model raftan to doman
         {
             var query = _eshopContext.Products.Where(p => p.IsDelete == false && p.IsActive == true);
-            
             if (viewModel.CategoryId != null)
             {
                 query = query.Where(q => q.CategoryId == viewModel.CategoryId);
 
             }
 
-            if (viewModel.Title!=null)
+            if (viewModel.Title != null)
             {
-                query = query.Where(q => q.Title == viewModel.Title);
+                //query = query.Where(q => q.Title.Contains(viewModel.Title));  /////// Contains C# ast
+                // ya balaei ra estefade mikonim ya paeini
+                query = query.Where(q => EF.Functions.Like(q.Title, $"%{viewModel.Title}%"));
 
             }
-
             if (viewModel.MaxPrice != null)
             {
-                query = query.Where(q => q.Price >= viewModel.MinPrice && q.Price <= viewModel.MaxPrice  );
+                var test = viewModel.MaxPrice.Replace(",", "");
+                query = query.Where(q => q.Price >= Convert.ToInt32(viewModel.MinPrice.Replace(",", "")) && q.Price <= Convert.ToInt32(viewModel.MaxPrice.Replace(",", "")));
 
             }
 
