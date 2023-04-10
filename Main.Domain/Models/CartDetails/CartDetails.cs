@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace Main.Domain.Models.CartProduct
 {
-    public class CartProduct:BaseEntity
+    public class CartDetails:BaseEntity
     {
         public int CartId { get; set; }
         public int ProductId { get; set; }
-
+        public int ProductTotalPriceAfterDiscount { get; set; }
+        public int OrderCount { get; set; }
         public Cart.Cart Cart { get; set; }
         public Product.Product Product { get; set; }    
     }

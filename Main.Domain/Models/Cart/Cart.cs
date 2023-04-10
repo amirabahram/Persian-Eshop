@@ -11,12 +11,12 @@ namespace Main.Domain.Models.Cart
 {
     public class Cart:BaseEntity
     {
-        public int OrderCount { get; set; }
-        public int ProductOrderPrice { get; set; }
+        
         public int TotalPrice { get; set; }
         public int UserId { get; set; }
+        public bool IsPaid { get; set; }
         public UserEntity User { get; set; }
-        public ICollection<CartProduct.CartProduct> CartProducts { get; set; }
+        public ICollection<CartProduct.CartDetails> CartDetails { get; set; }
 
     }
 }
