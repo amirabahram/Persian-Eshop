@@ -31,6 +31,7 @@ namespace Main.IoC
             services.AddScoped<IPropertiesRepository, PropertiesRepository>();
             services.AddScoped<IPropertiesService, PropertiesService>();
             services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<ICartService, CartService>();
           
 
 

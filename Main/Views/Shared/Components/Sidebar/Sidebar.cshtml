@@ -13,25 +13,46 @@
                     <div class="profile-detail">
                         <div class="d-flex align-items-center">
                             <div class="profile-avatar me-3">
-                                @if (Model.AvatarName == null)
-                                {
-                                    <img src="/Images/115-1150821_default-avatar-comments-sign-in-icon-png.png alt="avatar">
+                                @{ if (Model != null)
+                                    {
+                                        {
+                                            if (Model.AvatarName != null)
+                                            {
+                                                <img src="/Images/@Model.AvatarName" alt="avatar">
+                                            }
+                                            else
+                                            {
+                                                <img src="/Images/115-1150821_default-avatar-comments-sign-in-icon-png.png alt=" avatar">
+                                            }
+
+
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <img src="/Images/115-1150821_default-avatar-comments-sign-in-icon-png.png alt="avatar">
+                                    }
                                 }
-                                @if (Model.AvatarName != null)
-                                {
-                                    <img src="/Images/@Model.AvatarName" alt="avatar">
-                                }
+
+
+
 
                             </div>
                             <div class="profile-info">
                                 <a href="#" class="text-decoration-none text-dark fw-bold mb-2">
-                                    @if (Model.Name != null)
+
+                                    @if (Model != null && Model.Name != null)
                                     {
                                         @Model.Name
                                     }
 
                                 </a>
-                                <div class="text-muted fs-7 fw-bold">@Model.Email</div>
+                                <div class="text-muted fs-7 fw-bold">
+                                    @if (Model != null)
+                                    {
+                                        @Model.Email
+                                    }
+                                </div>
                                 <div class="text-muted fs-7 fw-bold">جهت ویرایش عکس ،در پنل کاربری روی عکس کلیک کنید!</div>
                             </div>
                         </div>

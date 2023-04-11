@@ -2,6 +2,7 @@
 using Main.Domain.Interfaces;
 using Main.Domain.Models.Cart;
 using Main.Domain.Models.CartProduct;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,29 +19,44 @@ namespace Main.Data.Repositories
             this._db = db;
         }
 
+        public async Task<List<CartDetails>> GetAllProductsByCart(int id)
+        {
+           return await _db.CartDetailsEntity.Include(c=>c.Cart).Where(c=> c.CartId == id && c.IsDelete==false).ToListAsync();
+        }
+
         public async Task InsertCart(Cart cart)
         {
             await _db.Carts.AddAsync(cart);
         }
 
-        public  Task InsertCartDetails(CartDetails cartDetails)
+        public  async Task InsertCartDetails(CartDetails cartDetails)
         {
-            throw new NotImplementedException();
+            await _db.CartDetailsEntity.AddAsync(cartDetails);
         }
 
-        public  Task Save()
+        public async Task<bool> IsProductExistsForCart(int cartId,int productId)
         {
-            throw new NotImplementedException();
+            return await _db.CartDetailsEntity.AnyAsync(c => c.IsDelete == false && c.CartId == cartId && c.ProductId == productId);
+        }
+
+        public  async Task Save()
+        {
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<Cart> UnpaidCartForUser(int id)
+        {
+            return await _db.Carts.FirstOrDefaultAsync(c => c.UserId == id && c.IsPaid == false);
         }
 
         public void UpdateCart(Cart cart)
         {
-            throw new NotImplementedException();
+            _db.Update(cart);
         }
 
         public void UpdateCartDetails(CartDetails cartDetails)
         {
-            throw new NotImplementedException();
+            _db.Update(cartDetails);
         }
     }
 }
