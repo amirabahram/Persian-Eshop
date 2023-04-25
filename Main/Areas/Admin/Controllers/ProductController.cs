@@ -71,8 +71,19 @@ namespace Main.web.Areas.Admin.Controllers
             {
                 Categories = await _categoryService.GetAllCategories()
             };
+            
             return View(productvViewModel); 
         }
+
+
+        public async  Task<IActionResult> GetPropertiesByCategory(int categoryId)
+        {
+            var properties = await _propertiesService.GetPropertiesByCategoryId(categoryId);
+            ViewBag.Properties = properties;
+            return PartialView("_PropertiesList");
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> CreateProduct([FromForm] ProductViewModel productViewModel)
         {
@@ -80,6 +91,7 @@ namespace Main.web.Areas.Admin.Controllers
             {
 
                 CreateProductResult InserResult = await _productServices.InsertProduct(productViewModel);
+                
                 if (InserResult== CreateProductResult.Success)
                 {
                     TempData["SuccessMessage"] ="ثبت محصول با موفقیت انجام شد";

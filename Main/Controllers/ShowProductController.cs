@@ -7,11 +7,13 @@ namespace Main.web.Controllers
     public class ShowProductController : Controller
     {
         
-        private readonly IProductServices _productService;
+        private  IProductServices _productService;
+        private  IPropertiesService _propertiesService;
 
-        public ShowProductController(IProductServices productService)
+        public ShowProductController(IProductServices productService, IPropertiesService _propertiesService)
         {
             this._productService = productService;
+            this._propertiesService = _propertiesService;
         }
 
         [HttpGet]
@@ -27,7 +29,15 @@ namespace Main.web.Controllers
         {
             
             var filterOut = await _productService.Filter(filter);
+            
             return PartialView(filterOut);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ShowProduct(int id)
+        {
+            var model = await _productService.GetProductForShowById(id);
+            return View(model);
         }
     }
 }

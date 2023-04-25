@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace Main.Application.Services.Implementations
 {
     public class CartService : ICartService
@@ -16,100 +17,137 @@ namespace Main.Application.Services.Implementations
         private ICartRepository _cartRepository;
         private IProductRepository _productRepository;
 
+
         public CartService(ICartRepository cartRepository, IProductRepository productRepository)
         {
             this._cartRepository = cartRepository;
             this._productRepository = productRepository;
+
         }
 
 
-
-
-        public async Task<List<CartItemViewModel>> AddItem(CartItemViewModel model)
+        public async Task<List<CartViewModel>> AddItemForFirstTime(CartViewModel model)
         {
             if (model == null) return null;
+            Cart cart = new Cart()
+            {
+                CreateDate = DateTime.Now,
+                UserId = model.UserId
+            };
+            await _cartRepository.InsertCart(cart);
+            await _cartRepository.Save();
+            CartDetails cartDetails = new CartDetails()
+            {
+                CreateDate = DateTime.Now,
+                CartId = cart.Id,
+                ProductId = model.ProductId.GetValueOrDefault()
+            };
+
+            await _cartRepository.InsertCartDetails(cartDetails);
+            await _cartRepository.Save();
+            return await GetCartByUserId(model.UserId);
+        }
+
+        public async Task<List<CartViewModel>> AddItem(CartViewModel model)
+        {
+            if (model == null) return null;
+            var listOfViewModel = new List<CartViewModel>();
             var unpaidCart = await _cartRepository.UnpaidCartForUser(model.UserId);
-            if (unpaidCart == null)
+            CartDetails cartDetails = new CartDetails()
             {
-                var itemPrice = Convert.ToInt32(model.OrderCount) * Convert.ToInt32(model.ItemPrice);
-
-                var newCartModel = new Cart()
-                {
-                    CreateDate = DateTime.Now,
-                    UserId = model.UserId,
-                    TotalPrice = itemPrice
-
-                };
-                await _cartRepository.InsertCart(newCartModel);
-                await _cartRepository.Save();
-                var newDetailModel = new CartDetails()
-                {
-                    ProductId = model.ProductId,
-                    CartId = newCartModel.Id,
-                    OrderCount = Convert.ToInt32(model.OrderCount),
-                    CreateDate = DateTime.Now,
-                    ProductTotalPriceAfterDiscount = itemPrice
-
-                };
-                await _cartRepository.InsertCartDetails(newDetailModel);
-                await _cartRepository.Save();
-
-
-
-            }
-            else
-            {
-
-                if (await _cartRepository.IsProductExistsForCart(unpaidCart.Id, model.ProductId) == false)
-                {
-                    var itemPrice = Convert.ToInt32(model.OrderCount) * Convert.ToInt32(model.ItemPrice);
-                    unpaidCart.TotalPrice = unpaidCart.TotalPrice + itemPrice;
-                    _cartRepository.UpdateCart(unpaidCart);
-                    var unpaidCartDetails = new CartDetails()
-                    {
-                        CartId = unpaidCart.Id,
-                        OrderCount = Convert.ToInt32(model.OrderCount),
-                        ProductTotalPriceAfterDiscount = Convert.ToInt32(model.OrderCount) * Convert.ToInt32(model.ItemPrice),
-                        ProductId = model.ProductId,
-                        CreateDate = DateTime.Now
-                    };
-                    await _cartRepository.InsertCartDetails(unpaidCartDetails);
-                    await _cartRepository.Save();
-                };
-
-            }
-
-            var allProductsByCart = await _cartRepository.GetAllProductsByCart(unpaidCart.Id);
-            var listOfViewModel = new List<CartItemViewModel>();
-            foreach (var item in allProductsByCart)
-            {
-                var product = await _productRepository.GetProductById(item.ProductId);
-                var viewModel = new CartItemViewModel()
-                {
-                    ImageName = product.MainImage,
-                    ProductTitle = product.Title,
-                    OrderCount = item.OrderCount.ToString(),
-                    TotalProductPrice = item.OrderCount * product.Price.GetValueOrDefault(),
-                    ItemPrice = product.Price.ToString()
-
-
-                };
-
-                listOfViewModel.Add(viewModel);
-            }
-            return listOfViewModel;
+                CartId = unpaidCart.Id,
+                CreateDate = DateTime.Now,
+                ProductId = model.ProductId.GetValueOrDefault(),
+            };
+            await _cartRepository.InsertCartDetails(cartDetails);
+            await _cartRepository.Save();
+            return await GetCartByUserId(model.UserId);
 
         }
 
 
-        public Task<bool> DeleteItem(CartItemViewModel model)
+
+        public Task<bool> DeleteItem(CartViewModel model)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<bool> FinalizingCart(int id)
+        {
+           var cart = await _cartRepository.GetCartByCartId(id);
+            if(cart == null) return false;
+            cart.IsPaid = true;
+            _cartRepository.UpdateCart(cart);
+            await _cartRepository.Save();
+            return true;
+        }
+
+        public async Task<List<CartViewModel>> GetCartByUserId(int id)
+        {
+            var unpaidCart = await  _cartRepository.UnpaidCartForUser(id);
+            if(unpaidCart == null) return null;
+            var ListOfModel = new List<CartViewModel>();
+            foreach (var item in unpaidCart.CartDetails)
+            {
+                var cartModel = new CartViewModel()
+                {
+                    
+                    ProductPrice = item.Product.Price,
+                    ProductOrderCount = item.OrderCount,
+                    ProductTitle = item.Product.Title,
+                    ImageName = item.Product.MainImage,
+                    ProductId = item.ProductId,
+                    CartId = item.CartId,
+                    UserId = id
+
+                };
+                ListOfModel.Add(cartModel);
+            }
+
+            return ListOfModel;
+        }
+
+        public async Task<int> GetCartIdByUserId(int id)
+        {
+           var cart = await _cartRepository.UnpaidCartForUser(id);
+            return cart.Id;
+        }
+
+        public async Task<int> GetCartTotalPriceByCartId(int id)
+        {
+            Cart cart = await _cartRepository.GetCartByCartId(id);
+            return cart.TotalPrice;
         }
 
         public Task<bool> Save()
         {
             throw new NotImplementedException();
         }
+
+
+        public async Task<bool> UpdateCart(CartTotalPriceViewModel model)
+        {
+            if(model.TotalPrice == 0) return false;
+            var cart = await _cartRepository.GetCartByCartId(model.CartId);
+            cart.TotalPrice = model.TotalPrice;
+            _cartRepository.UpdateCart(cart);
+            await _cartRepository.Save();
+            return true;
+        }
+
+        public async Task<bool> UpdateCartItems(CartViewModel model)
+        {
+            if (model == null) return false;
+            var details = await _cartRepository.GetDetailsByCartIdAndProductId(model.CartId, model.ProductId.GetValueOrDefault());
+            details.OrderCount = model.ProductOrderCount;
+            details.IsDelete = model.IsDelete;
+            var cart = details.Cart;
+            cart.TotalPrice = model.TotalPrice;
+            _cartRepository.UpdateCart( cart );
+            _cartRepository.UpdateCartDetails( details );
+            await _cartRepository.Save();
+            return true;
+        }
     }
 }
+    

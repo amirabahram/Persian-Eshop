@@ -109,9 +109,6 @@ namespace Main.Data.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ProductTotalPriceAfterDiscount")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CartId");
@@ -267,8 +264,7 @@ namespace Main.Data.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("Price")
-                        .IsRequired()
+                    b.Property<int>("Price")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")

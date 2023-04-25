@@ -14,8 +14,7 @@ namespace Main.Domain.Models.CartProduct
         public int CartId { get; set; }
         [ForeignKey("Product")]
         public int ProductId { get; set; }
-        public int ProductTotalPriceAfterDiscount { get; set; }
-        public int OrderCount { get; set; }
+        public int OrderCount { get; set; } = 1;
         public Cart.Cart Cart { get; set; }
         public Product.Product Product { get; set; }    
     }

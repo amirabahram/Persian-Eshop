@@ -1,0 +1,31 @@
+﻿@model List<Main.Domain.ViewModel.Cart.CartViewModel>
+
+@{  var count = 0;
+    var totalCartPrice = 0;
+    var productFinalPrice = 0;
+}
+
+<div class="user-option user-option--cart">
+    <a asp-area="" asp-action="ShowCartItems" asp-controller="Cart" class="user-option-btn user-option-btn--cart">
+        @if (Model != null)
+        {
+            @foreach (var item in Model)
+            {
+                count = count + 1;
+                productFinalPrice = item.ProductPrice * item.ProductOrderCount;
+                totalCartPrice = totalCartPrice + productFinalPrice;
+
+            }
+        }
+
+        <i class="ri-shopping-bag-2-fill icon"></i>
+        <span class="user-item-text">
+            <span class="title">سبد خرید شما</span>
+            <span class="value fa-num">@totalCartPrice <span class="currency">تومان</span></span>
+        </span>
+
+        <span class="counter">@count</span>
+    </a>
+
+</div>
+

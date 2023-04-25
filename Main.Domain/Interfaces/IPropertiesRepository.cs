@@ -11,6 +11,8 @@ namespace Main.Domain.Interfaces
     {
         Task AddProperty(CategoryProperties model);
         Task<List<CategoryProperties>> GetAllProperties();
+        Task<List<CategoryProperties>> GetAllPropertiesByCategoryIdRepo(int id);
+        Task<List<CategoryProperties>> GetPropertiesByProduct(int id);
         Task Save();
     }
 }

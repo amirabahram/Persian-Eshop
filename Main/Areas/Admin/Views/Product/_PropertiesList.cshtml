@@ -1,0 +1,36 @@
+﻿
+@using Main.Domain.ViewModel.Product
+@model ProductViewModel
+@{
+    var properties = ViewBag.Properties != null ? ViewBag.Properties as List<PropertyViewModel> : null;
+}
+
+
+
+@if (properties != null)
+{
+    foreach (var item in properties)
+    {
+
+        <div class="checkbox">
+            <label>
+                <input type="checkbox"
+                       value="@item.PropertyId"
+                       name="SelectedProperties"
+                       id="CheckBox-@item.PropertyId"
+                       checked="checked">
+                <span class="text" for="CheckBox-@item.PropertyId">@item.Title:@item.Value</span>
+            </label>
+        </div>
+    }
+
+
+
+}
+
+
+
+
+
+
+

@@ -227,7 +227,7 @@ namespace Main.Application.Services.Implementations
             _userRepository.Register(registerModel);
             _userRepository.SaveChanges();
             _emailSender.EmailSending(registerModel.Email, "Eshop Email Vertification"
-                , $"<a href='https://localhost:7049/SubmittDone/{code}'> لطفا روی این لینک کلیک کنید</a>");
+                , $"<a href='http://Amir-Alaei-Eshop.somee.com/SubmittDone/{code}'> لطفا روی این لینک کلیک کنید</a>");
 
             return RegisterUserResult.Success;
         }
@@ -319,7 +319,8 @@ namespace Main.Application.Services.Implementations
             {
                 var activeCode = user.ActivitationCode;
 
-                var sendEmail = await _emailSender.EmailSending(email, "forgatpassword", $"<a href='https://localhost:7049/ResetPassword/{activeCode}'> لطفا روی این لینک کلیک کنید</a>");
+                var sendEmail = await _emailSender.EmailSending(email, "forgatpassword",
+                    $"<a href='http://Amir-Alaei-Eshop.somee.com/ResetPassword/{activeCode}'> لطفا روی این لینک کلیک کنید</a>");
                 return true;
 
             }

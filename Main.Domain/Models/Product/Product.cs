@@ -27,7 +27,7 @@ namespace Main.Domain.Models.Product
 
         [DisplayName("قیمت")]
         [Required]
-        public int? Price { get; set; }
+        public int Price { get; set; }
 
         [MaxLength(50)]
         [DisplayName("عکس")]

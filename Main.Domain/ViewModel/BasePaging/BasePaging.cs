@@ -25,7 +25,7 @@ namespace Main.Domain.Models.BasePaging
         {
              CurrentPage = 1;
              HowManyBeforeAndAfter = 5;
-             TakeEntity = 3;
+             TakeEntity = 4;
              Entities = new List<T>();
         }
 

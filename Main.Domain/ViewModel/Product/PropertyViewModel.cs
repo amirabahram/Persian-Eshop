@@ -25,5 +25,7 @@ namespace Main.Domain.ViewModel.Product
 
         public string? Category { get; set; }
 
+        public int PropertyId { get; set; }
+
     }
 }

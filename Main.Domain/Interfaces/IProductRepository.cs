@@ -1,4 +1,5 @@
 ﻿using Main.Domain.Models.Product;
+using Main.Domain.Models.ProductProperties;
 using Main.Domain.Models.User;
 using Main.Domain.ViewModel.Filtering;
 using Main.Domain.ViewModel.Product;
@@ -12,15 +13,14 @@ namespace Main.Domain.Interfaces
 {
     public interface IProductRepository
     {
-        // insert product
         Task InsertProduct(Product product);
-        // select all products from product table
-        Task<List<Product>> GetAllProduct();
 
-        // select a product from product table by id
+        Task<List<Product>> GetAllProduct();
+        
+        Task AddPropertyToProduct(List<ProductProperties> productProperties);
+
         Task<Product> GetProductById(int Id);
 
-        //update a product from product table by id
         void UpdateProductByProduct(Product product);
 
         Task<FilterProductViewModel> Filter(FilterProductViewModel filterProductView);

@@ -40,6 +40,24 @@ namespace Main.Application.Services.Implementations
 
         }
 
+        public async Task<List<PropertyViewModel>> GetPropertiesByCategoryId(int id)
+        {
+           var properties = await  _propertiesRepository.GetAllPropertiesByCategoryIdRepo(id);
+           var models = new List<PropertyViewModel>();
+           foreach(var item in properties)
+            {
+                var model = new PropertyViewModel()
+                {
+                    Title = item.Title,
+                    Value = item.PropertyValue,
+                    CategoryId = item.CategoryId,
+                    PropertyId = item.Id
+                };
+                models.Add(model);
+            }
+           return models;
+        }
+
         public async Task<bool> InsertProperty(PropertyViewModel viewModel)
         {
             if (viewModel == null) return false;

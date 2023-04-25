@@ -32,6 +32,23 @@ namespace Main.Data.Repositories
                 .OrderByDescending(p=>p.CreateDate).ToListAsync();
         }
 
+        public async Task<List<CategoryProperties>> GetAllPropertiesByCategoryIdRepo(int id)
+        {
+            return await _db.categoryProperties.Where(p=>p.CategoryId==id).ToListAsync();
+        }
+
+        public async Task<List<CategoryProperties>> GetPropertiesByProduct(int id)
+        {
+            var propertyid = await _db.ProductProperties.Where(i => i.ProductId == id).Select(p=>p.PropertyId).ToListAsync();
+            var properties = new List<CategoryProperties>();
+            foreach(var item in propertyid)
+            {
+                var property = await _db.categoryProperties.Where(p=>p.Id==item).FirstOrDefaultAsync();
+                properties.Add(property);
+            }
+            return properties;
+        }
+
         public async Task Save()
         {
             await _db.SaveChangesAsync();

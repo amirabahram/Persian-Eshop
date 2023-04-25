@@ -24,6 +24,12 @@ namespace Main.Data.Repositories
            return await _db.CartDetailsEntity.Include(c=>c.Cart).Where(c=> c.CartId == id && c.IsDelete==false).ToListAsync();
         }
 
+        public async Task<Cart> GetCartByCartId(int id)
+        {
+           return  await _db.Carts.FirstOrDefaultAsync(c => c.Id == id && c.IsDelete==false);
+        }
+
+
         public async Task InsertCart(Cart cart)
         {
             await _db.Carts.AddAsync(cart);
@@ -34,10 +40,10 @@ namespace Main.Data.Repositories
             await _db.CartDetailsEntity.AddAsync(cartDetails);
         }
 
-        public async Task<bool> IsProductExistsForCart(int cartId,int productId)
-        {
-            return await _db.CartDetailsEntity.AnyAsync(c => c.IsDelete == false && c.CartId == cartId && c.ProductId == productId);
-        }
+        //public async Task<bool> IsProductExistsForCart(int cartId,int productId)
+        //{
+        //    return await _db.CartDetailsEntity.AnyAsync(c => c.IsDelete == false && c.CartId == cartId && c.ProductId == productId);
+        //}
 
         public  async Task Save()
         {
@@ -46,7 +52,8 @@ namespace Main.Data.Repositories
 
         public async Task<Cart> UnpaidCartForUser(int id)
         {
-            return await _db.Carts.FirstOrDefaultAsync(c => c.UserId == id && c.IsPaid == false);
+            return await _db.Carts.Include(c => c.CartDetails.Where(d=>d.IsDelete==false)).ThenInclude(c=>c.Product)
+                .FirstOrDefaultAsync(c => c.UserId == id && c.IsPaid == false);
         }
 
         public void UpdateCart(Cart cart)
@@ -57,6 +64,11 @@ namespace Main.Data.Repositories
         public void UpdateCartDetails(CartDetails cartDetails)
         {
             _db.Update(cartDetails);
+        }
+
+        public async Task<CartDetails> GetDetailsByCartIdAndProductId(int id, int productId)
+        {
+            return await _db.CartDetailsEntity.Where(c=>c.CartId==id && c.ProductId==productId).Include(c=>c.Cart).FirstOrDefaultAsync();
         }
     }
 }

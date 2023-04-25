@@ -17,37 +17,22 @@
                         <div class="profile-detail">
                             <div class="d-flex align-items-center">
                                 <div class="profile-avatar me-3">
-                                    
-                                    <img id="img" src="/Images/@Model.AvatarName" alt="avatar">
+                                    @{ if (Model.AvatarName != null)
+                                        {
+                                            <img id="img" src="/Images/@Model.AvatarName" alt="avatar">
+                                        }
+                                        else
+                                        {
+                                            <img id="img" src="/Images/115-1150821_default-avatar-comments-sign-in-icon-png.png" alt="avatar">
+                                        }
+                                    }
                                 </div>
                                 <div class="profile-info">
-                                    <a href="#" class="text-decoration-none text-dark fw-bold mb-2">
-                                        جلال بهرامی
-                                        راد
-                                    </a>
-                                    <div class="text-muted fs-7 fw-bold">۰۹xxxxxxxxx</div>
+
+                                    <div class="text-muted fs-7 fw-bold">جهت افزودن یا ویرایش عکس، روی تصویر کلیک کنید</div>
                                 </div>
                             </div>
-                            <div class="user-options">
-                                <ul>
-                                    <li>
-                                        <span class="label">کیف پول</span>
-                                        <span class="detail">
-                                            <span class="d-block">۰ <span class="currency fs-7 fw-bold">تومان</span></span>
-                                            <a href="#" class="link border-bottom-0 text-info fs-7 fw-bold">
-                                                افزایش
-                                                موجودی <i class="ri-arrow-left-s-line"></i>
-                                            </a>
-                                        </span>
-                                    </li>
-                                    <li>
-                                        <span class="label">باشگاه مشتریان</span>
-                                        <span class="detail">
-                                            <span class="d-block">۰ <span class="score text-muted fs-7">امتیاز</span></span>
-                                        </span>
-                                    </li>
-                                </ul>
-                            </div>
+                            
                         </div>
                         <ul class="nav nav-items-with-icon flex-column">
 
@@ -57,14 +42,9 @@
                                     تغییر رمز عبور
                                 </a>
                             </li>
+                            
                             <li class="nav-item">
-                                <a class="nav-link" href="#">
-                                    <i class="nav-link-icon ri-user-line"></i> اطلاعات
-                                    حساب
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">
+                                <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Logout">
                                     <i class="nav-link-icon ri-logout-box-r-line"></i>
                                     خروج
                                 </a>
@@ -86,7 +66,7 @@
                                         <div class="fs-7 fw-bold text-dark">نام و نام خانوادگی</div>
                                         <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-fullname-modal"><i class="ri-ball-pen-fill"></i></button>
                                     </div>
-                                    <div class="fs-6 fw-bold text-muted">جلال بهرامی راد</div>
+                                    <div class="fs-6 fw-bold text-muted">امیراعلایی</div>
                                 </div>
                             </div>
                             <div class="col-lg-6 mb-3">
@@ -104,7 +84,7 @@
                                         <div class="fs-7 fw-bold text-dark">شماره تلفن همراه</div>
                                         <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-phone-number-modal"><i class="ri-ball-pen-fill"></i></button>
                                     </div>
-                                    <div class="fs-6 fw-bold text-muted">09xxxxxxxxx</div>
+                                    <div class="fs-6 fw-bold text-muted">09142491928</div>
                                 </div>
                             </div>
                             <div class="col-lg-6 mb-3">
@@ -113,7 +93,7 @@
                                         <div class="fs-7 fw-bold text-dark">پست الکترونیک</div>
                                         <button class="btn btn-circle btn-outline-light" data-remodal-target="personal-info-email-modal"><i class="ri-ball-pen-fill"></i></button>
                                     </div>
-                                    <div class="fs-6 fw-bold text-muted">example@example.com</div>
+                                    <div class="fs-6 fw-bold text-muted">amiralaei70@yahoo.com</div>
                                 </div>
                             </div>
                             <div class="col-lg-6 mb-3">
@@ -164,26 +144,28 @@
 </main>
 @Html.Partial("~/Areas/User/Views/User/UploadImage.cshtml")
 @section scripts{
-    
+
     <script type="text/javascript">
+
+
         $(document).ready(function () {
             $("#img").click(function () {
 
                 $('#uploadModal').modal('show');
-                //$('.imageupload').on("change", function () {
-                //    var filename = $(this).val().splitt("\\").pop();
-                //})
+
+                // bind to the change event of the file input
+                $('#file').on('change', function () {
+                    // read the uploaded file as a data URL
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        // set the source of the img tag to the uploaded file's data URL
+                        $('#modalImage').attr('src', e.target.result);
+                    }
+                    reader.readAsDataURL(this.files[0]);
+                });
+
             })
         })
     </script>
-    <script>
 
-        //function PopUp(element) {
-        //    $('#modal').trigger('click');
-        //}
-
-
-
-
-    </script>
 }

@@ -18,7 +18,7 @@ namespace Main.Application.Services.Interfaces
         // insert a product in product table
          Task<CreateProductResult> InsertProduct(ProductViewModel productViewModel);
 
-        
+        Task<ProductShowViewModel> GetProductForShowById(int id);
          Task<UpdateProductResult> UpdateProduct(ProductViewModel model);
 
         //remove a product from product table by product id

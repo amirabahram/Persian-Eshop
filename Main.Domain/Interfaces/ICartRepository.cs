@@ -12,10 +12,13 @@ namespace Main.Domain.Interfaces
     {
 
         Task <List<CartDetails>> GetAllProductsByCart(int id);
+        Task<Cart> GetCartByCartId(int id);
         Task InsertCart(Cart cart);
         Task InsertCartDetails(CartDetails  cartDetails);
         Task<Cart> UnpaidCartForUser(int userId);
-        Task<bool> IsProductExistsForCart(int cartId,int productId);
+        //Task<bool> IsProductExistsForCart(int cartId,int productId);
+
+        Task<CartDetails> GetDetailsByCartIdAndProductId(int id, int productId);
         void UpdateCart(Cart cart);
         void UpdateCartDetails(CartDetails cartDetails);
         Task Save();

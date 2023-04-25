@@ -15,7 +15,7 @@
 
 <body>
     <div class="page-wrapper">
-        <partial name="_HeaderPartialView" />
+        @await Component.InvokeAsync("Header")
         @RenderBody()
         <partial name="_FooterPartialView" />
     </div>

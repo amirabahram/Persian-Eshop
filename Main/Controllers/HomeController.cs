@@ -24,6 +24,7 @@ namespace Main.Controllers
         public async Task<IActionResult> Index(FilterProductViewModel filter)
         {
             var showAllProduct = await _productServices.Filter(filter);
+             
             
             return View(showAllProduct);
         }

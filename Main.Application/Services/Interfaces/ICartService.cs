@@ -10,8 +10,15 @@ namespace Main.Application.Services.Interfaces
 {
     public interface ICartService
     {
-        Task<List<CartItemViewModel>> AddItem(CartItemViewModel model);
-        Task<bool> DeleteItem(CartItemViewModel model);
+        Task<List<CartViewModel>> AddItem(CartViewModel model);
+        Task<List<CartViewModel>> AddItemForFirstTime(CartViewModel model);
+        Task<List<CartViewModel>> GetCartByUserId(int id);
+        Task<int> GetCartIdByUserId(int id);
+        Task<int> GetCartTotalPriceByCartId(int id);
+        Task<bool> FinalizingCart(int id); //this is cart id
+        Task<bool> DeleteItem(CartViewModel model);
+        Task<bool> UpdateCart(CartTotalPriceViewModel model);
+        Task<bool> UpdateCartItems(CartViewModel model);
         Task<bool> Save();
     }
 }

@@ -12,5 +12,6 @@ namespace Main.Application.Services.Interfaces
     {
         Task<bool> InsertProperty(PropertyViewModel model);
         Task<List<PropertyViewModel>> GetAllProperties();
+        Task<List<PropertyViewModel>> GetPropertiesByCategoryId(int id);
     }
 }

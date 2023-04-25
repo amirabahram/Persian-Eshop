@@ -43,7 +43,8 @@ namespace Main.Domain.ViewModel.Product
         [Required(ErrorMessage =" است فیلد {0} اجباری!")]   
         public int CategoryId { get; set; }
 
-        
+        public List<int>? SelectedProperties { get; set; }
+
 
 
         public List<Category>? Categories { get; set; }
